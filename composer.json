@@ -1,0 +1,9 @@
+{
+    "require": {
+        "php":                      ">=5.5",
+        "kaloa/filesystem":         "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "Horne": "src/" }
+    }
+}

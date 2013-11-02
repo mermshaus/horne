@@ -1,0 +1,55 @@
+<?php
+
+$articles = $this->getMetasByType('article');
+
+$grouped = [];
+
+foreach ($articles as $article) {
+    $date = $article->getMetaPayload()['date_created'];
+
+    $timestamp = strtotime($date);
+
+    $y = date('Y', $timestamp);
+    $m = date('n', $timestamp);
+
+    if (!array_key_exists($y, $grouped)) {
+        $grouped[$y] = [];
+    }
+
+    if (!array_key_exists($m, $grouped[$y])) {
+        $grouped[$y][$m] = [];
+    }
+
+    $grouped[$y][$m][] = $article;
+}
+
+krsort($grouped);
+
+foreach ($grouped as &$months) {
+    krsort($months);
+    foreach ($months as &$entries) {
+        usort($entries, function ($a, $b) {
+            return strcmp(
+                $b->getMetaPayload()['date_created'],
+                $a->getMetaPayload()['date_created']
+            );
+        });
+    }
+    unset($entries);
+}
+unset($months);
+
+?>
+
+<?php foreach ($grouped as $year => $articlesInYear) : ?>
+<h2><?=$this->e($year)?></h2>
+    <?php foreach ($articlesInYear as $month => $articlesInMonth) : ?>
+    <h3><?=$this->e($month)?></h3>
+    <ul>
+    <?php foreach ($articlesInMonth as $article) : ?>
+        <?php $url = $this->url($article->getId()); ?>
+        <li><a href="<?=$this->e($url)?>"><?=$this->e($article->getMetaPayload()['title'])?></a></li>
+    <?php endforeach; ?>
+    </ul>
+    <?php endforeach; ?>
+<?php endforeach; ?>

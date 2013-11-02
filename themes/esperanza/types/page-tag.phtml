@@ -1,0 +1,21 @@
+<?php
+/* ---
+{
+    'type' : '_default'
+}
+--- */
+
+$m = $vars['meta'];
+
+$metas = $this->getMetasByTag($m['tag']);
+
+?>
+
+<h1>All entries tagged with <?=$this->e($m['tag'])?></h1>
+
+<ul>
+<?php foreach ($metas as $meta) : ?>
+    <?php $m2 = $meta->getMetaPayload(); ?>
+    <li><a href="<?=$this->e($this->url($m2['id']))?>"><?=$this->e($m2['title'])?></a></li>
+<?php endforeach; ?>
+</ul>

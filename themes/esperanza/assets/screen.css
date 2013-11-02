@@ -1,0 +1,122 @@
+.horne-slogan {
+    text-align: center;
+    font-style: italic;
+}
+
+.horne-blog-infoline {
+    font-size: 70%;
+    text-align: center;
+}
+
+body {
+    padding: 3em 1em;
+    max-width: 40em;
+    margin: 0 auto;
+    font-family: Lora, serif;
+    font-size: 20px;
+    color: #dcdccc;
+    background: #3f3f3f;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+}
+
+h1 {
+    text-align: center;
+}
+
+img {
+    border: 5px solid #333;
+    margin: 0 auto;
+    display: block;
+}
+
+a {
+    color: #99aadd;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.date {
+    text-align: right;
+    font-style: italic;
+}
+
+p {
+    text-align: justify;
+    line-height: 150%;
+}
+
+pre {
+    font-family: monospace;
+    border: 5px solid #333;
+    padding: 0.5em;
+}
+
+blockquote {
+    border-left: 5px solid #333;
+    padding-left: 0.5em;
+    margin-left: 2em;
+    font-size: 18px;
+}
+
+pre, code {
+    font-size: 14px;
+}
+
+code {
+    background: #222;
+}
+
+pre code {
+    background: inherit;
+}
+
+table {
+    border-collapse: collapse;
+    /*border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;*/
+    font-size: 16px;
+}
+
+td, th {
+    padding: 0.2em 0.4em;
+    /*border: 1px solid #ccc;*/
+}
+
+.home {
+    text-align: center;
+}
+
+.footer {
+    margin-top: 3em;
+    font-size: 15px;
+}
+
+.footer p {
+    text-align: center;
+}
+
+.co1 {
+    color: #7f9f7f;
+    font-style: italic;
+}
+.st_h {
+    color: #cc9393;
+}
+
+.kw2 {
+    color: #f0dfaf;
+    font-weight: bold;
+}
+
+.kw3 {
+    color: #efef8f;
+}
+.re0 {
+    color: #efdcbc;
+}

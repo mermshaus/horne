@@ -1,0 +1,22 @@
+<?php
+
+/* ---
+{
+    'type' : 'page',
+    'title' : 'Index page',
+    'id' : 'index'
+}
+--- */
+?>
+
+<!--<p><a href="">Archiv</a></p>-->
+
+<h1><?=$this->e($this->getSetting('system.siteTitle'))?></h1>
+
+<?php if ('' !== $this->getSetting('system.siteSlogan')) : ?>
+    <p class="horne-slogan"><?=$this->e($this->getSetting('system.siteSlogan'))?></p>
+<?php endif; ?>
+
+<?=$this->render('horne-blog-index')?>
+
+<p><a href="<?=$this->e($this->url('horne-blog-archive-index'))?>">Archiv</a></p>

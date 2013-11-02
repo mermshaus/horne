@@ -1,0 +1,46 @@
+<?php
+$blog = $this->getModule('blog');
+?>
+
+<h2>Artikel</h2>
+
+<?php $articles = $this->getMetasByType('article', ['date_created' => 'desc'], 5); ?>
+
+<?php if (count($articles) === 0) : ?>
+
+    <p>Es sind keine Artikel vorhanden.</p>
+
+<?php else : ?>
+
+    <ul>
+    <?php foreach ($articles as $articleBag) : $article = $articleBag->getMetaPayload(); ?>
+        <li>
+            <a href="<?=$this->url($article['id'])?>"><?=$this->e($article['title'])?></a>
+            <?=$this->e($this->datef($article['date_created']))?>
+        </li>
+    <?php endforeach; ?>
+    </ul>
+
+<?php endif; ?>
+
+<?php if ($this->getSetting('blog.useTags')) : ?>
+    <h2>Tags</h2>
+
+    <?php $tags = $blog->getAllTags(); ?>
+
+    <?php if (count($tags) === 0) : ?>
+        <p>Keine Tags vorhanden.</p>
+    <?php else : ?>
+        <ul>
+        <?php foreach ($blog->getAllTags() as $tag => $amount) : ?>
+            <li>
+                <a href="<?=$this->url('horne-blog-tag-' . $tag)?>"><?=$this->e($tag)?></a>
+                <?php if ($amount > 1) : ?>
+                (<?=$this->e($amount)?>)
+                <?php endif; ?>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+<?php endif; ?>

@@ -1,0 +1,66 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "4a9270b4e569d9ab4c1c05a42baa941c",
+    "packages": [
+        {
+            "name": "kaloa/filesystem",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mermshaus/kaloa-filesystem.git",
+                "reference": "d780c0cd7b12c43e7b318a2a08416c24849083a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mermshaus/kaloa-filesystem/zipball/d780c0cd7b12c43e7b318a2a08416c24849083a8",
+                "reference": "d780c0cd7b12c43e7b318a2a08416c24849083a8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Kaloa": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marc Ermshaus",
+                    "email": "marc@ermshaus.org",
+                    "homepage": "http://www.ermshaus.org/"
+                }
+            ],
+            "description": "Useful classes for working with the filesystem",
+            "homepage": "http://www.kaloa.org/",
+            "keywords": [
+                "filesystem"
+            ],
+            "time": "2012-09-03 08:45:14"
+        }
+    ],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "kaloa/filesystem": 20
+    },
+    "platform": {
+        "php": ">=5.5"
+    },
+    "platform-dev": [
+
+    ]
+}

@@ -1,0 +1,39 @@
+<?php
+/* ---
+{
+    'type' : '_master'
+}
+--- */
+
+$m = $vars['meta'];
+
+$title = (isset($m['title'])) ? $m['title'] : '';
+
+?><!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title><?=$this->e($title)?></title>
+    <link href='<?=$this->getPathToRoot()?>/assets/screen.css' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+    <?php if ($m['id'] !== 'index') : ?>
+    <p class="home"><a href="<?=$this->e($this->url('index'))?>">Home</a></p>
+    <?php endif; ?>
+
+    <?=$vars['content']?>
+
+
+    <div class="footer">
+        <p>
+            Seite generiert am: <?=$this->e(date('Y-m-d H:i:s'))?> UTC.
+            <a href="http://validator.w3.org/check/referer">Validieren</a>
+        </p>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+
+$horne = require_once __DIR__ . '/src/bootstrap.php';
+
+$horne->run(
+    getcwd(),
+    json_decode(file_get_contents(getcwd() . '/_horne.json'), true)
+);
