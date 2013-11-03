@@ -59,8 +59,6 @@ class Application
 
         $this->pathHelper = new PathHelper();
         $this->filters = array();
-
-        $this->modules['blog'] = new Blog($this);
     }
 
     public function getModule($id)
@@ -186,6 +184,8 @@ class Application
 
         $currentMetaBag = $mb;
 
+//        echo 'ID: ' . $mb->getId() . "\n";
+
         while ($currentMetaBag->getType() !== '_master') {
             $currentMetaBag = $this->metas->getById('/types/' . $currentMetaBag->getType() . '.html');
 
@@ -292,6 +292,11 @@ class Application
             $json['outputDir'],
             $json['themeDir']
         );
+
+
+        if (isset($json['modules']['blog'])) {
+            $this->modules['blog'] = new Blog($this);
+        }
 
 
         foreach ($this->modules as $module) {
