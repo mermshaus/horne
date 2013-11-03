@@ -275,6 +275,19 @@ class Application
         $json['sourceDir'] = $this->dingsify($workingDirectory, $json['sourceDir']);
         $json['outputDir'] = $this->dingsify($workingDirectory, $json['outputDir']);
 
+        /* Exclude paths */
+
+        if (!array_key_exists('excludePaths', $json)) {
+            $json['excludePaths'] = array();
+        }
+
+        foreach ($json['excludePaths'] as &$path) {
+            $path = $this->dingsify($json['sourceDir'], ltrim($path, '/'));
+        }
+        unset($path);
+
+        /* Theme directory */
+
         if (!isset($json['themeDir'])) {
             $json['themeDir'] = '';
             $json['defaultLayoutPath'] = $this->dingsify($workingDirectory, $json['defaultLayoutPath']);
@@ -290,7 +303,8 @@ class Application
             $json['sourceDir'],
             $json['defaultLayoutPath'],
             $json['outputDir'],
-            $json['themeDir']
+            $json['themeDir'],
+            $json['excludePaths']
         );
 
 

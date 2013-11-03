@@ -67,7 +67,7 @@ class MetaCollector
      * @param string $themeDir
      * @return array
      */
-    public function gatherMetas($sourceDir, $defaultLayoutPath, $outputDir, $themeDir)
+    public function gatherMetas($sourceDir, $defaultLayoutPath, $outputDir, $themeDir, $excludePaths)
     {
         $objects = [];
         $repository = new MetaRepository();
@@ -91,12 +91,20 @@ class MetaCollector
                 continue;
             }
 
-            if (false === strpos($file->getPathname(), '/_')) {
-                $objects[] = [
-                    'path' => $file->getPathname(),
-                    'root' => $sourceDir
-                ];
+            if (strpos($file->getPathname(), '/_')) {
+                continue;
             }
+
+            foreach ($excludePaths as $path) {
+                if (0 === strpos($file->getPathname(), $path)) {
+                    continue 2;
+                }
+            }
+
+            $objects[] = [
+                'path' => $file->getPathname(),
+                'root' => $sourceDir
+            ];
         }
 
         foreach ($objects as $o) {
