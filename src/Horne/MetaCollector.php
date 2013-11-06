@@ -91,9 +91,9 @@ class MetaCollector
                 continue;
             }
 
-            if (strpos($file->getPathname(), '/_')) {
+            /*if (strpos($file->getPathname(), '/_')) {
                 continue;
-            }
+            }*/
 
             foreach ($excludePaths as $path) {
                 if (0 === strpos($file->getPathname(), $path)) {
