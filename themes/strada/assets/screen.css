@@ -1,0 +1,140 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,700,700italic,600,600italic,800,800italic);
+
+.horne-slogan {
+    text-align: center;
+    font-style: italic;
+}
+
+.horne-blog-article {
+    background: rgb(255, 255, 255);
+    color: rgb(85, 85, 85);
+    padding: 2em;
+}
+
+.horne-blog-infoline {
+    font-size: 70%;
+    text-align: center;
+}
+
+html {
+    background: rgb(235, 232, 225);
+}
+
+body {
+    padding: 3em 1em;
+    max-width: 45em;
+    margin: 0 auto;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(143, 135, 114);
+    background: #fff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+}
+
+h1 {
+    text-align: center;
+}
+
+img {
+    border: 5px solid #333;
+    margin: 0 auto;
+    display: block;
+}
+
+a {
+    color: rgb(224, 112, 81);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.date {
+    text-align: right;
+    font-style: italic;
+}
+
+p {
+    text-align: justify;
+    line-height: 150%;
+}
+
+pre {
+    font-family: monospace;
+    background: rgb(51, 49, 49);
+    color: rgb(255, 255, 255);
+    padding: 25px;
+}
+
+blockquote {
+    border-left: 5px solid #333;
+    padding-left: 0.5em;
+    margin-left: 2em;
+    font-size: 18px;
+}
+
+pre, code {
+    font-size: 12px;
+}
+
+code {
+    background: rgb(250, 235, 227);
+    color: rgb(138, 80, 51);
+    padding: 1px 6px;
+}
+
+pre code {
+    background: inherit;
+    padding: 0;
+    color: inherit;
+}
+
+table {
+    border-collapse: collapse;
+    /*border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;*/
+    font-size: 16px;
+}
+
+td, th {
+    padding: 0.2em 0.4em;
+    /*border: 1px solid #ccc;*/
+}
+
+.home {
+    text-align: center;
+}
+
+.footer {
+    margin-top: 3em;
+    font-size: 15px;
+}
+
+.footer p {
+    text-align: center;
+}
+
+.co1 {
+    color: #7f9f7f;
+    font-style: italic;
+}
+.st_h {
+    color: #cc9393;
+}
+
+.kw2 {
+    color: #f0dfaf;
+    font-weight: bold;
+}
+
+.kw3 {
+    color: #efef8f;
+}
+.re0 {
+    color: #efdcbc;
+}
