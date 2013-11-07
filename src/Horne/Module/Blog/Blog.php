@@ -86,5 +86,27 @@ class Blog
             'type' => 'page',
             'path' => '/blog/archive/index.html'
         ]));
+
+        // Layouts
+
+        $app->metas->add(new MetaBag(__DIR__ . '/scripts/article.phtml', $app->config['outputDir'] . '/nothing', [
+            'id' => '/types/article.html',
+            'type' => '_default'
+        ]));
+
+        $app->metas->add(new MetaBag(__DIR__ . '/scripts/page-tag.phtml', $app->config['outputDir'] . '/nothing', [
+            'id' => '/types/page-tag.html',
+            'type' => '_default'
+        ]));
+
+        $app->metas->add(new MetaBag(__DIR__ . '/scripts/page.phtml', $app->config['outputDir'] . '/nothing', [
+            'id' => '/types/page.html',
+            'type' => '_default'
+        ]));
+
+        $app->metas->add(new MetaBag(__DIR__ . '/scripts/_default.phtml', $app->config['outputDir'] . '/nothing', [
+            'id' => '/types/_default.html',
+            'type' => '_master'
+        ]));
     }
 }
