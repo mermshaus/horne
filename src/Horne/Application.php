@@ -308,27 +308,20 @@ class Application
             $json['excludePaths']
         );
 
+        foreach (array_keys($json['modules']) as $key) {
+            if ($key === 'system') {
+                continue;
+            }
 
-        if (isset($json['modules']['blog'])) {
-            $this->modules['blog'] = new Blog($this);
+            $fqcn = '\\Horne\\Module\\' . ucfirst($key) . '\\' . ucfirst($key);
+
+            $this->modules[$key] = new $fqcn($this);
         }
-
-        if (isset($json['modules']['debug'])) {
-            $this->modules['debug'] = new Debug($this);
-        }
-
 
         foreach ($this->modules as $module) {
             /* @var $module ModuleInterface */
             $module->hookProcessingBefore();
         }
-
-
-
-
-
-
-
 
         // Processing starts here
 
