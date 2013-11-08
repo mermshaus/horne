@@ -139,7 +139,16 @@ class Application
     protected function renderTpl($tplFile, array $vars = array())
     {
         ob_start();
-        require $tplFile;
+        if (strpos($tplFile, '.md') !== false) {
+            $content = file_get_contents($tplFile);
+
+            $firstSep = strpos($content, '---');
+            $secondSep = strpos($content, '---', $firstSep + 1);
+
+            echo substr($content, $secondSep + 3);
+        } else {
+            require $tplFile;
+        }
         return ob_get_clean();
     }
 

@@ -48,14 +48,14 @@ class MetaCollector
     {
         $data = file_get_contents($path);
 
-        $start = strpos($data, '/* ---');
-        $end   = strpos($data, '--- */', $start);
+        $start = strpos($data, '---');
+        $end   = strpos($data, '---', $start + 1);
 
         if ($start === false || $end === false) {
             throw new HorneException('No meta data found in ' . $path);
         }
 
-        $jsonString = substr($data, $start + 6, $end - ($start + 6));
+        $jsonString = substr($data, $start + 3, $end - ($start + 3));
 
         $jsonArray = json_decode($jsonString, true);
 
@@ -68,14 +68,7 @@ class MetaCollector
 
     public function addMeta($o, $outputDir)
     {
-        if (strtolower(pathinfo($o['path'], PATHINFO_EXTENSION)) !== 'phtml') {
-            $dest = $outputDir . '/' . substr($o['path'], strlen($o['root']) + 1);
-            $this->assertOutputDir($outputDir, $dest);
-            $this->metaRepository->add(new MetaBag($o['path'], $dest, [
-                'id' => $o['path'],
-                'type' => 'asset'
-            ]));
-        } else {
+        if (strtolower(pathinfo($o['path'], PATHINFO_EXTENSION)) === 'phtml') {
             $data = $this->getJsonMetaDataFromFile($o['path']);
 
             if (!isset($data['type'])) {
@@ -100,6 +93,38 @@ class MetaCollector
 
             $this->assertOutputDir($outputDir, $dest);
             $this->metaRepository->add(new MetaBag($o['path'], $dest, $data));
+        } elseif (strtolower(pathinfo($o['path'], PATHINFO_EXTENSION)) === 'md') {
+            $data = $this->getJsonMetaDataFromFile($o['path']);
+
+            if (!isset($data['type'])) {
+                $data['type'] = 'page';
+                //throw new Exception('No type in ' . $source);
+            }
+
+            if (!isset($data['path'])) {
+                $data['path'] = substr($o['path'], strlen($o['root']));
+                $data['path'] = preg_replace('/md$/', 'html', $data['path']);
+            }
+
+            if (!isset($data['id'])) {
+                $data['id'] = $data['path'];
+            }
+
+            if (!isset($data['type'])) {
+                $data['type'] = 'page';
+            }
+
+            $dest = $this->pathHelper->normalize($outputDir . '/' . $data['path']);
+
+            $this->assertOutputDir($outputDir, $dest);
+            $this->metaRepository->add(new MetaBag($o['path'], $dest, $data));
+        } else {
+            $dest = $outputDir . '/' . substr($o['path'], strlen($o['root']) + 1);
+            $this->assertOutputDir($outputDir, $dest);
+            $this->metaRepository->add(new MetaBag($o['path'], $dest, [
+                'id' => $o['path'],
+                'type' => 'asset'
+            ]));
         }
     }
 
