@@ -4,10 +4,7 @@ namespace Horne;
 
 use DateTime;
 use DateTimeZone;
-use Exception;
 use GeSHi;
-use Horne\Module\Blog\Blog;
-use Horne\Module\Debug\Debug;
 use Horne\Module\ModuleInterface;
 use Horne\OutputFilter\OutputFilterInterface;
 use Kaloa\Filesystem\PathHelper;
@@ -47,6 +44,10 @@ class Application
      */
     protected $filters;
 
+    /**
+     *
+     * @var array
+     */
     protected $modules = array();
 
     /**
@@ -54,19 +55,26 @@ class Application
      */
     public function __construct()
     {
-        error_reporting(-1);
-        ini_set('display_errors', 1);
-        date_default_timezone_set('UTC');
-
         $this->pathHelper = new PathHelper();
         $this->filters = array();
     }
 
+    /**
+     *
+     * @param string $id
+     * @return mixed
+     */
     public function getModule($id)
     {
         return $this->modules[$id];
     }
 
+    /**
+     *
+     * @param string $key
+     * @param array $filters Array of OutputFilterInterface
+     * @throws HorneException
+     */
     public function setFilters($key, array $filters)
     {
         foreach ($filters as $filter) {
@@ -82,7 +90,6 @@ class Application
      *
      * @param string $id
      * @return string
-     * @throws Exception
      */
     protected function url($id)
     {
@@ -136,12 +143,24 @@ class Application
         return ob_get_clean();
     }
 
+    /**
+     *
+     * @param string $id
+     * @return string
+     */
     public function render($id)
     {
         return $this->renderTpl($this->metas->getById($id)->getSourcePath());
     }
 
-    public function applyFilters($content, $m)
+    /**
+     *
+     * @param string $content
+     * @param array $m
+     * @return string
+     * @throws HorneException
+     */
+    public function applyFilters($content, array $m)
     {
         $filterChain = array();
 
@@ -155,8 +174,7 @@ class Application
             }
         }
 
-        foreach ($filterChain as $key => $filters) {
-            #echo '    Filter: ' . $key . "\n";
+        foreach ($filterChain as $filters) {
             foreach ($filters as $filter) {
                 /* @var $filter OutputFilterInterface */
                 $content = $filter->run($content);
@@ -181,17 +199,13 @@ class Application
 
         $content = $this->applyFilters($content, $mb->getMetaPayload());
 
-
-
         $currentMetaBag = $mb;
-
-//        echo 'ID: ' . $mb->getId() . "\n";
 
         while ($currentMetaBag->getType() !== '_master') {
             $currentMetaBag = $this->metas->getById('/types/' . $currentMetaBag->getType() . '.html');
 
             $content = $this->renderTpl($currentMetaBag->getSourcePath(), array(
-                'meta' => $mb->getMetaPayload(),
+                'meta'    => $mb->getMetaPayload(),
                 'content' => $content
             ));
 
@@ -204,6 +218,9 @@ class Application
     /**
      *
      * @param string $type
+     * @param array $order
+     * @param int $limitCount
+     * @param int $limitOffset
      * @return array
      */
     protected function getMetasByType($type, array $order = array(), $limitCount = -1, $limitOffset = 0)
