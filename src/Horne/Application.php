@@ -304,24 +304,11 @@ class Application
         }
         unset($path);
 
-        /* Theme directory */
-
-        if (!isset($json['themeDir'])) {
-            $json['themeDir'] = '';
-            $json['defaultLayoutPath'] = $this->dingsify($workingDirectory, $json['defaultLayoutPath']);
-        } else {
-            $json['themeDir'] = $this->dingsify($workingDirectory, $json['themeDir']);
-
-            $json['defaultLayoutPath'] = $this->dingsify($json['themeDir'], $json['defaultLayoutPath']);
-        }
-
         $this->config = $json;
 
         $this->metas = (new MetaCollector($this->pathHelper))->gatherMetas(
             $json['sourceDir'],
-            $json['defaultLayoutPath'],
             $json['outputDir'],
-            $json['themeDir'],
             $json['excludePaths']
         );
 
