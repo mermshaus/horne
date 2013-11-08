@@ -79,11 +79,6 @@ class MetaCollector
             case in_array($fileExtension, ['md', 'phtml']):
                 $data = $this->getJsonMetaDataFromFile($o['path']);
 
-                if (!isset($data['type'])) {
-                    $data['type'] = 'page';
-                    //throw new Exception('No type in ' . $source);
-                }
-
                 if (!isset($data['path'])) {
                     $data['path'] = substr($o['path'], strlen($o['root']));
                     $data['path'] = preg_replace(
