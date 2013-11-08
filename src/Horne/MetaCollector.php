@@ -66,65 +66,54 @@ class MetaCollector
         return $jsonArray;
     }
 
+    /**
+     *
+     * @param array $o
+     * @param string $outputDir
+     */
     public function addMeta($o, $outputDir)
     {
-        if (strtolower(pathinfo($o['path'], PATHINFO_EXTENSION)) === 'phtml') {
-            $data = $this->getJsonMetaDataFromFile($o['path']);
+        $fileExtension = strtolower(pathinfo($o['path'], PATHINFO_EXTENSION));
 
-            if (!isset($data['type'])) {
-                $data['type'] = 'page';
-                //throw new Exception('No type in ' . $source);
-            }
+        switch (true) {
+            case in_array($fileExtension, ['md', 'phtml']):
+                $data = $this->getJsonMetaDataFromFile($o['path']);
 
-            if (!isset($data['path'])) {
-                $data['path'] = substr($o['path'], strlen($o['root']));
-                $data['path'] = preg_replace('/phtml$/', 'html', $data['path']);
-            }
+                if (!isset($data['type'])) {
+                    $data['type'] = 'page';
+                    //throw new Exception('No type in ' . $source);
+                }
 
-            if (!isset($data['id'])) {
-                $data['id'] = $data['path'];
-            }
+                if (!isset($data['path'])) {
+                    $data['path'] = substr($o['path'], strlen($o['root']));
+                    $data['path'] = preg_replace(
+                        '/\.' . preg_quote($fileExtension, '/') . '$/',
+                        '.html',
+                        $data['path']
+                    );
+                }
 
-            if (!isset($data['type'])) {
-                $data['type'] = 'page';
-            }
+                if (!isset($data['id'])) {
+                    $data['id'] = $data['path'];
+                }
 
-            $dest = $this->pathHelper->normalize($outputDir . '/' . $data['path']);
+                if (!isset($data['type'])) {
+                    $data['type'] = 'page';
+                }
 
-            $this->assertOutputDir($outputDir, $dest);
-            $this->metaRepository->add(new MetaBag($o['path'], $dest, $data));
-        } elseif (strtolower(pathinfo($o['path'], PATHINFO_EXTENSION)) === 'md') {
-            $data = $this->getJsonMetaDataFromFile($o['path']);
+                $dest = $this->pathHelper->normalize($outputDir . '/' . $data['path']);
 
-            if (!isset($data['type'])) {
-                $data['type'] = 'page';
-                //throw new Exception('No type in ' . $source);
-            }
-
-            if (!isset($data['path'])) {
-                $data['path'] = substr($o['path'], strlen($o['root']));
-                $data['path'] = preg_replace('/md$/', 'html', $data['path']);
-            }
-
-            if (!isset($data['id'])) {
-                $data['id'] = $data['path'];
-            }
-
-            if (!isset($data['type'])) {
-                $data['type'] = 'page';
-            }
-
-            $dest = $this->pathHelper->normalize($outputDir . '/' . $data['path']);
-
-            $this->assertOutputDir($outputDir, $dest);
-            $this->metaRepository->add(new MetaBag($o['path'], $dest, $data));
-        } else {
-            $dest = $outputDir . '/' . substr($o['path'], strlen($o['root']) + 1);
-            $this->assertOutputDir($outputDir, $dest);
-            $this->metaRepository->add(new MetaBag($o['path'], $dest, [
-                'id' => $o['path'],
-                'type' => 'asset'
-            ]));
+                $this->assertOutputDir($outputDir, $dest);
+                $this->metaRepository->add(new MetaBag($o['path'], $dest, $data));
+                break;
+            default:
+                $dest = $outputDir . '/' . substr($o['path'], strlen($o['root']) + 1);
+                $this->assertOutputDir($outputDir, $dest);
+                $this->metaRepository->add(new MetaBag($o['path'], $dest, [
+                    'id' => $o['path'],
+                    'type' => 'asset'
+                ]));
+                break;
         }
     }
 
