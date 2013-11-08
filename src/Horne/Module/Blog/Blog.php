@@ -59,7 +59,6 @@ class Blog extends AbstractModule
                     'title' => 'All entries tagged with ' . $tag,
                     'type'  => 'page-tag',
                     'path'  => '/blog/tags/' . $tag . '.html',
-                    'layout' => $app->config['defaultLayoutPath'],
                     'tag' => $tag
                 );
 
