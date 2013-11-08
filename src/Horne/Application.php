@@ -7,6 +7,7 @@ use DateTimeZone;
 use Exception;
 use GeSHi;
 use Horne\Module\Blog\Blog;
+use Horne\Module\Debug\Debug;
 use Horne\Module\ModuleInterface;
 use Horne\OutputFilter\OutputFilterInterface;
 use Kaloa\Filesystem\PathHelper;
@@ -312,6 +313,10 @@ class Application
             $this->modules['blog'] = new Blog($this);
         }
 
+        if (isset($json['modules']['debug'])) {
+            $this->modules['debug'] = new Debug($this);
+        }
+
 
         foreach ($this->modules as $module) {
             /* @var $module ModuleInterface */
@@ -321,10 +326,7 @@ class Application
 
 
 
-//        foreach ($this->metas->getAll() as $meta) {
-//            $payload = $meta->getMetaPayload();
-//            echo $payload['type'] . ' ' . $payload['id'] . "\n";
-//        }
+
 
 
 

@@ -2,22 +2,11 @@
 
 namespace Horne\Module\Blog;
 
-use Horne\Application;
 use Horne\MetaBag;
+use Horne\Module\AbstractModule;
 
-class Blog
+class Blog extends AbstractModule
 {
-    /**
-     *
-     * @var Application
-     */
-    protected $application;
-
-    public function __construct($application)
-    {
-        $this->application = $application;
-    }
-
     /**
      *
      * @return array
