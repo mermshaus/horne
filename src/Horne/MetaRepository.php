@@ -21,6 +21,13 @@ class MetaRepository
      */
     public function add(MetaBag $metaBag)
     {
+        foreach ($this->items as $item) {
+            /* @var $item MetaBag */
+            if ($item->getId() === $metaBag->getId()) {
+                throw new HorneException('Meta with id ' . $metaBag->getId() . ' does already exist. Error is in ' . $metaBag->getSourcePath());
+            }
+        }
+
         $this->items[] = $metaBag;
     }
 
