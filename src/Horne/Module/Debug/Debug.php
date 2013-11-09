@@ -15,6 +15,7 @@ class Debug extends AbstractModule
             'id' => 'horne-debug-debug',
             'title' => 'Debug',
             'type' => 'page',
+            'layout' => 'horne-layout-page',
             'path' => '/debug/index.html'
         ]));
     }

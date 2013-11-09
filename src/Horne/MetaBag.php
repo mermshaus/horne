@@ -39,4 +39,9 @@ class MetaBag
     {
         return $this->metaPayload['id'];
     }
+
+    public function getLayout()
+    {
+        return (isset($this->metaPayload['layout'])) ? $this->metaPayload['layout'] : null;
+    }
 }

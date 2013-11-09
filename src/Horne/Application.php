@@ -210,8 +210,8 @@ class Application
 
         $currentMetaBag = $mb;
 
-        while ($currentMetaBag->getType() !== '_master') {
-            $currentMetaBag = $this->metas->getById('/types/' . $currentMetaBag->getType() . '.html');
+        while ($currentMetaBag->getLayout() !== null) {
+            $currentMetaBag = $this->metas->getById($currentMetaBag->getLayout());
 
             $content = $this->renderTpl($currentMetaBag->getSourcePath(), array(
                 'meta'    => $mb->getMetaPayload(),

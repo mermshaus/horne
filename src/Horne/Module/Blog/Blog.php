@@ -58,6 +58,7 @@ class Blog extends AbstractModule
                     'id'    => 'horne-blog-tag-' . $tag,
                     'title' => 'All entries tagged with ' . $tag,
                     'type'  => 'page-tag',
+                    'layout' => 'horne-layout-page-tag',
                     'path'  => '/blog/tags/' . $tag . '.html',
                     'tag' => $tag
                 );
@@ -72,29 +73,33 @@ class Blog extends AbstractModule
             'id' => 'horne-blog-archive-index',
             'title' => 'Archive',
             'type' => 'page',
+            'layout' => 'horne-layout-page',
             'path' => '/blog/archive/index.html'
         ]));
 
         // Layouts
 
         $app->metas->add(new MetaBag(__DIR__ . '/scripts/article.phtml', $app->config['outputDir'] . '/nothing', [
-            'id' => '/types/article.html',
-            'type' => '_default'
+            'id' => 'horne-layout-article',
+            'type' => 'layout',
+            'layout' => 'horne-layout-default'
         ]));
 
         $app->metas->add(new MetaBag(__DIR__ . '/scripts/page-tag.phtml', $app->config['outputDir'] . '/nothing', [
-            'id' => '/types/page-tag.html',
-            'type' => '_default'
+            'id' => 'horne-layout-page-tag',
+            'type' => 'layout',
+            'layout' => 'horne-layout-default'
         ]));
 
         $app->metas->add(new MetaBag(__DIR__ . '/scripts/page.phtml', $app->config['outputDir'] . '/nothing', [
-            'id' => '/types/page.html',
-            'type' => '_default'
+            'id' => 'horne-layout-page',
+            'type' => 'layout',
+            'layout' => 'horne-layout-default'
         ]));
 
         $app->metas->add(new MetaBag(__DIR__ . '/scripts/_default.phtml', $app->config['outputDir'] . '/nothing', [
-            'id' => '/types/_default.html',
-            'type' => '_master'
+            'id' => 'horne-layout-default',
+            'type' => 'layout'
         ]));
     }
 }
