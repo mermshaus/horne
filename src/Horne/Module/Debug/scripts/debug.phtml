@@ -1,3 +1,13 @@
+<?php
+
+$metas = $this->metas->getAll();
+
+usort($metas, function ($a, $b) {
+    return strcmp($a->getType(), $b->getType());
+});
+
+?>
+
 <h1>Debug info</h1>
 
 <h2>Metas</h2>
@@ -7,7 +17,7 @@
         <th>ID</th>
         <th>Type</th>
     </tr>
-<?php foreach ($this->metas->getAll() as $meta) : ?>
+<?php foreach ($metas as $meta) : ?>
     <?php $payload = $meta->getMetaPayload(); ?>
     <tr>
         <td><?=$this->e($payload['id'])?></td>
