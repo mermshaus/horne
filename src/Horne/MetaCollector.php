@@ -102,10 +102,12 @@ class MetaCollector
                 $this->metaRepository->add(new MetaBag($o['path'], $dest, $data));
                 break;
             default:
-                $dest = $outputDir . '/' . substr($o['path'], strlen($o['root']) + 1);
+                $rel = '/' . substr($o['path'], strlen($o['root']) + 1);
+
+                $dest = $outputDir . $rel;
                 $this->assertOutputDir($outputDir, $dest);
                 $this->metaRepository->add(new MetaBag($o['path'], $dest, [
-                    'id' => $o['path'],
+                    'id' => $rel,
                     'type' => 'asset'
                 ]));
                 break;
