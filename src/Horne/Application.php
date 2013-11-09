@@ -322,12 +322,7 @@ class Application
         );
 
         foreach (array_keys($json['modules']) as $key) {
-            if ($key === 'system') {
-                continue;
-            }
-
             $fqcn = '\\Horne\\Module\\' . ucfirst($key) . '\\' . ucfirst($key);
-
             $this->modules[$key] = new $fqcn($this);
         }
 
