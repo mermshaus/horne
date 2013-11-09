@@ -21,13 +21,6 @@ class MetaRepository
      */
     public function add(MetaBag $metaBag)
     {
-        foreach ($this->items as $item) {
-            /* @var $item MetaBag */
-            if ($item->getId() === $metaBag->getId()) {
-                throw new HorneException('Meta with id ' . $metaBag->getId() . ' does already exist. Error is in ' . $metaBag->getSourcePath());
-            }
-        }
-
         $this->items[] = $metaBag;
     }
 
@@ -100,5 +93,18 @@ class MetaRepository
         $x = ($limitCount !== -1) ? $limitCount : null;
 
         return array_slice($metas, $limitOffset, $x);
+    }
+
+    public function removeById($id)
+    {
+        $newItems = array();
+
+        foreach ($this->items as $item) {
+            if ($item->getId() !== $id) {
+                $newItems[] = $item;
+            }
+        }
+
+        $this->items = $newItems;
     }
 }

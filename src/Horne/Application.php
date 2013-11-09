@@ -315,21 +315,26 @@ class Application
 
         $this->config = $json;
 
-        $this->metas = (new MetaCollector($this->pathHelper))->gatherMetas(
-            $json['sourceDir'],
-            $json['outputDir'],
-            $json['excludePaths']
-        );
-
         foreach (array_keys($json['modules']) as $key) {
             $fqcn = '\\Horne\\Module\\' . ucfirst($key) . '\\' . ucfirst($key);
             $this->modules[$key] = new $fqcn($this);
         }
 
+        $this->metas = new MetaRepository();
+
         foreach ($this->modules as $module) {
             /* @var $module ModuleInterface */
             $module->hookProcessingBefore();
         }
+
+        (new MetaCollector(
+            $this->pathHelper,
+            $json['sourceDir'],
+            $json['outputDir'])
+        )->gatherMetas(
+            $this->metas,
+            $json['excludePaths']
+        );
 
         // Processing starts here
 

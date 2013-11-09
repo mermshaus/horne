@@ -19,16 +19,21 @@ class MetaCollector
      */
     protected $pathHelper;
 
+    protected $sourceDir;
+
+    protected $outputDir;
+
     /**
      *
      * @var MetaRepository
      */
     protected $metaRepository;
 
-    public function __construct(PathHelper $pathHelper)
+    public function __construct(PathHelper $pathHelper, $sourceDir, $outputDir)
     {
         $this->pathHelper = $pathHelper;
-        $this->metaRepository = new MetaRepository();
+        $this->sourceDir = $sourceDir;
+        $this->outputDir = $outputDir;
     }
 
     protected function assertOutputDir($outputDir, $path)
@@ -97,21 +102,40 @@ class MetaCollector
                 }
 
                 $dest = $this->pathHelper->normalize($outputDir . '/' . $data['path']);
-
-                $this->assertOutputDir($outputDir, $dest);
-                $this->metaRepository->add(new MetaBag($o['path'], $dest, $data));
                 break;
             default:
                 $rel = '/' . substr($o['path'], strlen($o['root']) + 1);
 
-                $dest = $outputDir . $rel;
-                $this->assertOutputDir($outputDir, $dest);
-                $this->metaRepository->add(new MetaBag($o['path'], $dest, [
+                $data = [
                     'id' => $rel,
                     'type' => 'asset'
-                ]));
+                ];
+
+                $dest = $this->pathHelper->normalize($outputDir . '/' . $rel);
                 break;
         }
+
+        $metaBag = new MetaBag($o['path'], $dest, $data);
+
+        foreach ($this->metaRepository->getAll() as $item) {
+            /* @var $item MetaBag */
+            if ($item->getId() === $metaBag->getId()) {
+                // If both in sourceDir, throw Exception (in other words:
+                // files from sourceDir can override files added by modules)
+                if (
+                    0 === strpos($item->getSourcePath(), $this->sourceDir)
+                    && 0 === strpos($metaBag->getSourcePath(), $this->sourceDir)
+                ) {
+                    throw new HorneException('Meta with id ' . $metaBag->getId() . ' does already exist. Error is in ' . $metaBag->getSourcePath());
+                } else {
+                    $this->metaRepository->removeById($item->getId());
+                    break;
+                }
+            }
+        }
+
+        $this->assertOutputDir($outputDir, $dest);
+        $this->metaRepository->add($metaBag);
     }
 
     /**
@@ -121,11 +145,13 @@ class MetaCollector
      * @param array $excludePaths
      * @return array
      */
-    public function gatherMetas($sourceDir, $outputDir, array $excludePaths)
+    public function gatherMetas(MetaRepository $mr, array $excludePaths)
     {
+        $this->metaRepository = $mr;
+
         $objects = [];
 
-        $bla2 = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($sourceDir));
+        $bla2 = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->sourceDir));
         foreach ($bla2 as $file) {
             if (!$file->isFile()) {
                 continue;
@@ -143,14 +169,12 @@ class MetaCollector
 
             $objects[] = [
                 'path' => $file->getPathname(),
-                'root' => $sourceDir
+                'root' => $this->sourceDir
             ];
         }
 
         foreach ($objects as $o) {
-            $this->addMeta($o, $outputDir);
+            $this->addMeta($o, $this->outputDir);
         }
-
-        return $this->metaRepository;
     }
 }
