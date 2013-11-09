@@ -16,12 +16,14 @@ usort($metas, function ($a, $b) {
     <tr>
         <th>ID</th>
         <th>Type</th>
+        <th>Source path</th>
     </tr>
 <?php foreach ($metas as $meta) : ?>
     <?php $payload = $meta->getMetaPayload(); ?>
     <tr>
         <td><?=$this->e($payload['id'])?></td>
         <td><?=$this->e($payload['type'])?></td>
+        <td><?=$this->e($meta->getSourcePath())?></td>
     </tr>
 <?php endforeach; ?>
 </table>
