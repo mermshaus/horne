@@ -41,6 +41,10 @@ unset($months);
 
 ?>
 
+<?php if (count($grouped) === 0) : ?>
+    <p>No articles.</p>
+<?php endif; ?>
+
 <?php foreach ($grouped as $year => $articlesInYear) : ?>
 <h2><?=$this->e($year)?></h2>
     <?php foreach ($articlesInYear as $month => $articlesInMonth) : ?>
