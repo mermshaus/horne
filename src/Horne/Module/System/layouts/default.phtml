@@ -9,7 +9,8 @@ $horne = $this;
 $getTitleById = function ($id) use ($horne) {
     $meta = $horne->metas->getByid($id);
     $payload = $meta->getMetaPayload();
-    return $payload['title'];
+    $title = (isset($payload['title'])) ? $payload['title'] : 'Untitled';
+    return $title;
 };
 
 $menuIds = ['index'];
