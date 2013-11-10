@@ -24,4 +24,14 @@ abstract class AbstractModule implements ModuleInterface
     {
         $this->application = $application;
     }
+
+    public function hookProcessingBefore()
+    {
+
+    }
+
+    public function hookProcessingBefore2()
+    {
+
+    }
 }

@@ -340,6 +340,11 @@ class Application
             $json['excludePaths']
         );
 
+        foreach ($this->modules as $module) {
+            /* @var $module ModuleInterface */
+            $module->hookProcessingBefore2();
+        }
+
         // Processing starts here
 
         foreach ($this->metas->getAll() as $m) {
