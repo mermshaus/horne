@@ -9,7 +9,7 @@
 }
 
 body {
-    padding: 3em 1em;
+    padding: 0 1em 3em 1em;
     max-width: 40em;
     margin: 0 auto;
     font-family: Lora, serif;
@@ -119,4 +119,25 @@ td, th {
 }
 .re0 {
     color: #efdcbc;
+}
+
+
+.horne-system-header {
+    font-size: 70%;
+    padding-bottom: 50px;
+}
+
+.horne-system-header h1 {
+    display: none;
+}
+
+ul.horne-system-navigation {
+    margin: 0;
+    padding: 0;
+}
+
+.horne-system-navigation li {
+    display: inline;
+    margin: 0;
+    padding: 5px;
 }
