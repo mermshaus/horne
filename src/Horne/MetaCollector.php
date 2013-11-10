@@ -101,6 +101,10 @@ class MetaCollector
                     $data['type'] = 'page';
                 }
 
+                if (!isset($data['layout']) && $data['type'] !== 'layout') {
+                    $data['layout'] = 'horne-layout-page';
+                }
+
                 $dest = $this->pathHelper->normalize($outputDir . '/' . $data['path']);
                 break;
             default:
