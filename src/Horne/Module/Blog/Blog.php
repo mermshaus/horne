@@ -48,25 +48,6 @@ class Blog extends AbstractModule
             'type' => '_script'
         ]));
 
-        // horne-tag-*
-
-        if ($app->getSetting('blog.useTags')) {
-            $tags = $this->getAllTags();
-
-            foreach (array_keys($tags) as $tag) {
-                $pseudoMeta = array(
-                    'id'    => 'horne-blog-tag-' . $tag,
-                    'title' => 'All entries tagged with ' . $tag,
-                    'type'  => 'page-tag',
-                    'layout' => 'horne-layout-page-tag',
-                    'path'  => '/blog/tags/' . $tag . '.html',
-                    'tag' => $tag
-                );
-
-                $app->metas->add(new MetaBag('', $app->config['outputDir'] . $pseudoMeta['path'], $pseudoMeta));
-            }
-        }
-
         // horne-blog-archive-index
 
         $app->metas->add(new MetaBag(__DIR__ . '/scripts/archive/index.phtml', $app->config['outputDir'] . '/blog/archive/index.html', [
@@ -90,5 +71,29 @@ class Blog extends AbstractModule
             'type' => 'layout',
             'layout' => 'horne-layout-default'
         ]));
+    }
+
+    public function hookProcessingBefore2()
+    {
+        $app = $this->application;
+
+        // horne-blog-tag-*
+
+        if ($app->getSetting('blog.useTags')) {
+            $tags = $this->getAllTags();
+
+            foreach (array_keys($tags) as $tag) {
+                $pseudoMeta = array(
+                    'id'    => 'horne-blog-tag-' . $tag,
+                    'title' => 'All entries tagged with ' . $tag,
+                    'type'  => 'page-tag',
+                    'layout' => 'horne-layout-page-tag',
+                    'path'  => '/blog/tags/' . $tag . '.html',
+                    'tag' => $tag
+                );
+
+                $app->metas->add(new MetaBag('', $app->config['outputDir'] . $pseudoMeta['path'], $pseudoMeta));
+            }
+        }
     }
 }
