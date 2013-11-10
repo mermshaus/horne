@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "4a9270b4e569d9ab4c1c05a42baa941c",
+    "hash": "ec42014f7eec9de8219a8edd6e4cd913",
     "packages": [
         {
             "name": "kaloa/filesystem",
@@ -45,6 +45,48 @@
                 "filesystem"
             ],
             "time": "2012-09-03 08:45:14"
+        },
+        {
+            "name": "kaloa/renderer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mermshaus/kaloa-renderer.git",
+                "reference": "1bee540285a0d3f14ba5e9f27458415d45098bf0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mermshaus/kaloa-renderer/zipball/1bee540285a0d3f14ba5e9f27458415d45098bf0",
+                "reference": "1bee540285a0d3f14ba5e9f27458415d45098bf0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Kaloa": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marc Ermshaus",
+                    "email": "marc@ermshaus.org",
+                    "homepage": "http://www.ermshaus.org/"
+                }
+            ],
+            "description": "A collection of different output renderers",
+            "homepage": "http://www.kaloa.org/",
+            "keywords": [
+                "output",
+                "renderer"
+            ],
+            "time": "2012-09-03 10:37:01"
         }
     ],
     "packages-dev": [
@@ -55,7 +97,8 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "kaloa/filesystem": 20
+        "kaloa/filesystem": 20,
+        "kaloa/renderer": 20
     },
     "platform": {
         "php": ">=5.5"
