@@ -19,11 +19,30 @@ usort($metas, function ($a, $b) {
         <th>Source path</th>
     </tr>
 <?php foreach ($metas as $meta) : ?>
-    <?php $payload = $meta->getMetaPayload(); ?>
+    <?php
+    $payload = $meta->getMetaPayload();
+    $url = '';
+    if ($meta->getType() !== 'layout') {
+        $url = $this->url($payload['id']);
+    }
+    ?>
     <tr>
-        <td><?=$this->e($payload['id'])?></td>
+        <td>
+            <?php if ($url !== '') : ?>
+                <a href="<?=$this->e($this->url($payload['id']))?>">
+            <?php endif; ?>
+            <?=$this->e($payload['id'])?>
+            <?php if ($url !== '') : ?>
+                </a>
+            <?php endif; ?>
+        </td>
+
         <td><?=$this->e($payload['type'])?></td>
-        <td><?=$this->e($meta->getSourcePath())?></td>
+        <td><pre>sourcePath: <?=$this->e($meta->getSourcePath())?>
+
+destPath:  <?=$this->e($meta->getDestPath())?>
+
+<?php print_r($payload); ?></pre></td>
     </tr>
 <?php endforeach; ?>
 </table>

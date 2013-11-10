@@ -108,7 +108,8 @@ class MetaCollector
 
                 $data = [
                     'id' => $rel,
-                    'type' => 'asset'
+                    'type' => 'asset',
+                    'path' => $rel
                 ];
 
                 $dest = $this->pathHelper->normalize($outputDir . '/' . $rel);

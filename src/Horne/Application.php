@@ -96,6 +96,10 @@ class Application
         $metaBag = $this->metas->getById($id);
         $payload = $metaBag->getMetaPayload();
 
+        if (!isset($payload['path'])) {
+            return '';
+        }
+
         return $this->pathHelper->normalize($this->pathToRoot . $payload['path']);
     }
 

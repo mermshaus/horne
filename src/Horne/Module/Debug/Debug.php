@@ -15,8 +15,13 @@ class Debug extends AbstractModule
             'id' => 'horne-debug-debug',
             'title' => 'Debug',
             'type' => 'page',
-            'layout' => 'horne-layout-page',
+            'layout' => 'horne-layout-debug',
             'path' => '/debug/index.html'
+        ]));
+
+        $app->metas->add(new MetaBag(__DIR__ . '/scripts/layout.phtml', $app->config['outputDir'] . '/nothing', [
+            'id' => 'horne-layout-debug',
+            'type' => 'layout'
         ]));
     }
 }
