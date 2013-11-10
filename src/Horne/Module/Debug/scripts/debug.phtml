@@ -29,7 +29,7 @@ usort($metas, function ($a, $b) {
     <tr>
         <td>
             <?php if ($url !== '') : ?>
-                <a href="<?=$this->e($this->url($payload['id']))?>">
+                <a href="<?=$this->e($url)?>">
             <?php endif; ?>
             <?=$this->e($payload['id'])?>
             <?php if ($url !== '') : ?>
