@@ -32,5 +32,23 @@ class System extends AbstractModule
                 'type' => 'layout'
             ]
         ));
+
+        $app->metas->add(new MetaBag(
+            __DIR__ . '/layouts/html/head.phtml',
+            $app->config['outputDir'] . '/nothing',
+            [
+                'id'     => 'horne-system-html-head',
+                'type'   => '_script'
+            ]
+        ));
+
+        $app->metas->add(new MetaBag(
+            __DIR__ . '/layouts/html/foot.phtml',
+            $app->config['outputDir'] . '/nothing',
+            [
+                'id'     => 'horne-system-html-foot',
+                'type'   => '_script'
+            ]
+        ));
     }
 }
