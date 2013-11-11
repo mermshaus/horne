@@ -1,0 +1,19 @@
+<?php
+
+usort($vars['articles'], function ($a, $b) {
+    return strcmp(
+        $b->getMetaPayload()['date_created'],
+        $a->getMetaPayload()['date_created']
+    );
+});
+
+?>
+
+<ul>
+<?php foreach ($vars['articles'] as $articleBag) : $article = $articleBag->getMetaPayload(); ?>
+    <li>
+        <a href="<?=$this->url($article['id'])?>"><?=$this->e($article['title'])?></a>
+        <?=$this->e($this->datef($article['date_created']))?>
+    </li>
+<?php endforeach; ?>
+</ul>

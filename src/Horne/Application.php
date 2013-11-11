@@ -161,9 +161,9 @@ class Application
      * @param string $id
      * @return string
      */
-    public function render($id)
+    public function render($id, array $vars = array())
     {
-        return $this->renderTpl($this->metas->getById($id)->getSourcePath());
+        return $this->renderTpl($this->metas->getById($id)->getSourcePath(), $vars);
     }
 
     /**
