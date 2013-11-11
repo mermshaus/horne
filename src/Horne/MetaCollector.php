@@ -105,6 +105,11 @@ class MetaCollector
                     $data['layout'] = 'horne-layout-page';
                 }
 
+                if (isset($data['publish']) && $data['publish'] === false) {
+                    // Skip files that have the "publish" field set to false
+                    return;
+                }
+
                 $dest = $this->pathHelper->normalize($outputDir . '/' . $data['path']);
                 break;
             default:
