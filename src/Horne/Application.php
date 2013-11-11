@@ -100,7 +100,13 @@ class Application
             return '';
         }
 
-        return $this->pathHelper->normalize($this->pathToRoot . $payload['path']);
+        $tmp = $payload['path'];
+
+        if (isset($payload['slug'])) {
+            $tmp = $payload['slug'];
+        }
+
+        return $this->pathHelper->normalize($this->pathToRoot . $tmp);
     }
 
     /**
