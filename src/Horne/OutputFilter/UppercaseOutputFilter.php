@@ -2,9 +2,11 @@
 
 namespace Horne\OutputFilter;
 
-class UppercaseOutputFilter implements OutputFilterInterface
+use Horne\MetaBag;
+
+class UppercaseOutputFilter extends AbstractOutputFilter
 {
-    public function run($content)
+    public function run($content, MetaBag $mb)
     {
         return mb_strtoupper($content, 'UTF-8');
     }

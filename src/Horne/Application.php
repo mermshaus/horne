@@ -113,7 +113,7 @@ class Application
      *
      * @return string
      */
-    protected function getPathToRoot()
+    public function getPathToRoot()
     {
         return $this->pathToRoot;
     }
@@ -175,12 +175,14 @@ class Application
     /**
      *
      * @param string $content
-     * @param array $m
+     * @param array $mb
      * @return string
      * @throws HorneException
      */
-    public function applyFilters($content, array $m)
+    public function applyFilters($content, MetaBag $mb)
     {
+        $m = $mb->getMetaPayload();
+
         $filterChain = array();
 
         if (isset($m['filters'])) {
@@ -196,7 +198,7 @@ class Application
         foreach ($filterChain as $filters) {
             foreach ($filters as $filter) {
                 /* @var $filter OutputFilterInterface */
-                $content = $filter->run($content);
+                $content = $filter->run($content, $mb);
             }
         }
 
@@ -216,7 +218,7 @@ class Application
             $content = $this->renderTpl($mb->getSourcePath());
         }
 
-        $content = $this->applyFilters($content, $mb->getMetaPayload());
+        $content = $this->applyFilters($content, $mb);
 
         $currentMetaBag = $mb;
 
@@ -228,7 +230,7 @@ class Application
                 'content' => $content
             ));
 
-            $content = $this->applyFilters($content, $currentMetaBag->getMetaPayload());
+            $content = $this->applyFilters($content, $currentMetaBag);
         }
 
         return $content;

@@ -2,7 +2,9 @@
 
 namespace Horne\OutputFilter;
 
+use Horne\MetaBag;
+
 interface OutputFilterInterface
 {
-    public function run($content);
+    public function run($content, MetaBag $mb);
 }

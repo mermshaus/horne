@@ -2,9 +2,12 @@
 
 namespace Horne\OutputFilter;
 
-class KramdownOutputFilter implements OutputFilterInterface
+use Horne\MetaBag;
+use Horne\OutputFilter\AbstractOutputFilter;
+
+class KramdownOutputFilter extends AbstractOutputFilter
 {
-    public function run($content)
+    public function run($content, MetaBag $mb)
     {
         $file = __DIR__ . '/bla';
 

@@ -4,13 +4,14 @@ namespace Horne\OutputFilter;
 
 use DOMDocument;
 use DOMNode;
+use Horne\MetaBag;
 
 /**
  *
  */
-class TableOfContentsOutputFilter implements OutputFilterInterface
+class TableOfContentsOutputFilter extends AbstractOutputFilter
 {
-    public function run($content)
+    public function run($content, MetaBag $mb)
     {
         $content6 = '';
 

@@ -2,12 +2,13 @@
 
 namespace Horne\OutputFilter;
 
-use Horne\OutputFilter\OutputFilterInterface;
+use Horne\MetaBag;
+use Horne\OutputFilter\AbstractOutputFilter;
 use Kaloa\Renderer\Factory;
 
-class InigoOutputFilter implements OutputFilterInterface
+class InigoOutputFilter extends AbstractOutputFilter
 {
-    public function run($content)
+    public function run($content, MetaBag $mb)
     {
         $mp = Factory::createRenderer(null, 'inigo');
 

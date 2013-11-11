@@ -5,6 +5,7 @@ use Horne\OutputFilter\InigoOutputFilter;
 use Horne\OutputFilter\KramdownOutputFilter;
 use Horne\OutputFilter\TableOfContentsOutputFilter;
 use Horne\OutputFilter\UppercaseOutputFilter;
+use Horne\OutputFilter\XmlLegacyOutputFilter;
 use Horne\OutputFilter\XmlOutputFilter;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -16,23 +17,27 @@ if (file_exists(__DIR__ . '/../vendor/geshi/geshi.php')) {
 $horne = new Application();
 
 $horne->setFilters('toc', [
-    new TableOfContentsOutputFilter()
+    new TableOfContentsOutputFilter($horne)
 ]);
 
 $horne->setFilters('uppercase', [
-    new UppercaseOutputFilter()
+    new UppercaseOutputFilter($horne)
 ]);
 
 $horne->setFilters('kramdown', [
-    new KramdownOutputFilter()
+    new KramdownOutputFilter($horne)
 ]);
 
 $horne->setFilters('inigo', [
-    new InigoOutputFilter()
+    new InigoOutputFilter($horne)
 ]);
 
 $horne->setFilters('xml', [
-    new XmlOutputFilter()
+    new XmlOutputFilter($horne)
+]);
+
+$horne->setFilters('xmllegacy', [
+    new XmlLegacyOutputFilter($horne)
 ]);
 
 return $horne;

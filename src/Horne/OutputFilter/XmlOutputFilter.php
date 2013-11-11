@@ -2,12 +2,12 @@
 
 namespace Horne\OutputFilter;
 
-use Horne\OutputFilter\OutputFilterInterface;
+use Horne\MetaBag;
 use Kaloa\Renderer\Factory;
 
-class XmlOutputFilter implements OutputFilterInterface
+class XmlOutputFilter extends AbstractOutputFilter
 {
-    public function run($content)
+    public function run($content, MetaBag $mb)
     {
         $mp = Factory::createRenderer(null, 'xml');
 
