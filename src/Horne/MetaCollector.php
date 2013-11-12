@@ -101,7 +101,7 @@ class MetaCollector
                     $data['type'] = 'page';
                 }
 
-                if (!isset($data['layout']) && $data['type'] !== 'layout') {
+                if (!array_key_exists('layout', $data) && $data['type'] !== 'layout') {
                     $data['layout'] = 'horne-layout-page';
                 }
 
