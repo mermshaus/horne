@@ -353,6 +353,29 @@ class Application
             $module->hookProcessingBefore2();
         }
 
+        if (!array_key_exists('metaOverrides', $this->config)) {
+            $this->config['metaOverrides'] = [];
+        }
+
+        foreach ($this->config['metaOverrides'] as $id => $newData) {
+            $meta = $this->metas->getById($id);
+            $payload = $meta->getMetaPayload();
+
+            $newPath = $this->pathHelper->normalize(
+                $this->config['outputDir'] . $newData['path']
+            );
+
+            if (0 !== strpos($newPath, $this->config['outputDir'])) {
+                throw new HorneException('Path ' . $path . ' not in $outputDir');
+            }
+
+            $meta->setDestPath($newPath);
+
+            $payload['path'] = $newData['path'];
+            $payload['slug'] = $newData['slug'];
+            $meta->setMetaPayload($payload);
+        }
+
         // Processing starts here
 
         foreach ($this->metas->getAll() as $m) {

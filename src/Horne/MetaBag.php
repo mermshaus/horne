@@ -15,6 +15,11 @@ class MetaBag
         $this->metaPayload = $metaPayload;
     }
 
+    public function setDestPath($newPath)
+    {
+        $this->destPath = $newPath;
+    }
+
     public function getSourcePath()
     {
         return $this->sourcePath;
@@ -28,6 +33,11 @@ class MetaBag
     public function getMetaPayload()
     {
         return $this->metaPayload;
+    }
+
+    public function setMetaPayload(array $data)
+    {
+        $this->metaPayload = $data;
     }
 
     public function getType()
