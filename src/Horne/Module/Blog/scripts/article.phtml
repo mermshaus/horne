@@ -10,22 +10,22 @@ $m = $vars['meta'];
 
 <?php if ($this->getSetting('blog.showInfoline')) : ?>
 <p class="horne-blog-infoline">
-Geschrieben
+Written
 
 <?php if (
     $this->getSetting('blog.showAuthor')
     && isset($m['author'])
 ) : ?>
-    von <?=$this->e($m['author']);?>
+    by <?=$this->e($m['author']);?>
 <?php endif; ?>
-    am <?=$this->e($this->datef($m['date_created']))?>.
+    on <?=$this->e($this->datef($m['date_created']))?>.
 
     <?php if (
         $this->getSetting('blog.useTags')
         && isset($m['tags'])
         && count($m['tags']) > 0
     ) : ?>
-        Getaggt mit:
+        Tags:
         <?php $sep = ''; ?>
         <?php foreach ($m['tags'] as $tag) : ?>
             <?=$sep?><a href="<?=$this->e($this->url('horne-blog-tag-' . $tag))?>"><?=$this->e($tag)?></a>

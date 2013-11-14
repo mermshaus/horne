@@ -1,5 +1,10 @@
 <?php
 
+$amonths = [
+    1 => 'January', 2 =>'February', 3 => 'March', 4 => 'April', 5 => 'May', 6 =>'June', 7 => 'July',
+    8 => 'August', 9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December'
+];
+
 $articles = $this->getMetasByType('article');
 
 $grouped = [];
@@ -32,14 +37,17 @@ unset($months);
 
 ?>
 
+<div class="horne-blog-archive-index">
+
 <?php if (count($grouped) === 0) : ?>
     <p>No articles.</p>
 <?php endif; ?>
 
 <?php foreach ($grouped as $year => $articlesInYear) : ?>
-<h2><?=$this->e($year)?></h2>
     <?php foreach ($articlesInYear as $month => $articlesInMonth) : ?>
-        <h3><?=$this->e($month)?></h3>
+        <h2><?=$this->e($amonths[$month])?> <?=$this->e($year)?></h2>
         <?=$this->render('horne-blog-sub-article-list', ['articles' => $articlesInMonth])?>
     <?php endforeach; ?>
 <?php endforeach; ?>
+
+</div>

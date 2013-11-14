@@ -127,7 +127,7 @@ class Application
     {
         $dt = DateTime::createFromFormat('Y-m-d H:i:s', $date, new DateTimeZone('UTC'));
 
-        return $dt->format('j. M Y');
+        return $dt->format('j M Y');
     }
 
     /**

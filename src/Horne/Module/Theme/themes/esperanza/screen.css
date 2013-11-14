@@ -46,8 +46,7 @@ a:hover {
     font-style: italic;
 }
 
-p {
-    text-align: justify;
+p, li, dd, dt {
     line-height: 150%;
 }
 
@@ -140,4 +139,11 @@ ul.horne-system-navigation {
     display: inline;
     margin: 0;
     padding: 5px;
+}
+
+
+
+
+.horne-blog-archive-index li {
+    list-style: none;
 }

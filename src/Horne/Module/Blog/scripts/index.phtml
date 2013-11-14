@@ -2,13 +2,13 @@
 $blog = $this->getModule('blog');
 ?>
 
-<h2>Artikel</h2>
+<h2>Recent entries</h2>
 
 <?php $articles = $this->getMetasByType('article', ['date_created' => 'desc'], 5); ?>
 
 <?php if (count($articles) === 0) : ?>
 
-    <p>Es sind keine Artikel vorhanden.</p>
+    <p>No entries.</p>
 
 <?php else : ?>
 
@@ -22,7 +22,7 @@ $blog = $this->getModule('blog');
     <?php $tags = $blog->getAllTags(); ?>
 
     <?php if (count($tags) === 0) : ?>
-        <p>Keine Tags vorhanden.</p>
+        <p>No tags.</p>
     <?php else : ?>
         <ul>
         <?php foreach ($blog->getAllTags() as $tag => $amount) : ?>
