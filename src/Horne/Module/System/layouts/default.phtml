@@ -53,12 +53,15 @@ foreach ($this->getMetasByType('page') as $meta) {
 
     <?=$vars['content']?>
 
+
+<?php if ($this->getSetting('system.showFooter')) : ?>
     <div class="footer">
         <p>
             Page generated at <?=$this->e(date('Y-m-d H:i:s'))?> UTC.
             <a href="http://validator.w3.org/check/referer">Validate</a>
         </p>
     </div>
+<?php endif; ?>
 
     <?=$this->render('horne-system-html-foot')?>
 </body>
