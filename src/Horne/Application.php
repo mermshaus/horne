@@ -393,10 +393,17 @@ class Application
                 default:
                     // Adjust path to root
                     $this->pathToRoot = '.';
-                    $tmp = substr($m->getDestPath(), strlen($json['outputDir']) + 1);
+                    #$tmp = substr($m->getDestPath(), strlen($json['outputDir']) + 1);
+
+                    $payload = $m->getMetaPayload();
+                    $key = 'path';
+                    if (isset($payload['slug'])) {
+                        $key = 'slug';
+                    }
+                    $tmp = ltrim($payload[$key], '/');
                     $amount = substr_count($tmp, '/');
                     if ($amount > 0) {
-                        $this->pathToRoot = str_repeat('../', $amount);
+                        $this->pathToRoot = rtrim(str_repeat('../', $amount), '/');
                     }
 
                     echo '[compile] ' . $m->getMetaPayload()['id'];
