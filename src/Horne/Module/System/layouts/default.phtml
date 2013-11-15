@@ -31,7 +31,29 @@ foreach ($this->getMetasByType('page') as $meta) {
     <meta charset="UTF-8" />
     <title><?=$this->e($title)?></title>
     <link href='<?=$this->getPathToRoot()?>/assets/screen.css' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+/*<![CDATA[*/
+$(function () {
+    $(document).keydown(function (event) {
+        switch (event.which) {
+            case 37:
+                var $tmp = $('#horne-system-navigation-previous');
+                if ($tmp.length > 0) {
+                    window.location = $tmp.attr('href');
+                }
+                break;
+            case 39:
+                var $tmp = $('#horne-system-navigation-next');
+                if ($tmp.length > 0) {
+                    window.location = $tmp.attr('href');
+                }
+                break;
+        }
+    });
+});
+/*]]>*/
+    </script>
     <?=$this->render('horne-system-html-head')?>
 </head>
 

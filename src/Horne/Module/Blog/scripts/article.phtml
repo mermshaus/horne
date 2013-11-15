@@ -1,6 +1,31 @@
 <?php
 
+namespace Horne;
+
+/* @var $this Application */
+
 $m = $vars['meta'];
+
+$next = null;
+$prev = null;
+
+$metas = $this->getMetasByType('article', ['date_created' => 'DESC']);
+
+for ($i = 0; $i < count($metas); $i++) {
+    $metaTest = $metas[$i];
+
+    if ($metaTest->getId() === $m['id']) {
+        break;
+    }
+}
+
+if ($i > 0) {
+    $prev = $metas[$i - 1];
+}
+
+if ($i < count($metas) - 1) {
+    $next = $metas[$i + 1];
+}
 
 ?>
 
@@ -39,5 +64,27 @@ Written
 
 
 <?=$vars['content']?>
+
+<?php if ($next !== null || $prev !== null) : ?>
+
+<div class="cf">
+
+<?php if ($prev !== null) : ?>
+<?php $article = $prev->getMetaPayload(); ?>
+<div style="float: left; width: 45%; text-align: left;">
+    <a id="horne-system-navigation-previous" accesskey="p" href="<?=$this->url($article['id'])?>">← <?=$this->e($article['title'])?></a>
+</div>
+<?php endif; ?>
+
+<?php if ($next !== null) : ?>
+<?php $article = $next->getMetaPayload(); ?>
+<div style="float: right; width: 45%; text-align: right;">
+    <a id="horne-system-navigation-next" accesskey="n" href="<?=$this->url($article['id'])?>"><?=$this->e($article['title'])?> →</a>
+</div>
+<?php endif; ?>
+
+</div>
+
+<?php endif; ?>
 
 </div>
