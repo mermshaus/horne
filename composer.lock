@@ -3,8 +3,24 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "ec42014f7eec9de8219a8edd6e4cd913",
+    "hash": "93312801d94c673e45d8588835acf894",
     "packages": [
+        {
+            "name": "geshi/geshi",
+            "version": "1.0.8",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/GeSHi/geshi-1.0/archive/c5329d9b39a3e07f2745d1f1dbb3d389657c01e7.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            }
+        },
         {
             "name": "kaloa/filesystem",
             "version": "dev-master",

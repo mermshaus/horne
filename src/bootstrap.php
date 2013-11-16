@@ -10,10 +10,6 @@ use Horne\OutputFilter\XmlOutputFilter;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-if (file_exists(__DIR__ . '/../vendor/geshi/geshi.php')) {
-    require_once __DIR__ . '/../vendor/geshi/geshi.php';
-}
-
 $horne = new Application();
 
 $horne->setFilters('toc', [
