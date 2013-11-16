@@ -103,10 +103,6 @@ p, li, dd, dt {
     line-height: 150%;
 }
 
-li {
-    margin: 1em 0;
-}
-
 dd {
     margin-bottom: 1em;
 }
@@ -192,7 +188,12 @@ td, th {
 }
 
 .horne-system-header h1 {
-    display: none;
+    /*display: none;*/
+    margin: 0;
+}
+
+.horne-system-header h1 a {
+    text-decoration: none;
 }
 
 .horne-system-navigation {
@@ -204,10 +205,11 @@ td, th {
 .horne-system-navigation ul {
     margin: 0;
     padding: 0;
+    text-align: center;
 }
 
 .horne-system-navigation li {
-    float: left;
+    display: inline-block;
     padding: 0;
     margin: 0;
     list-style: none;

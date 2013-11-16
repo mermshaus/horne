@@ -13,7 +13,7 @@ $getTitleById = function ($id) use ($horne) {
     return $title;
 };
 
-$menuIds = ['index'];
+$menuIds = [];
 
 $skip = ['index', 'horne-debug-debug'];
 
@@ -67,7 +67,7 @@ $(function () {
 
     <div class="horne-system-header">
 
-    <h1><?=$this->e($this->getSetting('system.siteTitle'))?></h1>
+        <h1><a href="<?=$this->e($this->url('index'))?>"><?=$this->e($this->getSetting('system.siteTitle'))?></a></h1>
 
     <?php if (count($menuIds) > 0) : ?>
     <div class="horne-system-navigation">
