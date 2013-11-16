@@ -23,6 +23,12 @@ foreach ($this->getMetasByType('page') as $meta) {
     }
 }
 
+$bodyClass = '';
+
+if ($m['id'] === 'index') {
+    $bodyClass = ' class="index"';
+}
+
 ?><!DOCTYPE html>
 
 <html lang="en">
@@ -57,23 +63,29 @@ $(function () {
     <?=$this->render('horne-system-html-head')?>
 </head>
 
-<body>
+<body<?=$bodyClass?>>
 
     <div class="horne-system-header">
 
     <h1><?=$this->e($this->getSetting('system.siteTitle'))?></h1>
 
     <?php if (count($menuIds) > 0) : ?>
-    <ul class="horne-system-navigation">
+    <div class="horne-system-navigation">
+    <ul class="cf">
     <?php foreach ($menuIds as $id) : ?>
         <li><a href="<?=$this->e($this->url($id))?>"><?=$this->e($getTitleById($id))?></a></li>
     <?php endforeach; ?>
     </ul>
+    </div>
     <?php endif; ?>
 
     </div>
 
+    <div class="horne-system-content">
+
     <?=$vars['content']?>
+
+    </div>
 
 
 <?php if ($this->getSetting('system.showFooter')) : ?>

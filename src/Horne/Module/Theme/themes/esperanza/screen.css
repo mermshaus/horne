@@ -56,13 +56,12 @@
 }
 
 body {
-    padding: 0 1em 3em 1em;
-    max-width: 38em;
-    margin: 0 auto;
+    margin: 0;
+    padding: 0;
     font-family: Lora, Georgia, serif;
-    font-size: 18px;
-    color: #333;
-    background: #f6f6f6;
+    font-size: 20px;
+    color: #111;
+    background: #fdfdfd;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -71,8 +70,8 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: normal;
 }
 
-h1 { font-size: 54px; }
-h2 { font-size: 36px; }
+h1 { font-size: 40px; }
+h2 { font-size: 35px; }
 h3 { font-size: 30px; }
 h4 { font-size: 24px; }
 h5 { font-size: 22px; }
@@ -83,18 +82,16 @@ h1 {
 }
 
 img {
-    border: 5px solid #333;
     margin: 0 auto;
     display: block;
 }
 
 a {
-    color: #08c;
-    text-decoration: none;
+    color: #111;
 }
 
 a:hover {
-    text-decoration: underline;
+    color: #c00;
 }
 
 .date {
@@ -106,29 +103,37 @@ p, li, dd, dt {
     line-height: 150%;
 }
 
+li {
+    margin: 1em 0;
+}
+
+dd {
+    margin-bottom: 1em;
+}
+
 pre {
     line-height: 130%;
 }
 
 pre {
     font-family: monospace;
-    border: 5px solid #eee;
-    padding: 0.5em;
+    padding: 1em;
+    background: #444;
+    color: #fff;
+    border-radius: 1em;
 }
 
 blockquote {
-    border-left: 5px solid #eee;
-    padding-left: 0.5em;
-    margin-left: 2em;
-    font-size: 18px;
+    margin: 0 4em;
+    font-style: italic;
 }
 
 pre, code {
-    font-size: 13px;
+    font-size: 14px;
 }
 
 code {
-    background: #222;
+    background: #eee;
 }
 
 pre code {
@@ -182,28 +187,59 @@ td, th {
 
 
 .horne-system-header {
-    font-size: 70%;
-    padding-bottom: 50px;
+    margin-bottom: 50px;
+    background: #fdfdfd;
 }
 
 .horne-system-header h1 {
     display: none;
 }
 
-ul.horne-system-navigation {
+.horne-system-navigation {
+    max-width: 34em;
+    padding: 0 1em;
+    margin: 0 auto;
+}
+
+.horne-system-navigation ul {
     margin: 0;
     padding: 0;
 }
 
 .horne-system-navigation li {
-    display: inline;
+    float: left;
+    padding: 0;
     margin: 0;
-    padding: 5px;
+    list-style: none;
 }
 
+.horne-system-navigation li a {
+    display: block;
+    margin: 0;
+    padding: 10px;
+}
+
+.horne-system-content {
+    max-width: 34em;
+    margin: 0 auto;
+    padding: 0 1em 3em 1em;
+}
 
 
 
 .horne-blog-archive-index li {
     list-style: none;
+}
+
+
+
+body.index .horne-system-content {
+    max-width: none;
+    margin: 0;
+    background: #fdfdfd;
+    color: #111;
+    width: 100%;
+    padding: 0;
+    position: absolute;
+    bottom: 0;
 }
