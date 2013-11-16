@@ -72,14 +72,14 @@ Written
 <?php if ($prev !== null) : ?>
 <?php $article = $prev->getMetaPayload(); ?>
 <div style="float: left; width: 45%; text-align: left;">
-    <a id="horne-system-navigation-previous" accesskey="p" href="<?=$this->url($article['id'])?>">← <?=$this->e($article['title'])?></a>
+    <a id="horne-system-navigation-previous" href="<?=$this->url($article['id'])?>">← <?=$this->e($article['title'])?></a>
 </div>
 <?php endif; ?>
 
 <?php if ($next !== null) : ?>
 <?php $article = $next->getMetaPayload(); ?>
 <div style="float: right; width: 45%; text-align: right;">
-    <a id="horne-system-navigation-next" accesskey="n" href="<?=$this->url($article['id'])?>"><?=$this->e($article['title'])?> →</a>
+    <a id="horne-system-navigation-next" href="<?=$this->url($article['id'])?>"><?=$this->e($article['title'])?> →</a>
 </div>
 <?php endif; ?>
 
