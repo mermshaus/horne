@@ -382,7 +382,19 @@ class Application
 
         // Processing starts here
 
-        foreach ($this->metas->getAll() as $m) {
+        $metas = $this->metas->getAll();
+
+        // Sort metas by type and id
+
+        usort($metas, function ($a, $b) {
+            if ($a->getType() !== $b->getType()) {
+                return strcmp($a->getType(), $b->getType());
+            }
+
+            return strcmp($a->getId(), $b->getId());
+        });
+
+        foreach ($metas as $m) {
             $type = $m->getType();
 
             switch (true) {
@@ -397,7 +409,6 @@ class Application
                 default:
                     // Adjust path to root
                     $this->pathToRoot = '.';
-                    #$tmp = substr($m->getDestPath(), strlen($json['outputDir']) + 1);
 
                     $payload = $m->getMetaPayload();
                     $key = 'path';
@@ -410,8 +421,10 @@ class Application
                         $this->pathToRoot = rtrim(str_repeat('../', $amount), '/');
                     }
 
+                    $tmp2 = substr($m->getDestPath(), strlen($json['outputDir']) + 1);
+
                     echo '[compile] ' . $m->getMetaPayload()['id'];
-                    echo ' -> ' . $tmp . "\n";
+                    echo ' -> ' . $tmp2 . "\n";
 
                     $renderedOutput = $this->buildOneContentFile($m);
 
@@ -420,7 +433,7 @@ class Application
                     }
 
                     file_put_contents($m->getDestPath(), $renderedOutput);
-                    
+
                     if ($json['generateGzipHtml']) {
                         file_put_contents($m->getDestPath() . 'gz', gzencode($renderedOutput, 9));
                     }
