@@ -15,7 +15,7 @@ $getTitleById = function ($id) use ($horne) {
 
 $menuIds = [];
 
-$skip = ['index', 'horne-debug-debug'];
+$skip = ['index', 'horne-debug-debug', 'horne-blog-archive-index'];
 
 foreach ($this->getMetasByType('page') as $meta) {
     if (!in_array($meta->getId(), $skip)) {
