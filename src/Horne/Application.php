@@ -325,6 +325,10 @@ class Application
         }
         unset($path);
 
+        if (!array_key_exists('generateGzipHtml', $json)) {
+            $json['generateGzipHtml'] = false;
+        }
+
         $this->config = $json;
 
         foreach (array_keys($json['modules']) as $key) {
@@ -416,6 +420,10 @@ class Application
                     }
 
                     file_put_contents($m->getDestPath(), $renderedOutput);
+                    
+                    if ($json['generateGzipHtml']) {
+                        file_put_contents($m->getDestPath() . 'gz', gzencode($renderedOutput, 9));
+                    }
                     break;
             }
         }
