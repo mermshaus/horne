@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "93312801d94c673e45d8588835acf894",
+    "hash": "3dcbcb0812237c44894cc7fdb7df670c",
     "packages": [
         {
             "name": "geshi/geshi",
@@ -103,6 +103,39 @@
                 "renderer"
             ],
             "time": "2012-09-03 10:37:01"
+        },
+        {
+            "name": "rkr/recursive-array-accessor",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rkrx/php-recursive-array-access.git",
+                "reference": "4eb97588172d9b196c719ad6c8fb5f8f98c1b70a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rkrx/php-recursive-array-access/zipball/4eb97588172d9b196c719ad6c8fb5f8f98c1b70a",
+                "reference": "4eb97588172d9b196c719ad6c8fb5f8f98c1b70a",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Kir\\Data\\Arrays": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "R. Kirschler",
+                    "email": "ron.kirschler@gmail.com"
+                }
+            ],
+            "description": "Access recursive arrays through an easy interface",
+            "time": "2013-11-18 13:03:40"
         }
     ],
     "packages-dev": [

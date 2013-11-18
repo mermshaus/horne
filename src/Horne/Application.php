@@ -8,6 +8,7 @@ use GeSHi;
 use Horne\Module\ModuleInterface;
 use Horne\OutputFilter\OutputFilterInterface;
 use Kaloa\Filesystem\PathHelper;
+use Kir\Data\Arrays\RecursiveAccessor;
 
 /**
  *
@@ -468,14 +469,26 @@ class Application
     }
 
     /**
+     * Returns a config setting by dot-separated key
      *
      * @param string $key
      * @return mixed
      */
     public function getSetting($key)
     {
+        $accessor = new RecursiveAccessor($this->config, '.', '\\');
+
         $parts = explode('.', $key);
 
-        return $this->config['modules'][$parts[0]][$parts[1]];
+        // This means: "blog.setting" will be expanded to "modules.blog.setting"
+        // if "blog" is a key in "modules"
+        if (
+            count($parts) > 1
+            && array_key_exists($parts[0], $this->config['modules'])
+        ) {
+            array_unshift($parts, 'modules');
+        }
+
+        return $accessor->get($parts, null);
     }
 }
