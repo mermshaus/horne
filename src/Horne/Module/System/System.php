@@ -50,5 +50,14 @@ class System extends AbstractModule
                 'type'   => '_script'
             ]
         ));
+
+        $app->metas->add(new MetaBag(
+            __DIR__ . '/assets/jquery-1.10.2.min.js',
+            $app->config['outputDir'] . '/assets/jquery-1.10.2.min.js',
+            [
+                'id'     => 'jquery',
+                'type'   => 'asset'
+            ]
+        ));
     }
 }
