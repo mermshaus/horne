@@ -162,26 +162,6 @@ td, th {
     text-align: center;
 }
 
-.co1 {
-    color: #7f9f7f;
-    font-style: italic;
-}
-.st_h {
-    color: #cc9393;
-}
-
-.kw2 {
-    color: #f0dfaf;
-    font-weight: bold;
-}
-
-.kw3 {
-    color: #efef8f;
-}
-.re0 {
-    color: #efdcbc;
-}
-
 
 .horne-system-header {
     margin-bottom: 50px;
@@ -238,3 +218,72 @@ td, th {
 .horne-blog-archive-index li {
     list-style: none;
 }
+
+
+
+/**
+ * Zenburn for GeSHi
+ */
+
+pre {
+    color: #dcdccc;
+    background: #3f3f3f;
+}
+
+/* Brackets */
+.br0  {} /* Symbols [ ( { } ) ] */
+
+/* comments */
+.co0  { color: #7f9f7f;                     } /* "#" style comments */
+.co1  { color: #7f9f7f; font-style: italic; }
+.co2  {}
+.co3  {}
+.co4  { color: #7f9f7f;                     } /* / * * / style comments */
+.coMULTI { color: #7f9f7f;                  } /* multiline comments */
+
+/* default text (without any code highlighting) */
+.de1  {}
+.de2  {}
+
+/* Escaped characters */
+.es0  {}
+.es1  {}
+.es2  {}
+.es3  {}
+.es4  {}
+.es5  {}
+.es6  {}
+.es_h {}
+
+/* keywords */
+.kw1  { color: #f0dfaf; font-weight: bold; } /* Key Words I (if, do, while, etc.) */
+.kw2  { color: #f0dfaf; font-weight: bold; } /* Key Words II (null, true, false, etc.) */
+.kw3  {  } /* Built-in Functions (array())*/
+.kw4  { color: #f0dfaf; font-weight: bold; } /* Data Types (int, bool, etc) / false in PHP */
+
+/* line highlights */
+.li1 {}
+
+/* Numbers */
+.nu0  { color: #8cd0d3; }
+.nu8  {}
+.nu12 {}
+.nu19 {}
+
+/* Methods */
+.me1  {}
+.me2  {}
+
+/* Vars */
+.re0  { color: #ffcfaf;                    } /* Variables */
+.re5  {}
+
+.sc0  {}
+
+/* strings */
+.st0  { color: #cc9393                      } /* "\"" style strings */
+.st_h { color: #cc9393;                     } /* "'" style strings */
+
+/* symbol */
+.sy0  {}
+.sy1  {}
