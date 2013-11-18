@@ -8,6 +8,7 @@ use GeSHi;
 use Horne\Module\ModuleInterface;
 use Horne\OutputFilter\OutputFilterInterface;
 use Kaloa\Filesystem\PathHelper;
+use Kaloa\Renderer\SyntaxHighlighter;
 use Kir\Data\Arrays\RecursiveAccessor;
 
 /**
@@ -53,12 +54,34 @@ class Application
 
     /**
      *
+     * @var SyntaxHighlighter
+     */
+    protected $syntaxHighlighter = null;
+
+    /**
+     *
      */
     public function __construct()
     {
         $this->pathHelper = new PathHelper();
         $this->filters = array();
+        $this->syntaxHighlighter = new SyntaxHighlighter();
     }
+
+    /**
+     *
+     * @return SyntaxHighlighter
+     */
+    public function getSyntaxHighlighter()
+    {
+        return $this->syntaxHighlighter;
+    }
+
+    public function setSyntaxHighlighter(SyntaxHighlighter $syntaxHighlighter)
+    {
+        $this->syntaxHighlighter = $syntaxHighlighter;
+    }
+
 
     /**
      *
@@ -453,17 +476,7 @@ class Application
      */
     protected function syntax($source, $lang)
     {
-        $html = '';
-
-        if (class_exists('\\GeSHi')) {
-            $geshi = new GeSHi(ltrim(rtrim($source), "\r\n"), $lang);
-            $geshi->enable_classes();
-            $geshi->enable_keyword_links(false);
-
-            $html = $geshi->parse_code();
-        } else {
-            $html = '<pre>' . $this->e($source) . '</pre>';
-        }
+        $html = $this->syntaxHighlighter->highlight($source, $lang);
 
         return $html;
     }

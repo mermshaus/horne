@@ -1,6 +1,7 @@
 <?php
 
 use Horne\Application;
+use Horne\GeSHiSyntaxHighlighter;
 use Horne\OutputFilter\InigoOutputFilter;
 use Horne\OutputFilter\KramdownOutputFilter;
 use Horne\OutputFilter\TableOfContentsOutputFilter;
@@ -11,6 +12,8 @@ use Horne\OutputFilter\XmlOutputFilter;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $horne = new Application();
+
+$horne->setSyntaxHighlighter(new GeSHiSyntaxHighlighter());
 
 $horne->setFilters('toc', [
     new TableOfContentsOutputFilter($horne)

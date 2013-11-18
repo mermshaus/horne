@@ -237,7 +237,7 @@ pre {
 .co0  { color: #7f9f7f;                     } /* "#" style comments */
 .co1  { color: #7f9f7f; font-style: italic; }
 .co2  {}
-.co3  {}
+.co3  {}                                      /* EOT blocks */
 .co4  { color: #7f9f7f;                     } /* / * * / style comments */
 .coMULTI { color: #7f9f7f;                  } /* multiline comments */
 
@@ -276,6 +276,8 @@ pre {
 
 /* Vars */
 .re0  { color: #ffcfaf;                    } /* Variables */
+.re1  {} /* xml tag open */
+.re2  {} /* xml tag close */
 .re5  {}
 
 .sc0  {}
@@ -286,4 +288,4 @@ pre {
 
 /* symbol */
 .sy0  {}
-.sy1  {}
+.sy1  {}                                      /* ?> php closing tag */

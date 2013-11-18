@@ -68,12 +68,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mermshaus/kaloa-renderer.git",
-                "reference": "1bee540285a0d3f14ba5e9f27458415d45098bf0"
+                "reference": "c77a42b14016109720cb91e5c92ecc4c5d96b1a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mermshaus/kaloa-renderer/zipball/1bee540285a0d3f14ba5e9f27458415d45098bf0",
-                "reference": "1bee540285a0d3f14ba5e9f27458415d45098bf0",
+                "url": "https://api.github.com/repos/mermshaus/kaloa-renderer/zipball/c77a42b14016109720cb91e5c92ecc4c5d96b1a3",
+                "reference": "c77a42b14016109720cb91e5c92ecc4c5d96b1a3",
                 "shasum": ""
             },
             "require": {
@@ -102,20 +102,20 @@
                 "output",
                 "renderer"
             ],
-            "time": "2012-09-03 10:37:01"
+            "time": "2013-11-18 18:55:43"
         },
         {
             "name": "rkr/recursive-array-accessor",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rkrx/php-recursive-array-access.git",
-                "reference": "4eb97588172d9b196c719ad6c8fb5f8f98c1b70a"
+                "reference": "d95ae0b09d9d37ab6c70bec1bbc96f846b5d1089"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rkrx/php-recursive-array-access/zipball/4eb97588172d9b196c719ad6c8fb5f8f98c1b70a",
-                "reference": "4eb97588172d9b196c719ad6c8fb5f8f98c1b70a",
+                "url": "https://api.github.com/repos/rkrx/php-recursive-array-access/zipball/d95ae0b09d9d37ab6c70bec1bbc96f846b5d1089",
+                "reference": "d95ae0b09d9d37ab6c70bec1bbc96f846b5d1089",
                 "shasum": ""
             },
             "require-dev": {
@@ -135,7 +135,7 @@
                 }
             ],
             "description": "Access recursive arrays through an easy interface",
-            "time": "2013-11-18 13:03:40"
+            "time": "2013-11-18 17:01:57"
         }
     ],
     "packages-dev": [

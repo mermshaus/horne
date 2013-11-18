@@ -22,6 +22,7 @@ class XmlLegacyOutputFilter extends AbstractOutputFilter
             $config->setResourceBasePath($dataRoot . '/'
                     . $dt->format(('Y')) . '/'
                     . $dt->format(('m')));
+            $config->setSyntaxHighlighter($this->application->getSyntaxHighlighter());
         }
 
         $mp = Factory::createRenderer($config, 'xmllegacy');
