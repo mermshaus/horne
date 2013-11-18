@@ -265,7 +265,7 @@ class Application
             }
 
             foreach ($m['tags'] as $tag) {
-                if ($tag === $type) {
+                if ((string)$tag === (string)$type) {
                     $metas[] = $meta;
                     continue 2;
                 }
