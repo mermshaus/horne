@@ -82,6 +82,13 @@ class Blog extends AbstractModule
     {
         $app = $this->application;
 
+        $tagsPathTemplate = $app->getSetting('blog.tagsPathTemplate');
+        $tagsSlugTemplate = $app->getSetting('blog.tagsSlugTemplate');
+
+        if ($tagsPathTemplate === null) {
+            $tagsPathTemplate = '/blog/tags/%s.html';
+        }
+
         // horne-blog-tag-*
 
         if ($app->getSetting('blog.useTags')) {
@@ -93,9 +100,13 @@ class Blog extends AbstractModule
                     'title'  => 'All entries tagged with ' . $tag,
                     'type'   => 'page-tag',
                     'layout' => 'horne-layout-page-tag',
-                    'path'   => '/blog/tags/' . $tag . '.html',
+                    'path'   => sprintf($tagsPathTemplate, $tag),
                     'tag'    => $tag
                 );
+
+                if ($tagsSlugTemplate !== null) {
+                    $pseudoMeta['slug'] = sprintf($tagsSlugTemplate, $tag);
+                }
 
                 $app->metas->add(new MetaBag(
                     '',
