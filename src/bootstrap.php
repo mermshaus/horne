@@ -1,6 +1,7 @@
 <?php
 
 use Horne\Application;
+use Horne\GeSHiRepository;
 use Horne\GeSHiSyntaxHighlighter;
 use Horne\OutputFilter\InigoOutputFilter;
 use Horne\OutputFilter\KramdownOutputFilter;
@@ -13,7 +14,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $horne = new Application();
 
-$horne->setSyntaxHighlighter(new GeSHiSyntaxHighlighter());
+$horne->setSyntaxHighlighter(new GeSHiSyntaxHighlighter(new GeSHiRepository()));
 
 $horne->setFilters('toc', [
     new TableOfContentsOutputFilter($horne)
