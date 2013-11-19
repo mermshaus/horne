@@ -4,7 +4,6 @@ namespace Horne;
 
 use DateTime;
 use DateTimeZone;
-use GeSHi;
 use Horne\Module\ModuleInterface;
 use Horne\OutputFilter\OutputFilterInterface;
 use Kaloa\Filesystem\PathHelper;
