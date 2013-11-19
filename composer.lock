@@ -68,12 +68,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mermshaus/kaloa-renderer.git",
-                "reference": "c77a42b14016109720cb91e5c92ecc4c5d96b1a3"
+                "reference": "d7dcbaa40258a8675f44cc9e9ce8e83f0a8b2a4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mermshaus/kaloa-renderer/zipball/c77a42b14016109720cb91e5c92ecc4c5d96b1a3",
-                "reference": "c77a42b14016109720cb91e5c92ecc4c5d96b1a3",
+                "url": "https://api.github.com/repos/mermshaus/kaloa-renderer/zipball/d7dcbaa40258a8675f44cc9e9ce8e83f0a8b2a4a",
+                "reference": "d7dcbaa40258a8675f44cc9e9ce8e83f0a8b2a4a",
                 "shasum": ""
             },
             "require": {
@@ -102,7 +102,7 @@
                 "output",
                 "renderer"
             ],
-            "time": "2013-11-18 18:55:43"
+            "time": "2013-11-18 21:02:12"
         },
         {
             "name": "rkr/recursive-array-accessor",
