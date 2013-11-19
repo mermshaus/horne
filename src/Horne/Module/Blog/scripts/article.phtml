@@ -13,13 +13,14 @@ $metas = $this->getMetasByType('article', ['date_created' => 'DESC']);
 
 $indexOfMyself = 0;
 
-for ($i = 0; $i < count($metas); $i++) {
-    $metaTest = $metas[$i];
+$i = 0;
 
-    if ($metaTest->getId() === $m['id']) {
+foreach ($metas as $tmp) {
+    if ($tmp->getId() === $m['id']) {
         $indexOfMyself = $i + 1;
         break;
     }
+    $i++;
 }
 
 if ($i > 0) {

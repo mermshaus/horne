@@ -273,30 +273,32 @@ class Application
         return $this->metas->getByType($type, $order, $limitCount, $limitOffset);
     }
 
+    protected $cacheGetMetasByTag = [];
+
     /**
      *
-     * @param string $type
+     * @param string $tag
      * @return array
      */
-    protected function getMetasByTag($type)
+    protected function getMetasByTag($tag)
     {
-        $metas = array();
+        if (count($this->cacheGetMetasByTag) === 0) {
+            foreach ($this->metas->getAll() as $meta) {
+                $m = $meta->getMetaPayload();
+                if (!isset($m['tags'])) {
+                    continue;
+                }
 
-        foreach ($this->metas->getAll() as $meta) {
-            $m = $meta->getMetaPayload();
-            if (!isset($m['tags'])) {
-                continue;
-            }
-
-            foreach ($m['tags'] as $tag) {
-                if ((string)$tag === (string)$type) {
-                    $metas[] = $meta;
-                    continue 2;
+                foreach ($m['tags'] as $tag2) {
+                    if (!array_key_exists($tag2, $this->cacheGetMetasByTag)) {
+                        $this->cacheGetMetasByTag[$tag2] = [];
+                    }
+                    $this->cacheGetMetasByTag[$tag2][] = $meta;
                 }
             }
         }
 
-        return $metas;
+        return $this->cacheGetMetasByTag[$tag];
     }
 
     /**
