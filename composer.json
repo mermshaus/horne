@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php":                          ">=5.5",
+        "php":                          ">=5.4",
         "geshi/geshi":                  "1.0.*",
         "kaloa/filesystem":             "dev-master",
         "kaloa/renderer":               "dev-master",

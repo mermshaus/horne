@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "3dcbcb0812237c44894cc7fdb7df670c",
+    "hash": "309896163c4ddd81e05b7e964901281d",
     "packages": [
         {
             "name": "geshi/geshi",
@@ -150,7 +150,7 @@
         "kaloa/renderer": 20
     },
     "platform": {
-        "php": ">=5.5"
+        "php": ">=5.4"
     },
     "platform-dev": [
 

@@ -4,7 +4,7 @@ $blog = $this->getModule('blog');
 
 <h2>Recent entries</h2>
 
-<?php $articles = $this->getMetasByType('article', ['date_created' => 'desc'], 5); ?>
+<?php $articles = $this->getMetasByType('article', array('date_created' => 'desc'), 5); ?>
 
 <?php if (count($articles) === 0) : ?>
 
@@ -12,7 +12,7 @@ $blog = $this->getModule('blog');
 
 <?php else : ?>
 
-    <?=$this->render('horne-blog-sub-article-list', ['articles' => $articles])?>
+    <?=$this->render('horne-blog-sub-article-list', array('articles' => $articles))?>
 
     <p><a href="<?=$this->e($this->url('horne-blog-archive-index'))?>">Archive</a></p>
 

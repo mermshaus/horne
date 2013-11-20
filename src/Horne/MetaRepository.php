@@ -70,7 +70,7 @@ class MetaRepository
      */
     public function getByType($type, array $order = array(), $limitCount = -1, $limitOffset = 0)
     {
-        $hashParts = [];
+        $hashParts = array();
         $hashParts[] = $type;
 
         if (count($order) !== 0) {

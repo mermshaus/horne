@@ -13,11 +13,11 @@ class Theme extends AbstractModule
         $mb = new \Horne\MetaBag(
             __DIR__ . '/themes/' . $theme . '/screen.css',
             $this->application->config['outputDir'] . '/assets/screen.css',
-            [
+            array(
                 'id'   => '/assets/screen.css',
                 'type' => 'asset',
                 'path' => '/assets/screen.css'
-            ]
+            )
         );
 
         $this->application->metas->add($mb);

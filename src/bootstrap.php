@@ -16,28 +16,28 @@ $horne = new Application();
 
 $horne->setSyntaxHighlighter(new GeSHiSyntaxHighlighter(new GeSHiRepository()));
 
-$horne->setFilters('toc', [
+$horne->setFilters('toc', array(
     new TableOfContentsOutputFilter($horne)
-]);
+));
 
-$horne->setFilters('uppercase', [
+$horne->setFilters('uppercase', array(
     new UppercaseOutputFilter($horne)
-]);
+));
 
-$horne->setFilters('kramdown', [
+$horne->setFilters('kramdown', array(
     new KramdownOutputFilter($horne)
-]);
+));
 
-$horne->setFilters('inigo', [
+$horne->setFilters('inigo', array(
     new InigoOutputFilter($horne)
-]);
+));
 
-$horne->setFilters('xml', [
+$horne->setFilters('xml', array(
     new XmlOutputFilter($horne)
-]);
+));
 
-$horne->setFilters('xmllegacy', [
+$horne->setFilters('xmllegacy', array(
     new XmlLegacyOutputFilter($horne)
-]);
+));
 
 return $horne;

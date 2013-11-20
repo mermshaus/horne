@@ -8,4 +8,4 @@ $metas = $this->getMetasByTag($m['tag']);
 
 <h1>All entries tagged with <?=$this->e($m['tag'])?></h1>
 
-<?=$this->render('horne-blog-sub-article-list', ['articles' => $metas])?>
+<?=$this->render('horne-blog-sub-article-list', array('articles' => $metas))?>

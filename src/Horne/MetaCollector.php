@@ -81,7 +81,7 @@ class MetaCollector
         $fileExtension = strtolower(pathinfo($o['path'], PATHINFO_EXTENSION));
 
         switch (true) {
-            case in_array($fileExtension, ['md', 'phtml']):
+            case in_array($fileExtension, array('md', 'phtml')):
                 $data = $this->getJsonMetaDataFromFile($o['path']);
 
                 if (!isset($data['path'])) {
@@ -159,7 +159,7 @@ class MetaCollector
     {
         $this->metaRepository = $mr;
 
-        $objects = [];
+        $objects = array();
 
         $bla2 = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->sourceDir));
         foreach ($bla2 as $file) {

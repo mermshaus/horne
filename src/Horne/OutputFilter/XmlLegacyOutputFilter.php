@@ -14,7 +14,8 @@ class XmlLegacyOutputFilter extends AbstractOutputFilter
         $config = null;
 
         if ($mb->getType() === 'article') {
-            $dt = DateTime::createFromFormat('Y-m-d H:i:s', $mb->getMetaPayload()['date_created']);
+            $tmp = $mb->getMetaPayload();
+            $dt = DateTime::createFromFormat('Y-m-d H:i:s', $tmp['date_created']);
 
             $dataRoot = $this->application->getPathToRoot() . '/data/blog';
 

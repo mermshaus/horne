@@ -272,7 +272,7 @@ class Application
         return $this->metas->getByType($type, $order, $limitCount, $limitOffset);
     }
 
-    protected $cacheGetMetasByTag = [];
+    protected $cacheGetMetasByTag = array();
 
     /**
      *
@@ -290,7 +290,7 @@ class Application
 
                 foreach ($m['tags'] as $tag2) {
                     if (!array_key_exists($tag2, $this->cacheGetMetasByTag)) {
-                        $this->cacheGetMetasByTag[$tag2] = [];
+                        $this->cacheGetMetasByTag[$tag2] = array();
                     }
                     $this->cacheGetMetasByTag[$tag2][] = $meta;
                 }
@@ -368,11 +368,12 @@ class Application
             $module->hookProcessingBefore();
         }
 
-        (new MetaCollector(
+        $tmp = new MetaCollector(
             $this->pathHelper,
             $json['sourceDir'],
-            $json['outputDir'])
-        )->gatherMetas(
+            $json['outputDir']);
+
+        $tmp->gatherMetas(
             $this->metas,
             $json['excludePaths']
         );
@@ -383,7 +384,7 @@ class Application
         }
 
         if (!array_key_exists('metaOverrides', $this->config)) {
-            $this->config['metaOverrides'] = [];
+            $this->config['metaOverrides'] = array();
         }
 
         foreach ($this->config['metaOverrides'] as $id => $newData) {

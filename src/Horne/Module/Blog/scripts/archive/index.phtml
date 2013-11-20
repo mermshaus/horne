@@ -1,16 +1,17 @@
 <?php
 
-$amonths = [
+$amonths = array(
     1 => 'January', 2 =>'February', 3 => 'March', 4 => 'April', 5 => 'May', 6 =>'June', 7 => 'July',
     8 => 'August', 9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December'
-];
+);
 
 $articles = $this->getMetasByType('article');
 
-$grouped = [];
+$grouped = array();
 
 foreach ($articles as $article) {
-    $date = $article->getMetaPayload()['date_created'];
+    $tmp = $article->getMetaPayload();
+    $date = $tmp['date_created'];
 
     $timestamp = strtotime($date);
 
@@ -18,11 +19,11 @@ foreach ($articles as $article) {
     $m = date('n', $timestamp);
 
     if (!array_key_exists($y, $grouped)) {
-        $grouped[$y] = [];
+        $grouped[$y] = array();
     }
 
     if (!array_key_exists($m, $grouped[$y])) {
-        $grouped[$y][$m] = [];
+        $grouped[$y][$m] = array();
     }
 
     $grouped[$y][$m][] = $article;

@@ -1,9 +1,12 @@
 <?php
 
 usort($vars['articles'], function ($a, $b) {
+    $tmp1 = $a->getMetaPayload();
+    $tmp2 = $b->getMetaPayload();
+
     return strcmp(
-        $b->getMetaPayload()['date_created'],
-        $a->getMetaPayload()['date_created']
+        $tmp2['date_created'],
+        $tmp1['date_created']
     );
 });
 
