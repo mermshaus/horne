@@ -1,0 +1,16 @@
+<?php
+<<<EOT
+---
+{
+    "id": "index",
+    "title": "My Blog"
+}
+---
+EOT
+?>
+
+<?php if ('' !== $this->getSetting('system.siteSlogan')) : ?>
+    <p class="horne-slogan"><?=$this->e($this->getSetting('system.siteSlogan'))?></p>
+<?php endif; ?>
+
+<?=$this->render('horne-blog-index')?>

@@ -1,0 +1,25 @@
+<?php
+<<<EOT
+---
+{
+    "type"         : "article",
+    "layout"       : "horne-layout-article",
+    "title"        : "Lorem Ipsum",
+    "date_created" : "2013-10-21 13:00:00",
+    "tags"         : ["lorem", "test"],
+    "author"       : "John Doe"
+}
+---
+EOT
+?>
+
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse semper, metus ut semper tincidunt, nisl tortor ultricies odio, eu suscipit urna mi quis risus. Vestibulum eu arcu rutrum, tincidunt orci eget, ultricies erat. Morbi fringilla erat eget nisl accumsan aliquam. Vivamus vel velit id lectus rhoncus dictum eget ac ipsum. Integer vel purus ut nisl placerat ornare. Etiam tempor mauris at velit venenatis pellentesque. Etiam fringilla pretium odio eu scelerisque. Sed porta sem quis ultricies elementum. Nullam auctor feugiat nibh vel lobortis. Praesent a nisi sollicitudin, pretium felis id, ullamcorper arcu. Nam nunc metus, gravida a aliquam id, mattis vitae mi. Phasellus sit amet auctor libero. Donec vitae gravida libero. Duis tincidunt viverra dui ut sollicitudin.</p>
+
+<?=$this->syntax(<<<'EOT'
+<?php
+     echo 'Hello World!';
+?>
+EOT
+, 'php')?>
+
+<p>Maecenas in turpis vestibulum, porttitor dui id, congue enim. Fusce a laoreet metus. Morbi accumsan posuere nulla, vitae pulvinar lorem congue nec. In id consequat diam. Suspendisse volutpat est ac velit convallis, dapibus tristique neque tincidunt. Sed placerat tristique urna sit amet malesuada. Maecenas sit amet urna ultricies dolor fringilla blandit. Fusce sit amet commodo lacus. Nulla vel nibh eu eros laoreet rhoncus ut a augue. In sollicitudin rhoncus sagittis.</p>

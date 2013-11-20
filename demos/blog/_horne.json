@@ -1,0 +1,18 @@
+{
+    "sourceDir": "src",
+    "outputDir": "output",
+    "modules": {
+        "system": {
+            "siteTitle": "Blog example",
+            "showFooter": true
+        },
+        "blog": {
+            "useTags": true,
+            "showInfoline": true,
+            "showAuthor": true
+        },
+        "theme": {
+            "name": "esperanza"
+        }
+    }
+}
