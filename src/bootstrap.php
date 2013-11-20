@@ -10,8 +10,6 @@ use Horne\OutputFilter\UppercaseOutputFilter;
 use Horne\OutputFilter\XmlLegacyOutputFilter;
 use Horne\OutputFilter\XmlOutputFilter;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 $horne = new Application();
 
 $horne->setSyntaxHighlighter(new GeSHiSyntaxHighlighter(new GeSHiRepository()));

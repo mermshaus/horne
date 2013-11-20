@@ -9,12 +9,16 @@ use Horne\OutputFilter\OutputFilterInterface;
 use Kaloa\Filesystem\PathHelper;
 use Kaloa\Renderer\SyntaxHighlighter;
 use Kir\Data\Arrays\RecursiveAccessor;
+use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  *
  */
 class Application
 {
+    const VERSION = '0.1.0';
+
     /**
      *
      * @var MetaRepository
@@ -59,12 +63,24 @@ class Application
 
     /**
      *
+     * @var OutputInterface
+     */
+    protected $output;
+
+    /**
+     *
      */
     public function __construct()
     {
         $this->pathHelper = new PathHelper();
         $this->filters = array();
         $this->syntaxHighlighter = new SyntaxHighlighter();
+        $this->output = new NullOutput();
+    }
+
+    public function setOutputInterface(OutputInterface $output)
+    {
+        $this->output = $output;
     }
 
     /**
@@ -425,7 +441,7 @@ class Application
 
             switch (true) {
                 case 'asset' === $type:
-                    echo '[copy] ' . $m->getSourcePath() . "\n";
+                    $this->output->writeln('[copy] <info>' . $m->getSourcePath() . '</info>');
                     $this->copyWithMkdir($m->getSourcePath(), $m->getDestPath());
                     break;
                 case substr($type, 0, 1) === '_':
@@ -449,8 +465,7 @@ class Application
 
                     $tmp2 = substr($m->getDestPath(), strlen($json['outputDir']) + 1);
 
-                    echo '[compile] ' . $m->getMetaPayload()['id'];
-                    echo ' -> ' . $tmp2 . "\n";
+                    $this->output->writeln('[compile] <info>' . $m->getMetaPayload()['id'] . '</info> -> <info>' . $tmp2 . '</info>');
 
                     $renderedOutput = $this->buildOneContentFile($m);
 

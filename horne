@@ -1,13 +1,100 @@
 #!/usr/bin/env php
 <?php
 
+use Horne\Application as HorneApplication;
+use Horne\HorneException;
+use Kaloa\Filesystem\PathHelper;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+
 error_reporting(-1);
 ini_set('display_errors', 1);
 date_default_timezone_set('UTC');
 
-$horne = require_once __DIR__ . '/src/bootstrap.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
-$horne->run(
-    getcwd(),
-    json_decode(file_get_contents(getcwd() . '/_horne.json'), true)
-);
+$console = new Application('Horne', HorneApplication::VERSION);
+
+$console
+    ->register('build')
+    ->setDescription('Runs the build process')
+    ->addOption(
+        'working-dir',
+        null,
+        InputOption::VALUE_REQUIRED,
+        'Working directory',
+        '.')
+    ->setCode(function (InputInterface $input, OutputInterface $output) {
+        $horne = require_once __DIR__ . '/src/bootstrap.php';
+
+        $horne->setOutputInterface($output);
+
+
+        // Calculate working directory
+
+        $workingDir = $input->getOption('working-dir');
+
+        $pathHelper = new PathHelper();
+
+        $workingDirNormalized = $pathHelper->normalize($workingDir);
+
+        $workingDirFinalized = $workingDirNormalized;
+
+        if (substr($workingDir, 0, 1) !== '/') {
+            $workingDirFinalized = $pathHelper->normalize(getcwd() . '/' . $workingDirNormalized);
+        }
+
+        if (!is_dir($workingDirFinalized)) {
+            throw new HorneException(sprintf('Working directory does not exist (%s)', $workingDirFinalized));
+        }
+
+
+        // Load data from configuration file
+
+        $configFilePath = $pathHelper->normalize($workingDirFinalized . '/_horne.json');
+
+        if (!is_file($configFilePath)) {
+            throw new HorneException(sprintf('Horne config file not found (%s)', $configFilePath));
+        }
+
+        if (!is_readable($configFilePath)) {
+            throw new HorneException(sprintf('Horne config file cannot be read (%s)', $configFilePath));
+        }
+
+        $jsonData = json_decode(file_get_contents($configFilePath), true);
+
+        if ($jsonData === null) {
+            throw new HorneException(sprintf('Horne config file seems to contain syntax errors (%s)', $configFilePath));
+        }
+
+
+        $horne->run($workingDirFinalized, $jsonData);
+    });
+
+$console
+    ->register('list-modules')
+    ->setDescription('Outputs a list of bundled Horne modules')
+    ->setCode(function (InputInterface $input, OutputInterface $output) {
+        $modules = array();
+
+        foreach (glob(__DIR__ . '/src/Horne/Module/*') as $entry) {
+            if (is_dir($entry)) {
+                $modules[] = strtolower(basename($entry));
+            }
+        }
+
+        $output->writeln(sprintf('<info>%s</info> modules found', count($modules)));
+
+        if (count($modules) > 0) {
+            $output->writeln('');
+            foreach ($modules as $module) {
+                $output->writeln(sprintf('<info>%s</info>', $module));
+            }
+        }
+    });
+
+
+
+$console->run();
