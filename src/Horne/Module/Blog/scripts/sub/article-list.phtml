@@ -17,6 +17,10 @@ usort($vars['articles'], function ($a, $b) {
     <li>
         <a href="<?=$this->url($article['id'])?>"><?=$this->e($article['title'])?></a>
         <?=$this->e($this->datef($article['date_created']))?>
+
+        <?php if (isset($article['teaser'])) : ?>
+            <p><?=$this->e($article['teaser'])?></p>
+        <?php endif; ?>
     </li>
 <?php endforeach; ?>
 </ul>
