@@ -370,12 +370,16 @@ class Application
             $json['generateGzipHtml'] = false;
         }
 
-        $this->config = $json;
-
         foreach (array_keys($json['modules']) as $key) {
             $fqcn = '\\Horne\\Module\\' . ucfirst($key) . '\\' . ucfirst($key);
             $this->modules[$key] = new $fqcn($this);
         }
+
+        foreach ($this->modules as $key => $module) {
+            $json[$key] = $module->hookLoadConfig($json['modules'][$key]);
+        }
+
+        $this->config = $json;
 
         $this->metas = new MetaRepository();
 

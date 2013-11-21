@@ -36,6 +36,27 @@ class Blog extends AbstractModule
 
     /**
      *
+     * @param array $settings
+     */
+    public function hookLoadConfig(array $settings)
+    {
+        $settings['useTags'] = (isset($settings['useTags']))
+                ? $settings['useTags']
+                : true;
+
+        $settings['showInfoline'] = (isset($settings['showInfoline']))
+                ? $settings['showInfoline']
+                : true;
+
+        $settings['showAuthor'] = (isset($settings['showAuthor']))
+                ? $settings['showAuthor']
+                : true;
+
+        return $settings;
+    }
+
+    /**
+     *
      */
     public function hookProcessingBefore()
     {
