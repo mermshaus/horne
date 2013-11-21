@@ -477,6 +477,7 @@ class Application
 
                     if ($json['generateGzipHtml']) {
                         file_put_contents($m->getDestPath() . 'gz', gzencode($renderedOutput, 9));
+                        touch($m->getDestPath() . 'gz', filemtime($m->getDestPath()));
                     }
                     break;
             }
