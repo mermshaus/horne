@@ -350,7 +350,7 @@ class Application
      * @param string $workingDirectory
      * @param array $json
      */
-    public function run($workingDirectory, array $json)
+    protected function sanitizeCoreConfig($workingDirectory, array &$json)
     {
         $json['sourceDir'] = $this->dingsify($workingDirectory, $json['sourceDir']);
         $json['outputDir'] = $this->dingsify($workingDirectory, $json['outputDir']);
@@ -370,16 +370,43 @@ class Application
             $json['generateGzipHtml'] = false;
         }
 
-        foreach (array_keys($json['modules']) as $key) {
+        if (!array_key_exists('modules', $json)) {
+            $json['modules'] = array();
+        }
+
+        if (!array_key_exists('metaOverrides', $json)) {
+            $json['metaOverrides'] = array();
+        }
+
+        $this->config = $json;
+    }
+
+    /**
+     *
+     */
+    protected function initializeModules()
+    {
+        foreach (array_keys($this->config['modules']) as $key) {
             $fqcn = '\\Horne\\Module\\' . ucfirst($key) . '\\' . ucfirst($key);
             $this->modules[$key] = new $fqcn($this);
         }
 
         foreach ($this->modules as $key => $module) {
-            $json[$key] = $module->hookLoadConfig($json['modules'][$key]);
+            $this->config['modules'][$key] = $module->hookLoadConfig($this->config['modules'][$key]);
         }
+    }
 
-        $this->config = $json;
+    /**
+     *
+     * @param string $workingDirectory
+     * @param array $json
+     */
+    public function run($workingDirectory, array $json)
+    {
+        $this->sanitizeCoreConfig($workingDirectory, $json);
+        unset($json);
+
+        $this->initializeModules();
 
         $this->metas = new MetaRepository();
 
@@ -390,21 +417,15 @@ class Application
 
         $tmp = new MetaCollector(
             $this->pathHelper,
-            $json['sourceDir'],
-            $json['outputDir']);
-
-        $tmp->gatherMetas(
-            $this->metas,
-            $json['excludePaths']
+            $this->config['sourceDir'],
+            $this->config['outputDir']
         );
+
+        $tmp->gatherMetas($this->metas, $this->config['excludePaths']);
 
         foreach ($this->modules as $module) {
             /* @var $module ModuleInterface */
             $module->hookProcessingBefore2();
-        }
-
-        if (!array_key_exists('metaOverrides', $this->config)) {
-            $this->config['metaOverrides'] = array();
         }
 
         foreach ($this->config['metaOverrides'] as $id => $newData) {
@@ -467,7 +488,7 @@ class Application
                         $this->pathToRoot = rtrim(str_repeat('../', $amount), '/');
                     }
 
-                    $tmp2 = substr($m->getDestPath(), strlen($json['outputDir']) + 1);
+                    $tmp2 = substr($m->getDestPath(), strlen($this->config['outputDir']) + 1);
 
                     $this->output->writeln('[compile] <info>' . $m->getMetaPayload()['id'] . '</info> -> <info>' . $tmp2 . '</info>');
 
@@ -479,7 +500,7 @@ class Application
 
                     file_put_contents($m->getDestPath(), $renderedOutput);
 
-                    if ($json['generateGzipHtml']) {
+                    if ($this->config['generateGzipHtml']) {
                         file_put_contents($m->getDestPath() . 'gz', gzencode($renderedOutput, 9));
                         touch($m->getDestPath() . 'gz', filemtime($m->getDestPath()));
                     }
