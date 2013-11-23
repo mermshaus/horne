@@ -3,6 +3,8 @@ Horne
 
 A static page generator for HTML
 
+
+
 Installation
 ------------
 
@@ -19,6 +21,25 @@ php composer.phar install
 chmod +x horne
 ./horne --version
 ~~~
+
+
+
+Building bundled demo projects
+------------------------------
+
+From Horne’s root directory run:
+
+~~~
+./horne build --working-dir demos/hello-world
+./horne build --working-dir demos/blog
+~~~
+
+The HTML output will be written to `./demos/hello-world/output` and
+`./demos/blog/output`. You should be able to open the respective `index.html`
+files with a browser to view the result. Take a look at the contents of the
+project directories to get an idea how Horne generates the output.
+
+
 
 License
 -------
