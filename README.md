@@ -37,7 +37,7 @@ From Horne’s root directory run:
 The HTML output will be written to `./demos/hello-world/output` and
 `./demos/blog/output`. You should be able to open the respective `index.html`
 files with a browser to view the result. Take a look at the contents of the
-project directories to get an idea how Horne generates the output.
+project directories in `./demos` to get an idea what the output is based on.
 
 
 
