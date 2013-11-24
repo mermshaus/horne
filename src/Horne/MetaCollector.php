@@ -94,7 +94,8 @@ class MetaCollector
                 }
 
                 if (!isset($data['id'])) {
-                    $data['id'] = $data['path'];
+                    // str_replace needed to fix paths for Windows OS
+                    $data['id'] = str_replace('\\', '/', $data['path']);
                 }
 
                 if (!isset($data['type'])) {
