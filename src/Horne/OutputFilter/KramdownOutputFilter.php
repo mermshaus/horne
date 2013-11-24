@@ -13,7 +13,7 @@ class KramdownOutputFilter extends AbstractOutputFilter
 
         file_put_contents($file, $content);
 
-        $data = shell_exec('kramdown < ' . $file);
+        $data = shell_exec('kramdown --coderay-css :class --coderay-line-numbers nil < ' . $file);
 
         unlink($file);
 
