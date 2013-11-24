@@ -78,6 +78,10 @@ class Application
         $this->output = new NullOutput();
     }
 
+    /**
+     *
+     * @param OutputInterface $output
+     */
     public function setOutputInterface(OutputInterface $output)
     {
         $this->output = $output;
@@ -92,19 +96,26 @@ class Application
         return $this->syntaxHighlighter;
     }
 
+    /**
+     *
+     * @param SyntaxHighlighter $syntaxHighlighter
+     */
     public function setSyntaxHighlighter(SyntaxHighlighter $syntaxHighlighter)
     {
         $this->syntaxHighlighter = $syntaxHighlighter;
     }
 
-
     /**
      *
      * @param string $id
-     * @return mixed
+     * @return ModuleInterface
      */
     public function getModule($id)
     {
+        if (!array_key_exists($id, $this->modules)) {
+            throw new HorneException(sprintf('Module %s is not loaded', $id));
+        }
+
         return $this->modules[$id];
     }
 
@@ -182,12 +193,13 @@ class Application
     /**
      *
      * @param  string $tplFile  Template file
-     * @param  array  $vars     Values constituting the template's content
+     * @param  array  $vars     Content for the template
      * @return string           Rendered output
      */
     protected function renderTpl($tplFile, array $vars = array())
     {
         ob_start();
+
         if (strpos($tplFile, '.md') !== false) {
             $content = file_get_contents($tplFile);
 
@@ -198,12 +210,14 @@ class Application
         } else {
             require $tplFile;
         }
+
         return ob_get_clean();
     }
 
     /**
      *
      * @param string $id
+     * @param  array  $vars  Content for the template
      * @return string
      */
     public function render($id, array $vars = array())
