@@ -330,6 +330,11 @@ class Application
         return $this->cacheGetMetasByTag[$tag];
     }
 
+    public function getMetaById($id)
+    {
+        return $this->metas->getById($id);
+    }
+
     /**
      *
      * @param string $source
