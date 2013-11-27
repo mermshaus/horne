@@ -520,8 +520,14 @@ class Application
                     file_put_contents($m->getDestPath(), $renderedOutput);
 
                     if ($this->config['generateGzipHtml']) {
-                        file_put_contents($m->getDestPath() . 'gz', gzencode($renderedOutput, 9));
-                        touch($m->getDestPath() . 'gz', filemtime($m->getDestPath()));
+                        $gzipFileExtensionSuffix = (isset($this->config['gzipFileExtensionSuffix']))
+                                ? $this->config['gzipFileExtensionSuffix']
+                                : '.gz';
+
+                        $gzipPath = $m->getDestPath() . $gzipFileExtensionSuffix;
+
+                        file_put_contents($gzipPath, gzencode($renderedOutput, 9));
+                        touch($m->getDestPath() . $gzipFileExtensionSuffix, filemtime($m->getDestPath()));
                     }
                     break;
             }
