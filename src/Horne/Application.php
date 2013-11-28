@@ -527,7 +527,7 @@ class Application
                         $gzipPath = $m->getDestPath() . $gzipFileExtensionSuffix;
 
                         file_put_contents($gzipPath, gzencode($renderedOutput, 9));
-                        touch($m->getDestPath() . $gzipFileExtensionSuffix, filemtime($m->getDestPath()));
+                        touch($gzipPath, filemtime($m->getDestPath()));
                     }
                     break;
             }
@@ -562,9 +562,11 @@ class Application
         $parts = explode('.', $key);
 
         // This means: "blog.setting" will be expanded to "modules.blog.setting"
-        // if "blog" is a key in "modules"
+        // if there is no top-level key "blog" and if "blog" is a key in
+        // "modules"
         if (
             count($parts) > 1
+            && !array_key_exists($parts[0], $this->config)
             && array_key_exists($parts[0], $this->config['modules'])
         ) {
             array_unshift($parts, 'modules');
