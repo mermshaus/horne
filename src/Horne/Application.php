@@ -8,7 +8,7 @@ use Horne\Module\ModuleInterface;
 use Horne\OutputFilter\OutputFilterInterface;
 use Kaloa\Filesystem\PathHelper;
 use Kaloa\Renderer\SyntaxHighlighter;
-use Kir\Data\Arrays\RecursiveAccessor;
+use Kir\Data\Arrays\RecursiveAccessor\StringPath\Accessor as StringPathAccessor;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -557,7 +557,7 @@ class Application
      */
     public function getSetting($key)
     {
-        $accessor = new RecursiveAccessor($this->config, '.', '\\');
+        $accessor = new StringPathAccessor($this->config, '.', '\\');
 
         $parts = explode('.', $key);
 

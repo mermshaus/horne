@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "baceeec1194607a648ba6b0c8664f55b",
+    "hash": "5217d824dbaa7e84f118813e311dbfbd",
     "packages": [
         {
             "name": "geshi/geshi",
@@ -106,16 +106,16 @@
         },
         {
             "name": "rkr/recursive-array-accessor",
-            "version": "1.0.2",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rkrx/php-recursive-array-access.git",
-                "reference": "d95ae0b09d9d37ab6c70bec1bbc96f846b5d1089"
+                "reference": "b0a5dfcb8c944e0cf06b18974d80ffcdd5851c36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rkrx/php-recursive-array-access/zipball/d95ae0b09d9d37ab6c70bec1bbc96f846b5d1089",
-                "reference": "d95ae0b09d9d37ab6c70bec1bbc96f846b5d1089",
+                "url": "https://api.github.com/repos/rkrx/php-recursive-array-access/zipball/b0a5dfcb8c944e0cf06b18974d80ffcdd5851c36",
+                "reference": "b0a5dfcb8c944e0cf06b18974d80ffcdd5851c36",
                 "shasum": ""
             },
             "require-dev": {
@@ -135,7 +135,7 @@
                 }
             ],
             "description": "Access recursive arrays through an easy interface",
-            "time": "2013-11-18 17:01:57"
+            "time": "2013-11-18 22:49:52"
         },
         {
             "name": "symfony/console",
