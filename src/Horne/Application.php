@@ -27,7 +27,7 @@ class Application
 
     /**
      *
-     * @var array
+     * @var StringPathAccessor
      */
     public $config;
 
@@ -397,7 +397,7 @@ class Application
             $json['metaOverrides'] = array();
         }
 
-        $this->config = $json;
+        $this->config = new StringPathAccessor($json);
     }
 
     /**
@@ -405,13 +405,16 @@ class Application
      */
     protected function initializeModules()
     {
-        foreach (array_keys($this->config['modules']) as $key) {
+        foreach (array_keys($this->config->get('modules')) as $key) {
             $fqcn = '\\Horne\\Module\\' . ucfirst($key) . '\\' . ucfirst($key);
             $this->modules[$key] = new $fqcn($this);
         }
 
         foreach ($this->modules as $key => $module) {
-            $this->config['modules'][$key] = $module->hookLoadConfig($this->config['modules'][$key]);
+            $this->config->set(
+                'modules' . '.' . $key,
+                $module->hookLoadConfig($this->config->get('modules' . '.' . $key))
+            );
         }
     }
 
@@ -436,27 +439,27 @@ class Application
 
         $tmp = new MetaCollector(
             $this->pathHelper,
-            $this->config['sourceDir'],
-            $this->config['outputDir']
+            $this->config->get('sourceDir'),
+            $this->config->get('outputDir')
         );
 
-        $tmp->gatherMetas($this->metas, $this->config['excludePaths']);
+        $tmp->gatherMetas($this->metas, $this->config->get('excludePaths'));
 
         foreach ($this->modules as $module) {
             /* @var $module ModuleInterface */
             $module->hookProcessingBefore2();
         }
 
-        foreach ($this->config['metaOverrides'] as $id => $newData) {
+        foreach ($this->config->get('metaOverrides') as $id => $newData) {
             $meta = $this->metas->getById($id);
             $payload = $meta->getMetaPayload();
 
             $newPath = $this->pathHelper->normalize(
-                $this->config['outputDir'] . $newData['path']
+                $this->config->get('outputDir') . $newData['path']
             );
 
-            if (0 !== strpos($newPath, $this->config['outputDir'])) {
-                throw new HorneException('Path ' . $path . ' not in $outputDir');
+            if (0 !== strpos($newPath, $this->config->get('outputDir'))) {
+                throw new HorneException('Path ' . $newPath . ' not in $outputDir');
             }
 
             $meta->setDestPath($newPath);
@@ -507,7 +510,7 @@ class Application
                         $this->pathToRoot = rtrim(str_repeat('../', $amount), '/');
                     }
 
-                    $tmp2 = substr($m->getDestPath(), strlen($this->config['outputDir']) + 1);
+                    $tmp2 = substr($m->getDestPath(), strlen($this->config->get('outputDir')) + 1);
 
                     $this->output->writeln('[compile] <info>' . $m->getMetaPayload()['id'] . '</info> -> <info>' . $tmp2 . '</info>');
 
@@ -519,9 +522,9 @@ class Application
 
                     file_put_contents($m->getDestPath(), $renderedOutput);
 
-                    if ($this->config['generateGzipHtml']) {
-                        $gzipFileExtensionSuffix = (isset($this->config['gzipFileExtensionSuffix']))
-                                ? $this->config['gzipFileExtensionSuffix']
+                    if ($this->config->get('generateGzipHtml')) {
+                        $gzipFileExtensionSuffix = ($this->config->has('gzipFileExtensionSuffix'))
+                                ? $this->config->get('gzipFileExtensionSuffix')
                                 : '.gz';
 
                         $gzipPath = $m->getDestPath() . $gzipFileExtensionSuffix;
@@ -557,8 +560,6 @@ class Application
      */
     public function getSetting($key)
     {
-        $accessor = new StringPathAccessor($this->config, '.', '\\');
-
         $parts = explode('.', $key);
 
         // This means: "blog.setting" will be expanded to "modules.blog.setting"
@@ -566,12 +567,12 @@ class Application
         // "modules"
         if (
             count($parts) > 1
-            && !array_key_exists($parts[0], $this->config)
-            && array_key_exists($parts[0], $this->config['modules'])
+            && !$this->config->has($parts[0])
+            && $this->config->has('modules' . '.' . $parts[0])
         ) {
             array_unshift($parts, 'modules');
         }
 
-        return $accessor->get($parts, null);
+        return $this->config->get($parts, null);
     }
 }

@@ -33,7 +33,7 @@ class System extends AbstractModule
 
         $app->metas->add(new MetaBag(
             __DIR__ . '/layouts/page.phtml',
-            $app->config['outputDir'] . '/nothing',
+            $app->getSetting('outputDir') . '/nothing',
             array(
                 'id'     => 'horne-layout-page',
                 'type'   => 'layout',
@@ -43,7 +43,7 @@ class System extends AbstractModule
 
         $app->metas->add(new MetaBag(
             __DIR__ . '/layouts/default.phtml',
-            $app->config['outputDir'] . '/nothing',
+            $app->getSetting('outputDir') . '/nothing',
             array(
                 'id'   => 'horne-layout-default',
                 'type' => 'layout'
@@ -52,7 +52,7 @@ class System extends AbstractModule
 
         $app->metas->add(new MetaBag(
             __DIR__ . '/layouts/html/head.phtml',
-            $app->config['outputDir'] . '/nothing',
+            $app->getSetting('outputDir') . '/nothing',
             array(
                 'id'     => 'horne-system-html-head',
                 'type'   => '_script'
@@ -61,7 +61,7 @@ class System extends AbstractModule
 
         $app->metas->add(new MetaBag(
             __DIR__ . '/layouts/html/foot.phtml',
-            $app->config['outputDir'] . '/nothing',
+            $app->getSetting('outputDir') . '/nothing',
             array(
                 'id'     => 'horne-system-html-foot',
                 'type'   => '_script'
@@ -70,7 +70,7 @@ class System extends AbstractModule
 
         $app->metas->add(new MetaBag(
             __DIR__ . '/assets/jquery-1.10.2.min.js',
-            $app->config['outputDir'] . '/assets/jquery-1.10.2.min.js',
+            $app->getSetting('outputDir') . '/assets/jquery-1.10.2.min.js',
             array(
                 'id'     => 'jquery',
                 'type'   => 'asset'
