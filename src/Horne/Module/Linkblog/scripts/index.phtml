@@ -1,0 +1,65 @@
+<?php
+
+$childNodesToArray = function (DOMElement $e) {
+    $tmp = array();
+
+    foreach ($e->childNodes as $node) {
+        /* @var $node DOMElement */
+        $tmp[$node->nodeName] = $node;
+    }
+
+    return $tmp;
+};
+
+$linkblog = $this->getModule('linkblog');
+
+$doc = new DOMDocument('1.0', 'UTF-8');
+$doc->load($this->getSetting('sourceDir') . '/linkblog.rss');
+
+$xpath = new DOMXPath($doc);
+
+$grouped = array();
+
+foreach ($xpath->query('/rss/channel/item') as $item) {
+    $tmp = $childNodesToArray($item);
+
+    $date = 0;
+
+    if (array_key_exists('pubDate', $tmp)) {
+        $date = strtotime($tmp['pubDate']->nodeValue);
+    }
+
+    $y = (int) date('Y', $date);
+    $m = (int) date('m', $date);
+    $d = (int) date('d', $date);
+
+    if (!array_key_exists($y, $grouped)) {
+        $grouped[$y] = array();
+    }
+
+    if (!array_key_exists($m, $grouped[$y])) {
+        $grouped[$y][$m] = array();
+    }
+
+    if (!array_key_exists($d, $grouped[$y][$m])) {
+        $grouped[$y][$m][$d] = array();
+    }
+
+    $grouped[$y][$m][$d][] = $tmp;
+}
+
+foreach ($grouped as $year => $grouped2) {
+    foreach ($grouped2 as $month => $grouped3) {
+        foreach ($grouped3 as $day => $entries) {
+            echo '<h2>' . $year . $month . $day . '</h2>';
+            echo '<ul>';
+            foreach ($entries as $tmp) {
+                $url = $tmp['link']->nodeValue;
+                $host = parse_url($url, PHP_URL_HOST);
+
+                echo '<li><a href="' . $this->e($url) . '">' . $this->e($tmp['title']->nodeValue) . '</a> ' . $this->e($host) . '</li>';
+            }
+            echo '</ul>';
+        }
+    }
+}
