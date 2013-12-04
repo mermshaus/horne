@@ -18,16 +18,38 @@ $doc->load($this->getSetting('sourceDir') . '/linkblog.rss');
 
 $xpath = new DOMXPath($doc);
 
-$grouped = array();
+$items = array();
 
 foreach ($xpath->query('/rss/channel/item') as $item) {
     $tmp = $childNodesToArray($item);
 
-    $date = 0;
-
-    if (array_key_exists('pubDate', $tmp)) {
-        $date = strtotime($tmp['pubDate']->nodeValue);
+    if (!array_key_exists('pubDate', $tmp)) {
+        $tmp['pubDate'] = 0;
+    } else {
+        $tmp['pubDate'] = strtotime($tmp['pubDate']->nodeValue);
     }
+
+    $items[] = $tmp;
+}
+
+usort($items, function ($a, $b) {
+    $ad = $a['pubDate'];
+    $bd = $b['pubDate'];
+
+    $d = strcmp($bd, $ad);
+
+    if ($d !== 0) {
+        return $d;
+    }
+
+    return strcmp($a['title']->nodeValue, $b['title']->nodeValue);
+});
+
+$grouped = array();
+
+foreach ($items as $tmp) {
+    $date = $tmp['pubDate'];
+
 
     $y = (int) date('Y', $date);
     $m = (int) date('m', $date);
@@ -51,13 +73,16 @@ foreach ($xpath->query('/rss/channel/item') as $item) {
 foreach ($grouped as $year => $grouped2) {
     foreach ($grouped2 as $month => $grouped3) {
         foreach ($grouped3 as $day => $entries) {
-            echo '<h2>' . $year . $month . $day . '</h2>';
+
+            $date = mktime(12, 0, 0, $month, $day, $year);
+
+            echo '<p><strong>' . date('l, F j, Y', $date) . '</strong></p>';
             echo '<ul>';
             foreach ($entries as $tmp) {
                 $url = $tmp['link']->nodeValue;
                 $host = parse_url($url, PHP_URL_HOST);
 
-                echo '<li><a href="' . $this->e($url) . '">' . $this->e($tmp['title']->nodeValue) . '</a> ' . $this->e($host) . '</li>';
+                echo '<li>' . $this->e($tmp['title']->nodeValue) . ' <a href="' . $this->e($url) . '">' . $this->e($host) . '</a></li>';
             }
             echo '</ul>';
         }
