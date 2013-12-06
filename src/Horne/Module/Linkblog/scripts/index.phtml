@@ -11,10 +11,8 @@ $childNodesToArray = function (DOMElement $e) {
     return $tmp;
 };
 
-$linkblog = $this->getModule('linkblog');
-
 $doc = new DOMDocument('1.0', 'UTF-8');
-$doc->load($this->getSetting('sourceDir') . '/linkblog.rss');
+$doc->load($this->getSetting('linkblog.dataFile'));
 
 $xpath = new DOMXPath($doc);
 

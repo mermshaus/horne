@@ -355,7 +355,7 @@ class Application
      * @param string $path
      * @return string
      */
-    protected function dingsify($workingDirectory, $path)
+    public function dingsify($workingDirectory, $path)
     {
         if ('/' !== substr($path, 0, 1)) {
             $path = $workingDirectory . '/' . $path;
