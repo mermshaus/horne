@@ -182,12 +182,19 @@ class Application
 
     /**
      *
+     *
+     * See http://nikic.github.io/2012/01/28/htmlspecialchars-improvements-in-PHP-5-4.html
+     *
      * @param string $s
      * @return string
      */
     protected function e($s)
     {
-        return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
+        return htmlspecialchars(
+            $s,
+            ENT_QUOTES | ENT_HTML5 | ENT_SUBSTITUTE | ENT_DISALLOWED,
+            'UTF-8'
+        );
     }
 
     /**
