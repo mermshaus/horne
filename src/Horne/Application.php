@@ -437,7 +437,7 @@ class Application
 
         $this->initializeModules();
 
-        $this->metas = new MetaRepository();
+        $this->metas = new MetaRepository($this->config->get('sourceDir'));
 
         foreach ($this->modules as $module) {
             /* @var $module ModuleInterface */
@@ -446,11 +446,12 @@ class Application
 
         $tmp = new MetaCollector(
             $this->pathHelper,
+            $this->metas,
             $this->config->get('sourceDir'),
             $this->config->get('outputDir')
         );
 
-        $tmp->gatherMetas($this->metas, $this->config->get('excludePaths'));
+        $tmp->gatherMetas($this->config->get('excludePaths'));
 
         foreach ($this->modules as $module) {
             /* @var $module ModuleInterface */
@@ -581,5 +582,19 @@ class Application
         }
 
         return $this->config->get($parts, null);
+    }
+
+    public function source($path)
+    {
+        $mr = new MetaReader($this->pathHelper, $this->config->get('outputDir'));
+
+        $o = array(
+            'path' => $path,
+            'root' => null
+        );
+
+        $metaBag = $mr->load($o);
+
+        $this->metas->add($metaBag);
     }
 }

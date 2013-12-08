@@ -5,6 +5,9 @@ namespace Horne\Module\Blog;
 use Horne\MetaBag;
 use Horne\Module\AbstractModule;
 
+/**
+ *
+ */
 class Blog extends AbstractModule
 {
     /**
@@ -60,45 +63,12 @@ class Blog extends AbstractModule
      */
     public function hookProcessingBefore()
     {
-        $app = $this->application;
-
-        // Sub templates
-
-        $app->metas->add(new MetaBag(__DIR__ . '/scripts/index.phtml', $app->getSetting('outputDir') . '/nothing', array(
-            'id'   => 'horne-blog-index',
-            'type' => '_script'
-        )));
-
-        $app->metas->add(new MetaBag(__DIR__ . '/scripts/sub/article-list.phtml', $app->getSetting('outputDir') . '/nothing', array(
-            'id'   => 'horne-blog-sub-article-list',
-            'type' => '_script'
-        )));
-
-        // horne-blog-archive-index
-
-        $app->metas->add(new MetaBag(__DIR__ . '/scripts/archive/index.phtml', $app->getSetting('outputDir') . '/blog/archive/index.html', array(
-            'id'     => 'horne-blog-archive-index',
-            'title'  => 'Archive',
-            'type'   => 'page',
-            'layout' => 'horne-layout-page',
-            'path'   => '/blog/archive/index.html'
-        )));
-
-        // Layouts
-
-        $app->metas->add(new MetaBag(__DIR__ . '/scripts/article.phtml', $app->getSetting('outputDir') . '/nothing', array(
-            'id'     => 'horne-layout-article',
-            'type'   => 'layout',
-            'layout' => 'horne-layout-default'
-        )));
-
-        $app->metas->add(new MetaBag(__DIR__ . '/scripts/page-tag.phtml', $app->getSetting('outputDir') . '/nothing', array(
-            'id'     => 'horne-layout-page-tag',
-            'type'   => 'layout',
-            'layout' => 'horne-layout-default'
-        )));
+        $this->sourceDir(__DIR__ . '/scripts');
     }
 
+    /**
+     *
+     */
     public function hookProcessingBefore2()
     {
         $app = $this->application;
