@@ -9,8 +9,8 @@
 EOT
 ?>
 
-<?php if ('' !== $this->getSetting('system.siteSlogan')) : ?>
-    <p class="horne-slogan"><?=$this->e($this->getSetting('system.siteSlogan'))?></p>
+<?php if ('' !== $api->getSetting('system.siteSlogan')) : ?>
+    <p class="horne-slogan"><?=$api->e($api->getSetting('system.siteSlogan'))?></p>
 <?php endif; ?>
 
-<?=$this->render('horne-blog-index')?>
+<?=$api->render('horne-blog-index')?>

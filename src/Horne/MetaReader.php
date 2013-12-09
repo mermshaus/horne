@@ -94,6 +94,10 @@ class MetaReader
             case in_array($fileExtension, array('md', 'phtml')):
                 $data = $this->getJsonMetaDataFromFile($o['path']);
 
+                if (!array_key_exists('type', $data)) {
+                    $data['type'] = 'page';
+                }
+
                 if (!isset($data['path']) && in_array($data['type'], array('_script', 'layout'))) {
                     $data['path'] = '/dev/null';
                 }

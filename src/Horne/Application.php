@@ -2,6 +2,7 @@
 
 namespace Horne;
 
+use ErrorException;
 use Horne\Module\ModuleInterface;
 use Horne\OutputFilter\OutputFilterInterface;
 use Kaloa\Filesystem\PathHelper;
