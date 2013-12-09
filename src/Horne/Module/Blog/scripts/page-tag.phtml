@@ -11,10 +11,10 @@ EOT;
 
 $m = $vars['meta'];
 
-$metas = $this->getMetasByTag($m['tag']);
+$metas = $api->getMetasByTag($m['tag']);
 
 ?>
 
-<h1>All entries tagged with <?=$this->e($m['tag'])?></h1>
+<h1>All entries tagged with <?=$api->e($m['tag'])?></h1>
 
-<?=$this->render('horne-blog-sub-article-list', array('articles' => $metas))?>
+<?=$api->render('horne-blog-sub-article-list', array('articles' => $metas))?>

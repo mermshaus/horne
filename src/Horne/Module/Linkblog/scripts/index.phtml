@@ -23,7 +23,7 @@ $childNodesToArray = function (DOMElement $e) {
 };
 
 $doc = new DOMDocument('1.0', 'UTF-8');
-$doc->load($this->getSetting('linkblog.dataFile'));
+$doc->load($api->getSetting('linkblog.dataFile'));
 
 $xpath = new DOMXPath($doc);
 
@@ -88,8 +88,8 @@ foreach ($grouped as $year => $grouped2) {
                 $url = $tmp['link']->nodeValue;
                 $host = parse_url($url, PHP_URL_HOST);
 
-                echo '<li>' . $this->e($tmp['title']->nodeValue)
-                    . ' <a href="' . $this->e($url) . '">' . $this->e($host) . '</a>'
+                echo '<li>' . $api->e($tmp['title']->nodeValue)
+                    . ' <a href="' . $api->e($url) . '">' . $api->e($host) . '</a>'
                     . '</li>';
             }
 

@@ -16,7 +16,7 @@ $amonths = array(
     8 => 'August', 9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December'
 );
 
-$articles = $this->getMetasByType('article');
+$articles = $api->getMetasByType('article');
 
 $grouped = array();
 
@@ -57,8 +57,8 @@ unset($months);
 
 <?php foreach ($grouped as $year => $articlesInYear) : ?>
     <?php foreach ($articlesInYear as $month => $articlesInMonth) : ?>
-        <h2><?=$this->e($amonths[$month])?> <?=$this->e($year)?></h2>
-        <?=$this->render('horne-blog-sub-article-list', ['articles' => $articlesInMonth])?>
+        <h2><?=$api->e($amonths[$month])?> <?=$api->e($year)?></h2>
+        <?=$api->render('horne-blog-sub-article-list', ['articles' => $articlesInMonth])?>
     <?php endforeach; ?>
 <?php endforeach; ?>
 

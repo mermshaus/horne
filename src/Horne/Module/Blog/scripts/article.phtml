@@ -11,14 +11,12 @@ EOT;
 
 namespace Horne;
 
-/* @var $this Application */
-
 $m = $vars['meta'];
 
 $next = null;
 $prev = null;
 
-$metas = $this->getMetasByType('article', array('date_created' => 'DESC'));
+$metas = $api->getMetasByType('article', array('date_created' => 'DESC'));
 
 $indexOfMyself = 0;
 
@@ -44,29 +42,29 @@ if ($i < count($metas) - 1) {
 
 <div class="horne-blog-article">
 
-<h1><?=$this->e($m['title'])?></h1>
+<h1><?=$api->e($m['title'])?></h1>
 
-<?php if ($this->getSetting('blog.showInfoline')) : ?>
+<?php if ($api->getSetting('blog.showInfoline')) : ?>
 <p class="horne-blog-infoline">
 Written
 
 <?php if (
-    $this->getSetting('blog.showAuthor')
+    $api->getSetting('blog.showAuthor')
     && isset($m['author'])
 ) : ?>
-    by <?=$this->e($m['author']);?>
+    by <?=$api->e($m['author']);?>
 <?php endif; ?>
-    on <?=$this->e($this->datef($m['date_created']))?>.
+    on <?=$api->e($api->datef($m['date_created']))?>.
 
     <?php if (
-        $this->getSetting('blog.useTags')
+        $api->getSetting('blog.useTags')
         && isset($m['tags'])
         && count($m['tags']) > 0
     ) : ?>
         Tags:
         <?php $sep = ''; ?>
         <?php foreach ($m['tags'] as $tag) : ?>
-            <?=$sep?><a href="<?=$this->e($this->url('horne-blog-tag-' . $tag))?>"><?=$this->e($tag)?></a>
+            <?=$sep?><a href="<?=$api->e($api->url('horne-blog-tag-' . $tag))?>"><?=$api->e($tag)?></a>
             <?php $sep = ', '; ?>
         <?php endforeach; ?>
     <?php endif; ?>
@@ -85,20 +83,20 @@ Written
 <?php if ($prev !== null) : ?>
 <?php $article = $prev->getMetaPayload(); ?>
 <div style="float: left; width: 45%; text-align: left;">
-    <a id="horne-system-navigation-previous" href="<?=$this->url($article['id'])?>">← <?=$this->e($article['title'])?></a>
+    <a id="horne-system-navigation-previous" href="<?=$api->url($article['id'])?>">← <?=$api->e($article['title'])?></a>
 </div>
 <?php endif; ?>
 
 <?php if ($next !== null) : ?>
 <?php $article = $next->getMetaPayload(); ?>
 <div style="float: right; width: 45%; text-align: right;">
-    <a id="horne-system-navigation-next" href="<?=$this->url($article['id'])?>"><?=$this->e($article['title'])?> →</a>
+    <a id="horne-system-navigation-next" href="<?=$api->url($article['id'])?>"><?=$api->e($article['title'])?> →</a>
 </div>
 <?php endif; ?>
 
 </div>
 
-<p style="text-align: center;"><?=$this->e($indexOfMyself)?>/<?=$this->e(count($metas))?></p>
+<p style="text-align: center;"><?=$api->e($indexOfMyself)?>/<?=$api->e(count($metas))?></p>
 
 <?php endif; ?>
 

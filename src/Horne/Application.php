@@ -2,8 +2,6 @@
 
 namespace Horne;
 
-use DateTime;
-use DateTimeZone;
 use Horne\Module\ModuleInterface;
 use Horne\OutputFilter\OutputFilterInterface;
 use Kaloa\Filesystem\PathHelper;
@@ -17,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class Application
 {
-    const VERSION = '0.1.0';
+    const VERSION = '0.2.0';
 
     /**
      *
@@ -192,9 +190,9 @@ class Application
 
             echo substr($content, $secondSep + 3);
         } else {
-            $view = new View($this);
-            $vars['pathToRoot'] = $this->pathToRoot;
-            $view->execute($tplFile, $vars);
+            $view = new View();
+            $api = new Api($this);
+            $view->execute($tplFile, $api, $vars);
         }
 
         return ob_get_clean();

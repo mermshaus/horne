@@ -8,12 +8,12 @@
 ---
 EOT;
 
-$blog = $this->getModule('blog');
+$blog = $api->getModule('blog');
 ?>
 
 <h2>Recent entries</h2>
 
-<?php $articles = $this->getMetasByType('article', array('date_created' => 'desc'), 5); ?>
+<?php $articles = $api->getMetasByType('article', array('date_created' => 'desc'), 5); ?>
 
 <?php if (count($articles) === 0) : ?>
 
@@ -21,13 +21,13 @@ $blog = $this->getModule('blog');
 
 <?php else : ?>
 
-    <?=$this->render('horne-blog-sub-article-list', array('articles' => $articles))?>
+    <?=$api->render('horne-blog-sub-article-list', array('articles' => $articles))?>
 
-    <p><a href="<?=$this->e($this->url('horne-blog-archive-index'))?>">Archive</a></p>
+    <p><a href="<?=$api->e($api->url('horne-blog-archive-index'))?>">Archive</a></p>
 
 <?php endif; ?>
 
-<?php if ($this->getSetting('blog.useTags')) : ?>
+<?php if ($api->getSetting('blog.useTags')) : ?>
     <h2>Tags</h2>
 
     <?php $tags = $blog->getAllTags(); ?>
@@ -38,9 +38,9 @@ $blog = $this->getModule('blog');
         <ul>
         <?php foreach ($blog->getAllTags() as $tag => $amount) : ?>
             <li>
-                <a href="<?=$this->url('horne-blog-tag-' . $tag)?>"><?=$this->e($tag)?></a>
+                <a href="<?=$api->url('horne-blog-tag-' . $tag)?>"><?=$api->e($tag)?></a>
                 <?php if ($amount > 1) : ?>
-                (<?=$this->e($amount)?>)
+                (<?=$api->e($amount)?>)
                 <?php endif; ?>
             </li>
         <?php endforeach; ?>

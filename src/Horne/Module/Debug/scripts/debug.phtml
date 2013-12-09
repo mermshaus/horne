@@ -11,7 +11,7 @@
 ---
 EOT;
 
-$metas = $this->getAllMetas();
+$metas = $api->getAllMetas();
 
 usort($metas, function ($a, $b) {
     return strcmp($a->getType(), $b->getType());
@@ -34,24 +34,24 @@ usort($metas, function ($a, $b) {
     $payload = $meta->getMetaPayload();
     $url = '';
     if ($meta->getType() !== 'layout') {
-        $url = $this->url($payload['id']);
+        $url = $api->url($payload['id']);
     }
     ?>
     <tr>
         <td>
             <?php if ($url !== '') : ?>
-                <a href="<?=$this->e($url)?>">
+                <a href="<?=$api->e($url)?>">
             <?php endif; ?>
-            <?=$this->e($payload['id'])?>
+            <?=$api->e($payload['id'])?>
             <?php if ($url !== '') : ?>
                 </a>
             <?php endif; ?>
         </td>
 
-        <td><?=$this->e($payload['type'])?></td>
-        <td><pre>sourcePath: <?=$this->e($meta->getSourcePath())?>
+        <td><?=$api->e($payload['type'])?></td>
+        <td><pre>sourcePath: <?=$api->e($meta->getSourcePath())?>
 
-destPath:  <?=$this->e($meta->getDestPath())?>
+destPath:  <?=$api->e($meta->getDestPath())?>
 
 <?php print_r($payload); ?></pre></td>
     </tr>

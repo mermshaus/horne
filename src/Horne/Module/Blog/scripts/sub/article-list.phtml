@@ -23,11 +23,11 @@ usort($vars['articles'], function ($a, $b) {
 <ul>
 <?php foreach ($vars['articles'] as $articleBag) : $article = $articleBag->getMetaPayload(); ?>
     <li>
-        <a href="<?=$this->url($article['id'])?>"><?=$this->e($article['title'])?></a>
-        <?=$this->e($this->datef($article['date_created']))?>
+        <a href="<?=$api->url($article['id'])?>"><?=$api->e($article['title'])?></a>
+        <?=$api->e($api->datef($article['date_created']))?>
 
         <?php if (isset($article['teaser'])) : ?>
-            <p><?=$this->e($article['teaser'])?></p>
+            <p><?=$api->e($article['teaser'])?></p>
         <?php endif; ?>
     </li>
 <?php endforeach; ?>
