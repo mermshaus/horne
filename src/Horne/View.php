@@ -10,6 +10,7 @@ class View
     /**
      *
      * @param string $tplFile
+     * @param Api $api
      * @param array $vars
      */
     public function execute($tplFile, Api $api, array $vars = array())

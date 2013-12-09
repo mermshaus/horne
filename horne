@@ -13,6 +13,12 @@ error_reporting(-1);
 ini_set('display_errors', 1);
 date_default_timezone_set('UTC');
 
+set_error_handler(
+    function ($errno, $errstr, $errfile, $errline, array $errcontext = null) {
+        throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+    }
+);
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 $console = new Application('Horne', HorneApplication::VERSION);
