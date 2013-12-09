@@ -69,6 +69,12 @@ class Application
 
     /**
      *
+     * @var array
+     */
+    protected $cacheGetMetasByTag = array();
+
+    /**
+     *
      */
     public function __construct()
     {
@@ -141,7 +147,7 @@ class Application
      * @param string $id
      * @return string
      */
-    protected function url($id)
+    public function url($id)
     {
         $metaBag = $this->metas->getById($id);
         $payload = $metaBag->getMetaPayload();
@@ -170,35 +176,6 @@ class Application
 
     /**
      *
-     * @param string $date
-     * @return string
-     */
-    protected function datef($date)
-    {
-        $dt = DateTime::createFromFormat('Y-m-d H:i:s', $date, new DateTimeZone('UTC'));
-
-        return $dt->format('j M Y');
-    }
-
-    /**
-     *
-     *
-     * See http://nikic.github.io/2012/01/28/htmlspecialchars-improvements-in-PHP-5-4.html
-     *
-     * @param string $s
-     * @return string
-     */
-    protected function e($s)
-    {
-        return htmlspecialchars(
-            $s,
-            ENT_QUOTES | ENT_HTML5 | ENT_SUBSTITUTE | ENT_DISALLOWED,
-            'UTF-8'
-        );
-    }
-
-    /**
-     *
      * @param  string $tplFile  Template file
      * @param  array  $vars     Content for the template
      * @return string           Rendered output
@@ -215,7 +192,9 @@ class Application
 
             echo substr($content, $secondSep + 3);
         } else {
-            require $tplFile;
+            $view = new View($this);
+            $vars['pathToRoot'] = $this->pathToRoot;
+            $view->execute($tplFile, $vars);
         }
 
         return ob_get_clean();
@@ -304,19 +283,26 @@ class Application
      * @param int $limitOffset
      * @return array
      */
-    protected function getMetasByType($type, array $order = array(), $limitCount = -1, $limitOffset = 0)
+    public function getMetasByType($type, array $order = array(), $limitCount = -1, $limitOffset = 0)
     {
         return $this->metas->getByType($type, $order, $limitCount, $limitOffset);
     }
 
-    protected $cacheGetMetasByTag = array();
+    /**
+     *
+     * @return array
+     */
+    public function getAllMetas()
+    {
+        return $this->metas->getAll();
+    }
 
     /**
      *
      * @param string $tag
      * @return array
      */
-    protected function getMetasByTag($tag)
+    public function getMetasByTag($tag)
     {
         if (count($this->cacheGetMetasByTag) === 0) {
             foreach ($this->metas->getAll() as $meta) {
@@ -337,6 +323,11 @@ class Application
         return $this->cacheGetMetasByTag[$tag];
     }
 
+    /**
+     *
+     * @param int $id
+     * @return MetaBag
+     */
     public function getMetaById($id)
     {
         return $this->metas->getById($id);
@@ -553,7 +544,7 @@ class Application
      * @param string $lang
      * @return string
      */
-    protected function syntax($source, $lang)
+    public function syntax($source, $lang)
     {
         $html = $this->syntaxHighlighter->highlight($source, $lang);
 
@@ -584,6 +575,11 @@ class Application
         return $this->config->get($parts, null);
     }
 
+    /**
+     *
+     * @param string $path
+     * @param string $root
+     */
     public function source($path, $root = null)
     {
         $mr = new MetaReader($this->pathHelper, $this->config->get('outputDir'));

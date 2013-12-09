@@ -11,7 +11,7 @@
 ---
 EOT;
 
-$metas = $this->metas->getAll();
+$metas = $this->getAllMetas();
 
 usort($metas, function ($a, $b) {
     return strcmp($a->getType(), $b->getType());

@@ -15,7 +15,7 @@ $title = (isset($m['title'])) ? $m['title'] : '';
 $horne = $this;
 
 $getTitleById = function ($id) use ($horne) {
-    $meta = $horne->metas->getByid($id);
+    $meta = $horne->getMetaByid($id);
     $payload = $meta->getMetaPayload();
     $title = (isset($payload['title'])) ? $payload['title'] : 'Untitled';
     return $title;

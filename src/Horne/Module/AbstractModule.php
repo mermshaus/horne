@@ -30,7 +30,7 @@ abstract class AbstractModule implements ModuleInterface
 
     public function hookLoadConfig(array $settings)
     {
-
+        return $settings;
     }
 
     public function hookProcessingBefore()
