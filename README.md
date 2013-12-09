@@ -91,7 +91,7 @@ variable.
 
 - `getMetasByTag(string $tag) : array`
 
-  Retrieves all Horne resources (`MetaBag`) with a specific set. Might be
+  Retrieves all Horne resources (`MetaBag`) with a specific tag. Might be
   deprecated.
 
 - `getMetaById(string $id) : Horne\MetaBag`
