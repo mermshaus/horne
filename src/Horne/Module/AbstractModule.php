@@ -60,7 +60,7 @@ abstract class AbstractModule implements ModuleInterface
                 continue;
             }
 
-            $this->application->source($file->getPathname());
+            $this->application->source($file->getPathname(), realpath($directory));
         }
     }
 }

@@ -584,13 +584,13 @@ class Application
         return $this->config->get($parts, null);
     }
 
-    public function source($path)
+    public function source($path, $root = null)
     {
         $mr = new MetaReader($this->pathHelper, $this->config->get('outputDir'));
 
         $o = array(
             'path' => $path,
-            'root' => null
+            'root' => $root
         );
 
         $metaBag = $mr->load($o);

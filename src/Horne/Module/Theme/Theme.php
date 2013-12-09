@@ -23,16 +23,6 @@ class Theme extends AbstractModule
     {
         $theme = $this->application->getSetting('theme.name');
 
-        $mb = new \Horne\MetaBag(
-            __DIR__ . '/themes/' . $theme . '/screen.css',
-            $this->application->config->get('outputDir') . '/assets/screen.css',
-            array(
-                'id'   => '/assets/screen.css',
-                'type' => 'asset',
-                'path' => '/assets/screen.css'
-            )
-        );
-
-        $this->application->metas->add($mb);
+        $this->sourceDir(__DIR__ . '/themes/' . $theme);
     }
 }

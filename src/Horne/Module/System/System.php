@@ -2,9 +2,11 @@
 
 namespace Horne\Module\System;
 
-use Horne\MetaBag;
 use Horne\Module\AbstractModule;
 
+/**
+ *
+ */
 class System extends AbstractModule
 {
     /**
@@ -29,52 +31,6 @@ class System extends AbstractModule
      */
     public function hookProcessingBefore()
     {
-        $app = $this->application;
-
-        $app->metas->add(new MetaBag(
-            __DIR__ . '/layouts/page.phtml',
-            $app->getSetting('outputDir') . '/nothing',
-            array(
-                'id'     => 'horne-layout-page',
-                'type'   => 'layout',
-                'layout' => 'horne-layout-default'
-            )
-        ));
-
-        $app->metas->add(new MetaBag(
-            __DIR__ . '/layouts/default.phtml',
-            $app->getSetting('outputDir') . '/nothing',
-            array(
-                'id'   => 'horne-layout-default',
-                'type' => 'layout'
-            )
-        ));
-
-        $app->metas->add(new MetaBag(
-            __DIR__ . '/layouts/html/head.phtml',
-            $app->getSetting('outputDir') . '/nothing',
-            array(
-                'id'     => 'horne-system-html-head',
-                'type'   => '_script'
-            )
-        ));
-
-        $app->metas->add(new MetaBag(
-            __DIR__ . '/layouts/html/foot.phtml',
-            $app->getSetting('outputDir') . '/nothing',
-            array(
-                'id'     => 'horne-system-html-foot',
-                'type'   => '_script'
-            )
-        ));
-
-        $app->metas->add(new MetaBag(
-            __DIR__ . '/assets/jquery-1.10.2.min.js',
-            $app->getSetting('outputDir') . '/assets/jquery-1.10.2.min.js',
-            array(
-                'id'     => 'jquery',
-                'type'   => 'asset'
-            )
-        ));
+        $this->sourceDir(__DIR__ . '/data');
     }
 }
