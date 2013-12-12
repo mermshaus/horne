@@ -55,6 +55,10 @@ class Blog extends AbstractModule
                 ? $settings['showAuthor']
                 : true;
 
+        $settings['showArticleCounter'] = (isset($settings['showArticleCounter']))
+                ? $settings['showArticleCounter']
+                : true;
+
         return $settings;
     }
 

@@ -96,7 +96,9 @@ Written
 
 </div>
 
+<?php if ($api->getSetting('blog.showArticleCounter')) : ?>
 <p style="text-align: center;"><?=$api->e($indexOfMyself)?>/<?=$api->e(count($metas))?></p>
+<?php endif; ?>
 
 <?php endif; ?>
 
