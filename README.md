@@ -109,10 +109,18 @@ Modules
 -------
 
 - Blog
+  - `bool showArticleCounter = true`
+  - `bool showAuthor = true`
+  - `bool showInfoline = true`
+  - `bool useTags = true`
 - Debug
 - Linkblog
+  - `string dataFile = "linkblog.rss"`
 - System
+  - `string siteName = null`
+  - `string siteSlogan = null`
 - Theme
+  - `string name`
 
 
 
