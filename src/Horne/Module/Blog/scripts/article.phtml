@@ -42,6 +42,37 @@ if ($i < count($metas) - 1) {
 
 <div class="horne-blog-article">
 
+
+
+
+<?php if ($next !== null || $prev !== null) : ?>
+
+
+    <div class="horne-blog-article-nav">
+
+    <?php if ($prev !== null) : ?>
+    <?php $article = $prev->getMetaPayload(); ?>
+        <a title="<?=$api->e($article['title'])?>" id="horne-system-navigation-previous" href="<?=$api->url($article['id'])?>">◀</a>
+    <?php endif; ?>
+
+    <?php if ($next !== null) : ?>
+    <?php $article = $next->getMetaPayload(); ?>
+        <a title="<?=$api->e($article['title'])?>" id="horne-system-navigation-next" href="<?=$api->url($article['id'])?>">▶</a>
+    <?php endif; ?>
+
+    </div>
+
+    <?php if ($api->getSetting('blog.showArticleCounter')) : ?>
+    <p style="text-align: center;"><?=$api->e($indexOfMyself)?>/<?=$api->e(count($metas))?></p>
+    <?php endif; ?>
+
+<?php endif; ?>
+
+
+
+
+
+
 <h1><?=$api->e($m['title'])?></h1>
 
 <?php if ($api->getSetting('blog.showInfoline')) : ?>
@@ -76,30 +107,6 @@ Written
 
 <?=$vars['content']?>
 
-<?php if ($next !== null || $prev !== null) : ?>
 
-<div class="cf">
-
-<?php if ($prev !== null) : ?>
-<?php $article = $prev->getMetaPayload(); ?>
-<div style="float: left; width: 45%; text-align: left;">
-    <a id="horne-system-navigation-previous" href="<?=$api->url($article['id'])?>">← <?=$api->e($article['title'])?></a>
-</div>
-<?php endif; ?>
-
-<?php if ($next !== null) : ?>
-<?php $article = $next->getMetaPayload(); ?>
-<div style="float: right; width: 45%; text-align: right;">
-    <a id="horne-system-navigation-next" href="<?=$api->url($article['id'])?>"><?=$api->e($article['title'])?> →</a>
-</div>
-<?php endif; ?>
-
-</div>
-
-<?php if ($api->getSetting('blog.showArticleCounter')) : ?>
-<p style="text-align: center;"><?=$api->e($indexOfMyself)?>/<?=$api->e(count($metas))?></p>
-<?php endif; ?>
-
-<?php endif; ?>
 
 </div>
