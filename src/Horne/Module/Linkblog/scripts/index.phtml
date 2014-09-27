@@ -88,7 +88,21 @@ foreach ($grouped as $year => $grouped2) {
                 $url = $tmp['link']->nodeValue;
                 $host = parse_url($url, PHP_URL_HOST);
 
-                echo '<li>' . $api->e($tmp['title']->nodeValue)
+                // Don't show "www" subdomains
+                if ('www.' === mb_substr($host, 0, 4)) {
+                    $host = mb_substr($host, 4);
+                }
+
+                $data = $tmp['title']->nodeValue;
+
+                if (!in_array(
+                    mb_substr($data, -1),
+                    array('.', '!', '?')
+                )) {
+                    $data .= '.';
+                }
+
+                echo '<li>' . $api->e($data)
                     . ' <a href="' . $api->e($url) . '">' . $api->e($host) . '</a>'
                     . '</li>';
             }
