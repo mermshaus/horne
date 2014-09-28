@@ -51,6 +51,10 @@ usort($items, function ($a, $b) {
     return strcmp($a['title']->nodeValue, $b['title']->nodeValue);
 });
 
+if ($api->getSetting('linkblog.entriesPerPage') > -1) {
+    $items = array_slice($items, 0, $api->getSetting('linkblog.entriesPerPage'));
+}
+
 $grouped = array();
 
 foreach ($items as $tmp) {

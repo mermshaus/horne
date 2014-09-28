@@ -116,6 +116,7 @@ Modules
 - Debug
 - Linkblog
   - `string dataFile = "linkblog.rss"`
+  - `int    entriesPerPage = 40` (-1 for no limit)
 - System
   - `string siteName = null`
   - `string siteSlogan = null`

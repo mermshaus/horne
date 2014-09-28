@@ -20,6 +20,10 @@ class Linkblog extends AbstractModule
 
         $settings['dataFile'] = $app->dingsify($app->getSetting('sourceDir'), $settings['dataFile']);
 
+        $settings['entriesPerPage'] = (isset($settings['entriesPerPage']))
+                ? $settings['entriesPerPage']
+                : 40;
+
         return $settings;
     }
 
