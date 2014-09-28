@@ -52,7 +52,6 @@
 
 .horne-blog-infoline {
     font-size: 70%;
-    /*text-align: center;*/
 }
 
 body {
@@ -76,10 +75,6 @@ h3 { font-size: 30px; }
 h4 { font-size: 24px; }
 h5 { font-size: 22px; }
 h6 { font-size: 20px; }
-
-h1 {
-    /*text-align: center;*/
-}
 
 img {
     margin: 0 auto;
@@ -108,26 +103,21 @@ dd {
     margin-bottom: 1em;
 }
 
-pre {
-    line-height: 130%;
-}
-
-pre {
-    font-family: monospace;
-    padding: 1em;
-    background: #444;
-    color: #fff;
-    border-radius: 1em;
-    white-space: pre-wrap;
-}
-
 blockquote {
-    margin: 0 4em;
+    margin: 1em 3em;
     font-style: italic;
 }
 
+pre {
+    line-height: 100%;
+    font-family: Ubuntu Mono, Inconsolata, monospace;
+    margin: 0;
+    padding: 0.5em 0;
+    white-space: pre-wrap;
+}
+
 pre, code {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 code {
@@ -136,6 +126,10 @@ code {
 
 pre code {
     background: inherit;
+}
+
+sub {
+    font-size: 70%;
 }
 
 table {
@@ -252,71 +246,73 @@ td, th {
 }
 
 
-/**
- * Zenburn for GeSHi
- */
 
-pre {
-    color: #dcdccc;
-    background: #3f3f3f;
+/* Source code boxes */
+
+div.source {
+    width: 100%;
+    overflow-x: auto;
+    background: plum; /* should never be visible */
+    margin: 1em 0;
 }
 
-/* Brackets */
-.br0  {} /* Symbols [ ( { } ) ] */
+div.source pre {
+    white-space: pre;
+}
 
-/* comments */
-.co0  { color: #7f9f7f;                     } /* "#" style comments */
-.co1  { color: #7f9f7f; font-style: italic; }
-.co2  {}
-.co3  {}                                      /* EOT blocks */
-.co4  { color: #7f9f7f;                     } /* / * * / style comments */
-.coMULTI { color: #7f9f7f;                  } /* multiline comments */
+div.source pre span.line {
+    display: inline-block;
+    width: 100%;
+}
 
-/* default text (without any code highlighting) */
-.de1  {}
-.de2  {}
+div.source table {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
 
-/* Escaped characters */
-.es0  {}
-.es1  {}
-.es2  {}
-.es3  {}
-.es4  {}
-.es5  {}
-.es6  {}
-.es_h {}
+div.source td,
+div.source th {
+    padding: 0;
+    margin: 0;
+}
+div.source td {
+    vertical-align: top;
+}
 
-/* keywords */
-.kw1  { color: #f0dfaf; font-weight: bold; } /* Key Words I (if, do, while, etc.) */
-.kw2  { color: #f0dfaf; font-weight: bold; } /* Key Words II (null, true, false, etc.) */
-.kw3  {  } /* Built-in Functions (array())*/
-.kw4  { color: #f0dfaf; font-weight: bold; } /* Data Types (int, bool, etc) / false in PHP */
+div.source pre.line-numbers {
+    padding-left: 1.5em;
+    padding-right: 0.5em;
+}
 
-/* line highlights */
-.li1 {}
+div.source td.sidebar {
+    text-align: right;
+    width: 3em;
+}
 
-/* Numbers */
-.nu0  { color: #8cd0d3; }
-.nu8  {}
-.nu12 {}
-.nu19 {}
+/* GeSHi port of the Zenburn scheme for gedit */
 
-/* Methods */
-.me1  {}
-.me2  {}
-
-/* Vars */
-.re0  { color: #ffcfaf;                    } /* Variables */
-.re1  {} /* xml tag open */
-.re2  {} /* xml tag close */
-.re5  {}
-
-.sc0  {}
-
-/* strings */
-.st0  { color: #cc9393                      } /* "\"" style strings */
-.st_h { color: #cc9393;                     } /* "'" style strings */
-
-/* symbol */
-.sy0  {}
-.sy1  {}                                      /* ?> php closing tag */
+.geshi { color: #dcdccc; background: #3f3f3f; }
+.geshi .def_boolean { color: #dca3a3; }
+.geshi .def_comment { color: #7f9f7f; }
+.geshi .def_constant { color: #dca3a3; font-weight: bold; }
+.geshi .cursor { color: #000d18; background: #8faf9f; font-weight: bold; }
+.geshi .diff_added-line { color: #709080; background: #313c36; font-weight: bold; }
+.geshi .diff_changed-line { background: #333333; }
+.geshi .diff_removed-line { color: #333333; background: #464646; }
+.geshi .def_function { color: #efef8f; }
+.geshi .def_identifier { color: #efdcbc; }
+.geshi .def_keyword { color: #f0dfaf; font-weight: bold; }
+.geshi .line-numbers { color: #7f8f8f; background: #464646; }
+.geshi .def_number { color: #8cd0d3; }
+.geshi .def_preprocessor { color: #ffcfaf; font-weight: bold; }
+.geshi .search-match { color: #ffffe0; background: #385f38; }
+.geshi .def_specials { color: #cfbfaf; }
+.geshi .def_statement { color: #e3ceab; background: #3f3f3f; }
+.geshi .def_string { color: #cc9393; }
+.geshi .def_type { color: #dfdfbf; font-weight: bold; }
+.geshi .def_error { color: #e37170; background: #332323; }
+.geshi .selection { background: #ef7950; }
+.geshi .selection-unfocused { background: #ef7950; }

@@ -34,20 +34,29 @@ class GeSHiSyntaxHighlighter extends SyntaxHighlighter
                 $x = $m[1];
 
                 switch (true) {
+                    case (1 === preg_match('/^br(?:[0-9]+)$/', $m[1])):
+                        /* no idea */
+                        break;
                     case (1 === preg_match('/^co(?:[0-9]+|MULTI)$/', $m[1])):
                         $x = 'def_comment';
+                        break;
+                    case (1 === preg_match('/^kw[0-9]+$/', $m[1])):
+                        $x = 'def_keyword';
+                        break;
+                    case (1 === preg_match('/^nu[0-9]+$/', $m[1])):
+                        $x = 'def_number';
                         break;
                     case (1 === preg_match('/^re[0-9]+$/', $m[1])):
                         $x = 'def_identifier';
                         break;
-                    case (1 === preg_match('/^nu[0-9]+$/', $m[1])):
-                        $x = 'def_decimal';
-                        break;
                     case (1 === preg_match('/^st(?:[0-9]+|_h)$/', $m[1])):
                         $x = 'def_string';
                         break;
-                    case (1 === preg_match('/^kw[0-9]+$/', $m[1])):
-                        $x = 'def_keyword';
+                    case (1 === preg_match('/^sy(?:[0-9]+)$/', $m[1])):
+                        $x = 'def_operator';
+                        break;
+                    default:
+                        /* not mapped, yet */
                         break;
                 }
 
@@ -105,35 +114,38 @@ class GeSHiSyntaxHighlighter extends SyntaxHighlighter
             $highlight = false;
 
             foreach ($lineHighlights as $range) {
-                if ($i >= $range[0] && $i <= $range[0] + $range[1]) {
+                if ($i >= $range[0] && $i < $range[0] + $range[1]) {
                     $highlight = true;
                     break;
                 }
             }
 
             if ($highlight) {
-                $html .= '<span class="line selection" id="l'.$i.'">' . strip_tags($line) . "</span>\n";
+                // No support for IDs as of now
+                #$html .= '<span class="line selection" id="l'.$i.'">' . strip_tags($line) . "</span>\n";
+                $html .= '<span class="line selection">' . strip_tags($line) . "</span>\n";
             } else {
-                $html .= '<span class="line" id="l'.$i.'">' . $line . "</span>\n";
+                #$html .= '<span class="line" id="l'.$i.'">' . $line . "</span>\n";
+                $html .= '<span class="line">' . $line . "</span>\n";
             }
         }
 
         $html = rtrim($html) . $end;
 
-
-        $tmp = '<div class="source"><table>';
-
-        $tmp .= '<tr>';
-        $tmp .= '<td style="vertical-align: top; text-align: right; min-width: 4em;">';
-        $tmp .= '<div class="geshi"><div class="line-numbers">';
-        $tmp .= '<pre style="padding-right: 0.5em;">' . implode("\n", range(1, $i)) . '</pre>';
-        $tmp .= '</div></div>';
-        $tmp .= '</td>';
-        $tmp .= '<td style="vertical-align: top;">' . $html . '</td>';
-
-        $tmp .= '</tr>';
-
-        $tmp .= '</table></div>';
+        $tmp = '<div class="source">' . "\n";
+        $tmp .= '  <table>' . "\n";
+        $tmp .= '    <tr>' . "\n";
+        $tmp .= '      <td class="sidebar">' . "\n";
+        $tmp .= '        <div class="geshi">' . "\n";
+        $tmp .= '          <pre class="line-numbers">' . implode("\n", range(1, $i)) . '</pre>' . "\n";
+        $tmp .= '        </div>' . "\n";
+        $tmp .= '      </td>' . "\n";
+        $tmp .= '      <td>' . "\n";
+        $tmp .= '        ' . $html . "\n";
+        $tmp .= '      </td>' . "\n";
+        $tmp .= '    </tr>' . "\n";
+        $tmp .= '  </table>' . "\n";
+        $tmp .= '</div>' . "\n";
 
         return $tmp;
     }
@@ -146,9 +158,6 @@ class GeSHiSyntaxHighlighter extends SyntaxHighlighter
      */
     public function highlight($source, $language)
     {
-        // Language name might be used in HTML attributes, so filter it
-        $language = preg_replace('/[^a-zA-Z0-9_-]/', '', $language);
-
         if ($language === '' || $language === 'plain') {
             $language = 'text';
         }
@@ -159,8 +168,8 @@ class GeSHiSyntaxHighlighter extends SyntaxHighlighter
 
         $html = $geshi->parse_code();
 
-        $html = $this->stuff($html, $language);
+        $html_improved = $this->stuff($html, $language);
 
-        return $html;
+        return $html_improved;
     }
 }
