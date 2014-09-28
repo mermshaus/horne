@@ -98,7 +98,7 @@ variable.
 
   Retrieves a specific MetaBag by Horne resource id.
 
-- `syntax(string $source, string $lang) : string`
+- `syntax(string $source, string $lang = 'text') : string`
 
   Returns a syntax-highlighted string. The PHTML renderer uses GeSHi for
   syntax highlighting.

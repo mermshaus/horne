@@ -121,7 +121,7 @@ class Api
         return $this->application->getMetaById($id);
     }
 
-    public function syntax($source, $lang)
+    public function syntax($source, $lang = 'text')
     {
         return $this->application->syntax($source, $lang);
     }
