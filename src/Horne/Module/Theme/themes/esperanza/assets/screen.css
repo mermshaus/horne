@@ -213,6 +213,10 @@ td, th {
     padding: 10px;
 }
 
+.horne-system-navigation-disabled {
+    color: #ddd;
+}
+
 .horne-system-content {
     max-width: 44em;
     margin: 0 auto;

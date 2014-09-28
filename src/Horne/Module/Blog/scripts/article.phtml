@@ -44,32 +44,31 @@ if ($i < count($metas) - 1) {
 
 
 
-
 <?php if ($next !== null || $prev !== null) : ?>
-
 
     <div class="horne-blog-article-nav">
 
     <?php if ($prev !== null) : ?>
     <?php $article = $prev->getMetaPayload(); ?>
-        <a title="<?=$api->e($article['title'])?>" id="horne-system-navigation-previous" href="<?=$api->url($article['id'])?>">◀</a>
+        <a title="<?=$api->e($article['title'])?>" id="horne-system-navigation-previous" href="<?=$api->url($article['id'])?>"><?="\xE2\x97\x80"?></a>
+    <?php else : ?>
+        <span class="horne-system-navigation-disabled"><?="\xE2\x97\x80"?></span>
     <?php endif; ?>
 
     <?php if ($next !== null) : ?>
     <?php $article = $next->getMetaPayload(); ?>
-        <a title="<?=$api->e($article['title'])?>" id="horne-system-navigation-next" href="<?=$api->url($article['id'])?>">▶</a>
+        <a title="<?=$api->e($article['title'])?>" id="horne-system-navigation-next" href="<?=$api->url($article['id'])?>"><?="\xE2\x96\xB6"?></a>
+    <?php else : ?>
+        <span class="horne-system-navigation-disabled"><?="\xE2\x96\xB6"?></span>
     <?php endif; ?>
 
     </div>
 
     <?php if ($api->getSetting('blog.showArticleCounter')) : ?>
-    <p style="text-align: center;"><?=$api->e($indexOfMyself)?>/<?=$api->e(count($metas))?></p>
+        <p style="text-align: center;"><?=$api->e($indexOfMyself)?>/<?=$api->e(count($metas))?></p>
     <?php endif; ?>
 
 <?php endif; ?>
-
-
-
 
 
 
