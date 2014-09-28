@@ -131,7 +131,7 @@ License
 Horne is licensed under the GPLv3 license. (See COPYING.)
 
 ~~~
-Copyright (C) 2013  Marc Ermshaus
+Copyright (C) 2013, 2014  Marc Ermshaus
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
