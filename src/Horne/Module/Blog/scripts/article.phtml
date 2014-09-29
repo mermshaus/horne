@@ -46,7 +46,23 @@ if ($i < count($metas) - 1) {
 
 <?php if ($next !== null || $prev !== null) : ?>
 
-    <div class="horne-blog-article-nav">
+    <div class="cf">
+
+        <div style="float: left;">
+            <a href="<?=$api->e($api->url('blog-index'))?>">Home</a> <span style="color: #ddd;">/</span>
+
+            <?php
+            $timestamp = strtotime($m['date_created']);
+            $month = date('F', $timestamp);
+            $year = date('Y', $timestamp)
+            ?>
+
+            <a href="<?=$api->e($api->url('horne-blog-archive-index'))?>"><?=$api->e($year)?></a> <span style="color: #ddd;">/</span>
+            <a href="<?=$api->e($api->url('horne-blog-archive-index'))?>"><?=$api->e($month)?></a>
+
+        </div>
+
+    <div class="horne-blog-article-nav" style="float: right;">
 
     <?php if ($prev !== null) : ?>
     <?php $article = $prev->getMetaPayload(); ?>
@@ -67,6 +83,8 @@ if ($i < count($metas) - 1) {
     <?php if ($api->getSetting('blog.showArticleCounter')) : ?>
         <p style="text-align: center;"><?=$api->e($indexOfMyself)?>/<?=$api->e(count($metas))?></p>
     <?php endif; ?>
+
+    </div>
 
 <?php endif; ?>
 
