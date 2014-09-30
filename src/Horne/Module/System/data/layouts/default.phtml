@@ -73,14 +73,14 @@ $(function () {
 
 <body<?=$bodyClass?>>
 
-    <div class="horne-system-header">
+    <div class="horne-system-header cf">
     <div class="horne-system-header-inner">
 
         <h1><a href="<?=$api->e($api->url('index'))?>"><?=$api->e($api->getSetting('system.siteTitle'))?></a></h1>
 
     <?php if (count($menuIds) > 0) : ?>
     <div class="horne-system-navigation">
-    <ul class="cf">
+    <ul>
     <?php foreach ($menuIds as $id) : ?>
         <li><a href="<?=$api->e($api->url($id))?>"><?=$api->e($getTitleById($id))?></a></li>
     <?php endforeach; ?>
