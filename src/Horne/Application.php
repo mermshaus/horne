@@ -447,6 +447,7 @@ class Application
             $module->hookProcessingBefore2();
         }
 
+        /** @todo This needs more error handling */
         foreach ($this->config->get('metaOverrides') as $id => $newData) {
             $meta = $this->metas->getById($id);
             $payload = $meta->getMetaPayload();
@@ -463,6 +464,14 @@ class Application
 
             $payload['path'] = $newData['path'];
             $payload['slug'] = $newData['slug'];
+
+            if (
+                array_key_exists('title', $newData)
+                && array_key_exists('title', $payload)
+            ) {
+                $payload['title'] = trim($newData['title']);
+            }
+
             $meta->setMetaPayload($payload);
         }
 
