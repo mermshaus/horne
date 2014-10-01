@@ -1,0 +1,32 @@
+<?php
+<<<EOT
+---
+{
+    "id": "horne-blog-widget-articles",
+    "type": "_script"
+}
+---
+EOT;
+
+$blog = $api->getModule('blog');
+
+$vars['amount'] = array_key_exists('amount', $vars)
+        ? $vars['amount']
+        : 10;
+?>
+
+<h2>Recent articles</h2>
+
+<?php $articles = $api->getMetasByType('article', array('date_created' => 'desc'), $vars['amount']); ?>
+
+<?php if (count($articles) === 0) : ?>
+
+    <p>No entries.</p>
+
+<?php else : ?>
+
+    <?=$api->render('horne-blog-sub-article-list', array('articles' => $articles))?>
+
+    <p><a href="<?=$api->e($api->url('horne-blog-archive-index'))?>">Archive</a></p>
+
+<?php endif; ?>

@@ -13,4 +13,6 @@ EOT
     <p class="horne-slogan"><?=$api->e($api->getSetting('system.siteSlogan'))?></p>
 <?php endif; ?>
 
-<?=$api->render('horne-blog-index')?>
+<?=$api->render('horne-blog-widget-articles');?>
+
+<?=$api->render('horne-blog-widget-tags');?>

@@ -2,33 +2,21 @@
 <<<EOT
 ---
 {
-    "id": "horne-blog-index",
+    "id": "horne-blog-widget-tags",
     "type": "_script"
 }
 ---
 EOT;
 
 $blog = $api->getModule('blog');
+
+$vars['amount'] = array_key_exists('amount', $vars)
+        ? $vars['amount']
+        : 10;
 ?>
 
-<h2>Recent entries</h2>
-
-<?php $articles = $api->getMetasByType('article', array('date_created' => 'desc'), 5); ?>
-
-<?php if (count($articles) === 0) : ?>
-
-    <p>No entries.</p>
-
-<?php else : ?>
-
-    <?=$api->render('horne-blog-sub-article-list', array('articles' => $articles))?>
-
-    <p><a href="<?=$api->e($api->url('horne-blog-archive-index'))?>">Archive</a></p>
-
-<?php endif; ?>
-
 <?php if ($api->getSetting('blog.useTags')) : ?>
-    <h2>Tags</h2>
+    <h2>Popular tags</h2>
 
     <?php $tags = $blog->getAllTags(); ?>
 
@@ -36,9 +24,12 @@ $blog = $api->getModule('blog');
         <p>No tags.</p>
     <?php else : ?>
         <ul>
+        <?php $i = 0; ?>
         <?php foreach ($blog->getAllTags() as $tag => $amount) : ?>
+            <?php $i++; ?>
+            <?php if ($i > $vars['amount']) { break; } ?>
             <li>
-                <a href="<?=$api->url('horne-blog-tag-' . $tag)?>"><?=$api->e($tag)?></a>
+                <a href="<?=$api->e($api->url('horne-blog-tag-' . $tag))?>"><?=$api->e($tag)?></a>
                 <?php if ($amount > 1) : ?>
                 (<?=$api->e($amount)?>)
                 <?php endif; ?>
