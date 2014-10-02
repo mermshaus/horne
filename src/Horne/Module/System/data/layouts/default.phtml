@@ -12,25 +12,6 @@ $m = $vars['meta'];
 
 $title = (isset($m['title'])) ? $m['title'] : '';
 
-$horne = $api;
-
-$getTitleById = function ($id) use ($horne) {
-    $meta = $horne->getMetaByid($id);
-    $payload = $meta->getMetaPayload();
-    $title = (isset($payload['title'])) ? $payload['title'] : 'Untitled';
-    return $title;
-};
-
-$menuIds = array();
-
-$skip = array('index', 'horne-debug-debug', 'horne-blog-archive-index');
-
-foreach ($api->getMetasByType('page') as $meta) {
-    if (!in_array($meta->getId(), $skip)) {
-        $menuIds[] = $meta->getId();
-    }
-}
-
 $bodyClass = '';
 
 if ($m['id'] === 'index') {
@@ -74,20 +55,12 @@ $(function () {
 
 <body<?=$bodyClass?>>
 
-    <div class="horne-system-header cf">
-    <div class="horne-system-header-inner">
+    <div class="horne-system-header">
+    <div class="horne-system-header-inner cf">
 
         <h1><a href="<?=$api->e($api->url('index'))?>"><?=$api->e($api->getSetting('system.siteTitle'))?></a></h1>
 
-    <?php if (count($menuIds) > 0) : ?>
-    <div class="horne-system-navigation">
-    <ul>
-    <?php foreach ($menuIds as $id) : ?>
-        <li><a href="<?=$api->e($api->url($id))?>"><?=$api->e($getTitleById($id))?></a></li>
-    <?php endforeach; ?>
-    </ul>
-    </div>
-    <?php endif; ?>
+        <?=$api->render('horne-system-html-mainmenu')?>
 
     </div>
     </div>

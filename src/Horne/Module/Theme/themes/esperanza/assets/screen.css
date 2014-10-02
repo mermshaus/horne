@@ -318,3 +318,90 @@ div.source td.sidebar {
 .geshi .def_error { color: #e37170; background: #332323; }
 .geshi .selection { background: #ef7950; }
 .geshi .selection-unfocused { background: #ef7950; }
+
+
+
+/*******************************************************************************
+ * Main menu
+ ******************************************************************************/
+
+/* Targeting both first and second level menus */
+#nav ul,
+ul#nav {
+    padding: 0;
+    margin: 0;
+}
+ul#nav {
+    padding-left: 10px;
+    float: left;
+    font-size: 90%;
+}
+#nav li {
+    float: left;
+    position: relative;
+    list-style: none;
+    margin: 0;
+}
+#nav li a {
+    /*background: #d6cfbd;*/
+    /*border: 3px solid #4f4026;*/
+    /*color: #333;*/
+    display: block;
+    padding: 5px 8px;
+}
+#nav li a:hover {
+}
+
+/* Targeting the first level menu */
+#nav {
+    /*display: block;
+    height: 35px;
+    padding: 10px 0;
+    width: 500px;
+    z-index: 100;
+    position: absolute;*/
+}
+#nav > li > a {
+    /*border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    -webkit-border-top-left-radius: 10px;
+    -webkit-border-top-right-radius: 10px;*/
+}
+#nav > li {
+    line-height: 40px;
+}
+
+/* Targeting the second level menu */
+#nav li ul {
+    background: #fdfdfd;
+    border: 3px solid #aaa;
+    display: none;
+    width: 200px;
+    position: absolute;
+}
+#nav li ul li {
+    width: 100%
+}
+#nav li ul li a {
+}
+#nav li ul li a:hover {
+}
+
+/* Third level menu */
+#nav li ul li ul{
+    right: -200px; top: 0;
+}
+
+/* A class of current will be added via jQuery */
+#nav li.current > a {
+    background: #f7f7f7;
+}
+/* CSS fallback */
+#nav li:hover > ul.child {
+    display: block;
+}
+#nav li:hover > ul.grandchild  {
+    display: block;
+}

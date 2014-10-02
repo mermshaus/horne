@@ -1,0 +1,131 @@
+<?php
+<<<EOT
+---
+{
+    "id"   : "horne-system-html-mainmenu",
+    "type" : "_script"
+}
+---
+EOT;
+
+$getTitleById = function ($id) use ($api) {
+    $meta = $api->getMetaByid($id);
+    $payload = $meta->getMetaPayload();
+    $title = (isset($payload['title'])) ? $payload['title'] : 'Untitled';
+    return $title;
+};
+
+$menu = array();
+
+$pages_tmp = $api->getMetasByType('page');
+$pages = array();
+
+$skip = array('index'/*, 'horne-debug-debug'*//*, 'horne-blog-archive-index'*/);
+
+foreach ($pages_tmp as $meta) {
+    if (!in_array($meta->getId(), $skip)) {
+        $pages[] = $meta;
+    }
+}
+
+if (count($pages) > 0) {
+    $children = array();
+
+    foreach ($pages as $meta) {
+        $children[] = array(
+            'title'    => $getTitleById($meta->getId()),
+            'url'      => $api->url($meta->getId()),
+            'children' => array()
+        );
+    }
+
+    $menu = $children;
+}
+
+ob_start();
+echo $api->render('horne-system-html-mainmenu-additional');
+$json = ob_get_clean();
+
+foreach (json_decode(trim($json), true) as $entry) {
+    $menu[] = $entry;
+}
+
+$rec = function ($data, $depth = 0) use (&$rec, $api) {
+    $spacer = str_repeat(' ', ($depth + 1) * 2);
+    $spacer2 = str_repeat(' ', ($depth + 2) * 2);
+
+    $title = $data['title'];
+    $hasChildren = (count($data['children']) > 0);
+
+    if ($hasChildren) {
+        if ($depth === 0) {
+            $title .= ' ↓';
+        } else {
+            $title .= ' →';
+        }
+    }
+
+    $s = $spacer . '<li>' . '<a href="' . $api->e($data['url']) . '">';
+    $s .= $api->e($title) . '</a>';
+
+    if ($hasChildren) {
+        $classes = array();
+
+        if (1 === $depth + 1) {
+            $classes[] = 'child';
+        } else {
+            $classes[] = 'grandchild';
+        }
+
+        $classesFlat = (count($classes) > 0)
+                ? ' class="' . implode(' ', $classes) . '"'
+                : '';
+
+        $s .= "\n" . $spacer2 . '<ul' . $classesFlat . '>' . "\n";
+
+        foreach ($data['children'] as $child) {
+            $s .= $rec($child, $depth + 1);
+        }
+
+        $s .= $spacer2 . '</ul>' . "\n" . $spacer;
+    }
+
+    $s .= '</li>' . "\n";
+
+    return $s;
+};
+
+$menu_html = '<ul id="nav" class="cf">' . "\n";
+foreach ($menu as $item) {
+    $menu_html .= $rec($item);
+}
+$menu_html .= '</ul>' . "\n";
+
+# horne-system-navigation
+?>
+
+
+<?=$menu_html?>
+
+
+<script>
+$(function(){
+    // Remove the class of child and grandchild
+    // This removes the CSS 'fallback'
+    $("#nav ul.child").removeClass("child");
+    $("#nav ul.grandchild").removeClass("grandchild");
+
+    // When a list item that contains an unordered list
+    // is hovered on
+    $("#nav li").has("ul").hover(
+        function(){
+            //Add a class of current and fade in the sub-menu
+            $(this).addClass("current").children("ul").fadeIn();
+        }, function() {
+            // On mouse off remove the class of current
+            // Stop any sub-menu animation and set its display to none
+            $(this).removeClass("current").children("ul").stop(true, true).css("display", "none");
+        }
+    );
+});
+</script>
