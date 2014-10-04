@@ -16,6 +16,7 @@ $vars['amount'] = array_key_exists('amount', $vars)
 ?>
 
 <?php if ($api->getSetting('blog.useTags')) : ?>
+<div class="horne-blog-widget-tags cf">
     <h2>Popular tags</h2>
 
     <?php $tags = $blog->getAllTags(); ?>
@@ -27,15 +28,17 @@ $vars['amount'] = array_key_exists('amount', $vars)
         <?php $i = 0; ?>
         <?php foreach ($blog->getAllTags() as $tag => $amount) : ?>
             <?php $i++; ?>
-            <?php if ($i > $vars['amount']) { break; } ?>
+            <?php if (-1 !== $vars['amount'] && $i > $vars['amount']) { break; } ?>
+
+            <?php $amountLine = $amount . ((1 === $amount) ? ' entry' : ' entries'); ?>
+
             <li>
-                <a href="<?=$api->e($api->url('horne-blog-tag-' . $tag))?>"><?=$api->e($tag)?></a>
-                <?php if ($amount > 1) : ?>
-                (<?=$api->e($amount)?>)
-                <?php endif; ?>
+                <a href="<?=$api->e($api->url('horne-blog-tag-' . $tag))?>"
+                   title="<?=$api->e($amountLine)?>"
+                ><?=$api->e($tag)?></a>
             </li>
         <?php endforeach; ?>
         </ul>
     <?php endif; ?>
-
+</div>
 <?php endif; ?>

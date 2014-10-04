@@ -60,7 +60,7 @@ body {
     font-family: Lora, Georgia, serif;
     font-size: 20px;
     color: #333;
-    background: #fdfdfd;
+    background: #f6f6f6;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -404,4 +404,21 @@ ul#nav {
 }
 #nav li:hover > ul.grandchild  {
     display: block;
+}
+
+
+
+.horne-blog-widget-tags ul {
+    margin: 0;
+    padding: 0;
+}
+
+.horne-blog-widget-tags li {
+    float: left;
+    list-style: none;
+    font-size: 90%;
+    margin: 0 0.5em 0.5em 0;
+    border-radius: 0.5em;
+    border: 0.1em solid #999;
+    padding: 0 0.2em;
 }
