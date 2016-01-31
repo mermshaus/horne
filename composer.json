@@ -1,4 +1,5 @@
 {
+    "name": "mermshaus/horne",
     "repositories": [
         {
             "type": "package",
