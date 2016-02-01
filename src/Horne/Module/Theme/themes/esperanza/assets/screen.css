@@ -1,4 +1,5 @@
-@import url(http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic);
+/*@import url(http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic);*/
+@import url(http://fonts.googleapis.com/css?family=Vollkorn:400,700,400italic,700italic);
 
 /**
  * For modern browsers
@@ -57,14 +58,14 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: Lora, Georgia, serif;
+    font-family: Vollkorn, Lora, Georgia, serif;
     font-size: 20px;
     color: #333;
     background: #f6f6f6;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: Lora, Georgia, serif;
+    font-family: Vollkorn, Lora, Georgia, serif;
     font-style: italic;
     font-weight: normal;
 }
@@ -112,7 +113,7 @@ pre {
     line-height: 100%;
     font-family: Ubuntu Mono, Inconsolata, monospace;
     margin: 0;
-    padding: 0.5em 0;
+    padding: 1em 0;
     white-space: pre-wrap;
 }
 
@@ -121,7 +122,7 @@ pre, code {
 }
 
 code {
-    background: #eee;
+    background: #ddd;
 }
 
 pre code {
@@ -160,11 +161,11 @@ td, th {
 
 .horne-system-header {
     margin-bottom: 50px;
-    background: #fdfdfd;
-    -webkit-box-shadow: 0px 0px 10px 0px rgba(170,170,170,1);
+    /*background: #fdfdfd;*/
+    /*-webkit-box-shadow: 0px 0px 10px 0px rgba(170,170,170,1);
     -moz-box-shadow: 0px 0px 10px 0px rgba(170,170,170,1);
-    box-shadow: 0px 0px 10px 0px rgba(170,170,170,1);
-    /*border-bottom: 1px solid #333;*/
+    box-shadow: 0px 0px 10px 0px rgba(170,170,170,1);*/
+    border-bottom: 1px solid #ccc;
 }
 
 .horne-system-header-inner {
@@ -421,4 +422,23 @@ ul#nav {
     border-radius: 0.5em;
     border: 0.1em solid #999;
     padding: 0 0.2em;
+}
+
+.horne-blog-article-list {
+    margin: 0;
+    padding: 0;
+    margin-left: 8em;
+}
+
+.horne-blog-article-list li {
+    list-style: none;
+    margin-bottom: 1em;
+}
+
+.horne-blog-article-list li time {
+    text-align: right;
+    float: left;
+    display: block;
+    width: 7em;
+    margin-left: -8em;
 }
