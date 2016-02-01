@@ -13,11 +13,10 @@ dependencies. You might also need to set the file `horne` as executable.
 
 A full example install script:
 
-~~~
+~~~ bash
 git clone https://github.com/mermshaus/horne.git
 cd horne
-curl -s http://getcomposer.org/installer | php
-php composer.phar install
+composer install
 chmod +x horne
 ./horne --version
 ~~~
@@ -29,7 +28,7 @@ Building bundled demo projects
 
 From Horne’s root directory run:
 
-~~~
+~~~ bash
 ./horne build --working-dir demos/hello-world
 ./horne build --working-dir demos/blog
 ~~~
