@@ -1,0 +1,72 @@
+<?php
+<<<EOT
+---
+{
+    "id"      : "horne-linkblog-feed",
+    "type"    : "page-custom",
+    "layout"  : null,
+    "path"   : "/linkblog/rss.xml",
+
+    "title"   : "feed"
+}
+---
+EOT;
+
+$doc = new DOMDocument('1.0', 'UTF-8');
+$doc->formatOutput = true;
+$doc->preserveWhiteSpace = false;
+$doc->load($api->getSetting('linkblog.dataFile'));
+$xpath = new DOMXPath($doc);
+
+$channel = $xpath->evaluate('//channel[0]');
+
+$itemCount = $xpath->evaluate('count(//item)');
+
+$i = 1;
+
+foreach ($xpath->query('//item') as $node) {
+        if ($itemCount - $i >= 20) {
+                $node->parentNode->removeChild($node);
+        }
+
+        $i++;
+}
+
+#echo $doc->saveXML();
+
+$booklist = $xpath->query('//item');
+
+// Books is a DOMNodeList, not an array.
+// This is the reason for your usort() warning.
+
+// Copies DOMNode elements in the DOMNodeList to an array.
+$books = iterator_to_array($booklist);
+
+// Second, your sorting function is using the wrong API
+// $node['id'] is SimpleXML syntax for attribute access.
+// DOMElement uses $node->getAttribute('id');
+function sort_by_numeric_id_attr($a, $b)
+{
+    return (int) strtotime($b->getElementsByTagName('pubDate')->item(0)->nodeValue) - (int) strtotime($a->getElementsByTagName('pubDate')->item(0)->nodeValue);
+}
+
+// Now usort()
+usort($books, 'sort_by_numeric_id_attr');
+
+// verify:
+/*foreach ($books as $book) {
+    echo $book->C14N(), "\n";
+}*/
+
+/*echo 'bla'; exit;*/
+
+foreach ($books as $book) {
+    $pn = $book->parentNode;
+    $pn->removeChild($book);
+
+}
+foreach ($books as $book) {
+    $pn->appendChild($book);
+}
+
+echo $doc->saveXML();
