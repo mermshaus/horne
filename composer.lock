@@ -1,25 +1,48 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
-    "hash": "5217d824dbaa7e84f118813e311dbfbd",
+    "hash": "fc9627876f5166c2e567b00bdd66e932",
+    "content-hash": "d274522e653140e1cefed8f93dd98557",
     "packages": [
         {
             "name": "geshi/geshi",
-            "version": "1.0.8",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GeSHi/geshi-1.0.git",
+                "reference": "d9cfd3e0cc9b24e6bd3045a4d222e651e68accd8"
+            },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/GeSHi/geshi-1.0/archive/c5329d9b39a3e07f2745d1f1dbb3d389657c01e7.zip",
-                "reference": null,
-                "shasum": null
+                "url": "https://api.github.com/repos/GeSHi/geshi-1.0/zipball/d9cfd3e0cc9b24e6bd3045a4d222e651e68accd8",
+                "reference": "d9cfd3e0cc9b24e6bd3045a4d222e651e68accd8",
+                "shasum": ""
             },
             "type": "library",
             "autoload": {
                 "classmap": [
-                    "src/"
+                    "src/geshi/",
+                    "src/geshi.php"
                 ]
-            }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Benny Baumann",
+                    "email": "BenBE@geshi.org",
+                    "homepage": "http://blog.benny-baumann.de/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Generic Syntax Highlighter",
+            "homepage": "http://qbnz.com/highlighter/",
+            "time": "2014-11-03 21:20:34"
         },
         {
             "name": "kaloa/filesystem",
@@ -106,16 +129,16 @@
         },
         {
             "name": "rkr/recursive-array-accessor",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rkrx/php-recursive-array-access.git",
-                "reference": "b0a5dfcb8c944e0cf06b18974d80ffcdd5851c36"
+                "reference": "25410198274a8b76e84ab5bc3c73f16ab931d5ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rkrx/php-recursive-array-access/zipball/b0a5dfcb8c944e0cf06b18974d80ffcdd5851c36",
-                "reference": "b0a5dfcb8c944e0cf06b18974d80ffcdd5851c36",
+                "url": "https://api.github.com/repos/rkrx/php-recursive-array-access/zipball/25410198274a8b76e84ab5bc3c73f16ab931d5ec",
+                "reference": "25410198274a8b76e84ab5bc3c73f16ab931d5ec",
                 "shasum": ""
             },
             "require-dev": {
@@ -128,49 +151,59 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
-                    "name": "R. Kirschler",
+                    "name": "ron",
                     "email": "ron.kirschler@gmail.com"
                 }
             ],
             "description": "Access recursive arrays through an easy interface",
-            "time": "2013-11-18 22:49:52"
+            "time": "2014-04-03 08:39:54"
         },
         {
             "name": "symfony/console",
-            "version": "v2.3.7",
-            "target-dir": "Symfony/Component/Console",
+            "version": "v2.8.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/Console.git",
-                "reference": "00848d3e13cf512e77c7498c2b3b0192f61f4b18"
+                "url": "https://github.com/symfony/console.git",
+                "reference": "d0239fb42f98dd02e7d342f793c5d2cdee0c478d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/00848d3e13cf512e77c7498c2b3b0192f61f4b18",
-                "reference": "00848d3e13cf512e77c7498c2b3b0192f61f4b18",
+                "url": "https://api.github.com/repos/symfony/console/zipball/d0239fb42f98dd02e7d342f793c5d2cdee0c478d",
+                "reference": "d0239fb42f98dd02e7d342f793c5d2cdee0c478d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=5.3.9",
+                "symfony/polyfill-mbstring": "~1.0"
             },
             "require-dev": {
-                "symfony/event-dispatcher": "~2.1"
+                "psr/log": "~1.0",
+                "symfony/event-dispatcher": "~2.1|~3.0.0",
+                "symfony/process": "~2.1|~3.0.0"
             },
             "suggest": {
-                "symfony/event-dispatcher": ""
+                "psr/log": "For using the console logger",
+                "symfony/event-dispatcher": "",
+                "symfony/process": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.8-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
+                "psr-4": {
                     "Symfony\\Component\\Console\\": ""
-                }
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -183,29 +216,85 @@
                 },
                 {
                     "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony Console Component",
-            "homepage": "http://symfony.com",
-            "time": "2013-11-13 21:27:40"
+            "homepage": "https://symfony.com",
+            "time": "2016-01-14 08:33:16"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-mbstring.git",
+                "reference": "1289d16209491b584839022f29257ad859b8532d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/1289d16209491b584839022f29257ad859b8532d",
+                "reference": "1289d16209491b584839022f29257ad859b8532d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-mbstring": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for the Mbstring extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "mbstring",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2016-01-20 09:13:37"
         }
     ],
-    "packages-dev": [
-
-    ],
-    "aliases": [
-
-    ],
+    "packages-dev": [],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "geshi/geshi": 20,
         "kaloa/filesystem": 20,
         "kaloa/renderer": 20
     },
+    "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
         "php": ">=5.4"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }

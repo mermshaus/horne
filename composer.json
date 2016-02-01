@@ -1,27 +1,11 @@
 {
     "name": "mermshaus/horne",
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "geshi/geshi",
-                "version": "1.0.8",
-                "dist": {
-                    "url": "https://github.com/GeSHi/geshi-1.0/archive/c5329d9b39a3e07f2745d1f1dbb3d389657c01e7.zip",
-                    "type": "zip"
-                },
-                "autoload": {
-                    "classmap": ["src/"]
-                }
-            }
-        }
-    ],
     "require": {
         "php":                          ">=5.4",
-        "geshi/geshi":                  "1.0.*",
+        "geshi/geshi":                  "dev-master",
         "kaloa/filesystem":             "dev-master",
         "kaloa/renderer":               "dev-master",
-        "rkr/recursive-array-accessor": "2.0.*",
+        "rkr/recursive-array-accessor": "~2.0",
         "symfony/console":              "~2.3"
     },
     "autoload": {
