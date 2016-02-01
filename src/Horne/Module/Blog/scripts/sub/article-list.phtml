@@ -20,15 +20,18 @@ usort($vars['articles'], function ($a, $b) {
 
 ?>
 
-<ul>
+<ul class="horne-blog-article-list">
 <?php foreach ($vars['articles'] as $articleBag) : $article = $articleBag->getMetaPayload(); ?>
     <li>
+        <?php  $dt = DateTime::createFromFormat('Y-m-d H:i:s', $article['date_created'], new DateTimeZone('UTC')); ?>
+        <time datetime="<?=$api->e($dt->format('Y-m-d'))?>"><?=$api->e($dt->format('j M, Y'))?></time>
+
         <a href="<?=$api->url($article['id'])?>"><?=$api->e($article['title'])?></a>
-        <?=$api->e($api->datef($article['date_created']))?>
 
         <?php if (isset($article['teaser'])) : ?>
-            <p><?=$api->e($article['teaser'])?></p>
+            &mdash; <?=$api->e($article['teaser'])?>
         <?php endif; ?>
+
     </li>
 <?php endforeach; ?>
 </ul>

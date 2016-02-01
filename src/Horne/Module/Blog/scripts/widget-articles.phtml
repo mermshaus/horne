@@ -17,7 +17,7 @@ $vars['amount'] = array_key_exists('amount', $vars)
 
 <div class="horne-blog-widget-articles cf">
 
-<h2>Recent articles</h2>
+<h2>Recent entries</h2>
 
 <?php $articles = $api->getMetasByType('article', array('date_created' => 'desc'), $vars['amount']); ?>
 
