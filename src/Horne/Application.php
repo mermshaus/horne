@@ -424,6 +424,11 @@ class Application
         $this->sanitizeCoreConfig($workingDirectory, $json);
         unset($json);
 
+        if (!is_null($this->config->get('initScript', null))) {
+            $initScriptPath = $this->config->get('sourceDir') . '/' . $this->config->get('initScript');
+            require_once $initScriptPath;
+        }
+
         $this->initializeModules();
 
         $this->metas = new MetaRepository($this->config->get('sourceDir'));
