@@ -1,10 +1,11 @@
 {
     "name": "mermshaus/horne",
+    "license": "MIT",
     "require": {
         "php":                          ">=5.4",
         "geshi/geshi":                  "dev-master",
-        "kaloa/filesystem":             "dev-master",
-        "kaloa/renderer":               "dev-master",
+        "kaloa/filesystem":             "0.1.0",
+        "kaloa/renderer":               "0.1.0",
         "rkr/recursive-array-accessor": "~2.0",
         "symfony/console":              "~2.3"
     },

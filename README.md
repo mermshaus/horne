@@ -1,12 +1,12 @@
-Horne
-=====
+# Horne
 
 A static page generator for HTML
 
 
 
-Installation
-------------
+## Install
+
+### Standalone version
 
 After cloning, run [Composer](https://getcomposer.org/) to install Horne’s
 dependencies. You might also need to set the file `horne` as executable.
@@ -21,10 +21,28 @@ chmod +x horne
 ./horne --version
 ~~~
 
+### As a dependency via Composer
+
+~~~ json
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/mermshaus/horne"
+        }
+    ],
+    "require": {
+        "geshi/geshi": "dev-master",
+        "mermshaus/horne": "dev-master"
+    }
+}
+~~~
+
+Sorry, no `$ composer require` yet.
 
 
-Building bundled demo projects
-------------------------------
+
+## Building bundled demo projects
 
 From Horne’s root directory run:
 
@@ -40,8 +58,7 @@ project directories in `./demos` to get an idea what the output is based on.
 
 
 
-API
----
+## API
 
 You have access to the following methods in `*.phtml` files via the `$api`
 variable.
@@ -104,8 +121,9 @@ variable.
 
 
 
-Modules
--------
+## Modules
+
+(This list is incomplete.)
 
 - Blog
   - `bool showArticleCounter = true`
@@ -124,23 +142,6 @@ Modules
 
 
 
-License
--------
+## License
 
-Horne is licensed under the GPLv3 license. (See COPYING.)
-
-~~~
-Copyright (C) 2013-2016  Marc Ermshaus
-
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-this program.  If not, see <http://www.gnu.org/licenses/>.
-~~~
+The MIT License (MIT). See LICENSE for more information.

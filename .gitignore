@@ -1,5 +1,6 @@
 nbproject/
 vendor/
+composer.lock
 composer.phar
 demos/hello-world/output/
 demos/blog/output/
