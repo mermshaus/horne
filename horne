@@ -19,7 +19,23 @@ set_error_handler(
     }
 );
 
-require_once __DIR__ . '/vendor/autoload.php';
+$flag = false;
+
+foreach (array(
+    __DIR__ . '/../../autoload.php',     // added as composer dependency
+    __DIR__ . '/../vendor/autoload.php', // not sure what this is for
+    __DIR__ . '/vendor/autoload.php'     // standalone
+) as $file) {
+    if (file_exists($file)) {
+        require $file;
+        $flag = true;
+        break;
+    }
+}
+
+if (false === $flag) {
+    die(1);
+}
 
 $console = new Application('Horne', HorneApplication::VERSION);
 
