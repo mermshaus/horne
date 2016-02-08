@@ -33,12 +33,12 @@ chmod +x horne
     ],
     "require": {
         "geshi/geshi": "dev-master",
-        "mermshaus/horne": "dev-master"
+        "mermshaus/horne": "~0.3"
     }
 }
 ~~~
 
-Sorry, no `$ composer require` yet.
+Sorry, no `$ composer require` yet. Run with `$ ./vendor/bin/horne --version`.
 
 
 
