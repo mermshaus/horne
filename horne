@@ -15,6 +15,13 @@ date_default_timezone_set('UTC');
 
 set_error_handler(
     function ($errno, $errstr, $errfile, $errline, array $errcontext = null) {
+        // Ignore certain errors in dependencies we can't control
+        if (1 === preg_match('~geshi/geshi/src/geshi\.php\z~', $errfile)) {
+            if ($errstr === 'Function create_function() is deprecated') {
+                return;
+            }
+        }
+
         throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
     }
 );
