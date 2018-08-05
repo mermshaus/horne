@@ -32,13 +32,14 @@ chmod +x horne
         }
     ],
     "require": {
-        "geshi/geshi": "dev-master",
         "mermshaus/horne": "~0.3"
     }
 }
 ~~~
 
-Sorry, no `$ composer require` yet. Run with `$ ./vendor/bin/horne --version`.
+Sorry, no `composer require` yet.
+
+Run with `vendor/bin/horne --version`.
 
 
 
@@ -51,10 +52,10 @@ From Horne’s root directory run:
 ./horne build --working-dir demos/blog
 ~~~
 
-The HTML output will be written to `./demos/hello-world/output` and
-`./demos/blog/output`. You should be able to open the respective `index.html`
+The HTML output will be written to `demos/hello-world/output` and
+`demos/blog/output`. You should be able to open the respective `index.html`
 files with a browser to view the result. Take a look at the contents of the
-project directories in `./demos` to get an idea what the output is based on.
+project directories in `demos` to get an idea what the output is based on.
 
 
 

@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class Application
 {
-    const VERSION = '0.3.0';
+    const VERSION = '0.3.2';
 
     /**
      *
