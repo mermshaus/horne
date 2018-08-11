@@ -2,9 +2,6 @@
 
 namespace Horne;
 
-use Exception;
-
-class HorneException extends Exception
+class HorneException extends \Exception
 {
-
 }

@@ -2,13 +2,16 @@
 
 namespace Horne\Module\Theme;
 
+use Horne\HorneException;
 use Horne\Module\AbstractModule;
 
 class Theme extends AbstractModule
 {
     /**
-     *
      * @param array $settings
+     *
+     * @return array
+     * @throws HorneException
      */
     public function hookLoadConfig(array $settings)
     {
@@ -19,6 +22,11 @@ class Theme extends AbstractModule
         return $settings;
     }
 
+    /**
+     * @return void
+     * @throws HorneException
+     * @throws \InvalidArgumentException
+     */
     public function hookProcessingBefore()
     {
         $theme = $this->application->getSetting('theme.name');

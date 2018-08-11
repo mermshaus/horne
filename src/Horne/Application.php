@@ -10,80 +10,64 @@ use Kir\Data\Arrays\RecursiveAccessor\StringPath\Accessor as StringPathAccessor;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- *
- */
 class Application
 {
-    const VERSION = '0.3.2';
+    const VERSION = '0.3.3';
 
     /**
-     *
      * @var MetaRepository
      */
     public $metas;
 
     /**
-     *
      * @var StringPathAccessor
      */
     public $config;
 
     /**
-     *
      * @var string
      */
     protected $pathToRoot = '.';
 
     /**
-     *
      * @var PathHelper
      */
     protected $pathHelper;
 
     /**
-     *
      * @var array
      */
     protected $filters;
 
     /**
-     *
      * @var array
      */
-    protected $modules = array();
+    protected $modules = [];
 
     /**
-     *
      * @var SyntaxHighlighter
      */
-    protected $syntaxHighlighter = null;
+    protected $syntaxHighlighter;
 
     /**
-     *
      * @var OutputInterface
      */
     protected $output;
 
     /**
-     *
      * @var array
      */
-    protected $cacheGetMetasByTag = array();
+    protected $cacheGetMetasByTag = [];
 
-    /**
-     *
-     */
     public function __construct()
     {
-        $this->pathHelper = new PathHelper();
-        $this->filters = array();
+        $this->pathHelper        = new PathHelper();
+        $this->filters           = [];
         $this->syntaxHighlighter = new SyntaxHighlighter();
-        $this->output = new NullOutput();
+        $this->output            = new NullOutput();
     }
 
     /**
-     *
      * @param OutputInterface $output
      */
     public function setOutputInterface(OutputInterface $output)
@@ -92,7 +76,6 @@ class Application
     }
 
     /**
-     *
      * @return SyntaxHighlighter
      */
     public function getSyntaxHighlighter()
@@ -101,7 +84,6 @@ class Application
     }
 
     /**
-     *
      * @param SyntaxHighlighter $syntaxHighlighter
      */
     public function setSyntaxHighlighter(SyntaxHighlighter $syntaxHighlighter)
@@ -110,9 +92,10 @@ class Application
     }
 
     /**
-     *
      * @param string $id
+     *
      * @return ModuleInterface
+     * @throws HorneException
      */
     public function getModule($id)
     {
@@ -124,9 +107,10 @@ class Application
     }
 
     /**
-     *
      * @param string $key
-     * @param array $filters Array of OutputFilterInterface
+     * @param array  $filters Array of OutputFilterInterface
+     *
+     * @return void
      * @throws HorneException
      */
     public function setFilters($key, array $filters)
@@ -141,30 +125,31 @@ class Application
     }
 
     /**
-     *
      * @param string $id
+     *
      * @return string
+     * @throws HorneException
+     * @throws \InvalidArgumentException
      */
     public function url($id)
     {
-        $metaBag = $this->metas->getById($id);
-        $payload = $metaBag->getMetaPayload();
+        $metaBag     = $this->metas->getById($id);
+        $metaPayload = $metaBag->getMetaPayload();
 
-        if (!isset($payload['path'])) {
+        if (!isset($metaPayload['path'])) {
             return '';
         }
 
-        $tmp = $payload['path'];
+        $tmp = $metaPayload['path'];
 
-        if (isset($payload['slug'])) {
-            $tmp = $payload['slug'];
+        if (isset($metaPayload['slug'])) {
+            $tmp = $metaPayload['slug'];
         }
 
         return $this->pathHelper->normalize($this->pathToRoot . $tmp);
     }
 
     /**
-     *
      * @return string
      */
     public function getPathToRoot()
@@ -173,25 +158,24 @@ class Application
     }
 
     /**
-     *
      * @param  string $tplFile  Template file
      * @param  array  $vars     Content for the template
      * @return string           Rendered output
      */
-    protected function renderTpl($tplFile, array $vars = array())
+    protected function renderTpl($tplFile, array $vars = [])
     {
         ob_start();
 
         if (strpos($tplFile, '.md') !== false) {
-            $content = file_get_contents($tplFile);
-
-            $firstSep = strpos($content, '---');
+            $content   = file_get_contents($tplFile);
+            $firstSep  = strpos($content, '---');
             $secondSep = strpos($content, '---', $firstSep + 1);
 
             echo substr($content, $secondSep + 3);
         } else {
             $view = new View();
-            $api = new Api($this);
+            $api  = new Api($this);
+
             $view->execute($tplFile, $api, $vars);
         }
 
@@ -199,31 +183,32 @@ class Application
     }
 
     /**
-     *
      * @param string $id
-     * @param  array  $vars  Content for the template
+     * @param array  $vars Content for the template
+     *
      * @return string
+     * @throws HorneException
      */
-    public function render($id, array $vars = array())
+    public function render($id, array $vars = [])
     {
         return $this->renderTpl($this->metas->getById($id)->getSourcePath(), $vars);
     }
 
     /**
+     * @param string  $content
+     * @param MetaBag $metaBag
      *
-     * @param string $content
-     * @param array $mb
      * @return string
      * @throws HorneException
      */
-    public function applyFilters($content, MetaBag $mb)
+    public function applyFilters($content, MetaBag $metaBag)
     {
-        $m = $mb->getMetaPayload();
+        $metaPayload = $metaBag->getMetaPayload();
 
-        $filterChain = array();
+        $filterChain = [];
 
-        if (isset($m['filters'])) {
-            foreach ($m['filters'] as $filter) {
+        if (isset($metaPayload['filters'])) {
+            foreach ($metaPayload['filters'] as $filter) {
                 if (array_key_exists($filter, $this->filters)) {
                     $filterChain[$filter] = $this->filters[$filter];
                 } else {
@@ -234,8 +219,8 @@ class Application
 
         foreach ($filterChain as $filters) {
             foreach ($filters as $filter) {
-                /* @var $filter OutputFilterInterface */
-                $content = $filter->run($content, $mb);
+                /* @var OutputFilterInterface $filter */
+                $content = $filter->run($content, $metaBag);
             }
         }
 
@@ -243,29 +228,30 @@ class Application
     }
 
     /**
+     * @param MetaBag $metaBag
      *
-     * @param MetaBag $m
      * @return string
+     * @throws HorneException
      */
-    protected function buildOneContentFile(MetaBag $mb)
+    protected function buildOneContentFile(MetaBag $metaBag)
     {
         $content = '';
 
-        if ($mb->getSourcePath() !== '') {
-            $content = $this->renderTpl($mb->getSourcePath());
+        if ($metaBag->getSourcePath() !== '') {
+            $content = $this->renderTpl($metaBag->getSourcePath());
         }
 
-        $content = $this->applyFilters($content, $mb);
+        $content = $this->applyFilters($content, $metaBag);
 
-        $currentMetaBag = $mb;
+        $currentMetaBag = $metaBag;
 
         while ($currentMetaBag->getLayout() !== null) {
             $currentMetaBag = $this->metas->getById($currentMetaBag->getLayout());
 
-            $content = $this->renderTpl($currentMetaBag->getSourcePath(), array(
-                'meta'    => $mb->getMetaPayload(),
-                'content' => $content
-            ));
+            $content = $this->renderTpl($currentMetaBag->getSourcePath(), [
+                'meta'    => $metaBag->getMetaPayload(),
+                'content' => $content,
+            ]);
 
             $content = $this->applyFilters($content, $currentMetaBag);
         }
@@ -274,21 +260,20 @@ class Application
     }
 
     /**
-     *
      * @param string $type
-     * @param array $order
-     * @param int $limitCount
-     * @param int $limitOffset
+     * @param array  $order
+     * @param int    $limitCount
+     * @param int    $limitOffset
+     *
      * @return array
      */
-    public function getMetasByType($type, array $order = array(), $limitCount = -1, $limitOffset = 0)
+    public function getMetasByType($type, array $order = [], $limitCount = -1, $limitOffset = 0)
     {
         return $this->metas->getByType($type, $order, $limitCount, $limitOffset);
     }
 
     /**
-     *
-     * @return array
+     * @return MetaBag[]
      */
     public function getAllMetas()
     {
@@ -296,22 +281,22 @@ class Application
     }
 
     /**
-     *
      * @param string $tag
-     * @return array
+     *
+     * @return MetaBag[]
      */
     public function getMetasByTag($tag)
     {
         if (count($this->cacheGetMetasByTag) === 0) {
             foreach ($this->metas->getAll() as $meta) {
-                $m = $meta->getMetaPayload();
-                if (!isset($m['tags'])) {
+                $metaPayload = $meta->getMetaPayload();
+                if (!isset($metaPayload['tags'])) {
                     continue;
                 }
 
-                foreach ($m['tags'] as $tag2) {
+                foreach ($metaPayload['tags'] as $tag2) {
                     if (!array_key_exists($tag2, $this->cacheGetMetasByTag)) {
-                        $this->cacheGetMetasByTag[$tag2] = array();
+                        $this->cacheGetMetasByTag[$tag2] = [];
                     }
                     $this->cacheGetMetasByTag[$tag2][] = $meta;
                 }
@@ -322,9 +307,10 @@ class Application
     }
 
     /**
-     *
      * @param int $id
+     *
      * @return MetaBag
+     * @throws HorneException
      */
     public function getMetaById($id)
     {
@@ -332,9 +318,10 @@ class Application
     }
 
     /**
-     *
      * @param string $source
      * @param string $dest
+     *
+     * @return void
      */
     protected function copyWithMkdir($source, $dest)
     {
@@ -346,14 +333,15 @@ class Application
     }
 
     /**
-     *
      * @param string $workingDirectory
      * @param string $path
+     *
      * @return string
+     * @throws \InvalidArgumentException
      */
     public function dingsify($workingDirectory, $path)
     {
-        if ('/' !== substr($path, 0, 1)) {
+        if (strpos($path, '/') !== 0) {
             $path = $workingDirectory . '/' . $path;
         }
 
@@ -361,9 +349,10 @@ class Application
     }
 
     /**
-     *
      * @param string $workingDirectory
-     * @param array $json
+     * @param array  $json
+     *
+     * @throws \InvalidArgumentException
      */
     protected function sanitizeCoreConfig($workingDirectory, array &$json)
     {
@@ -373,7 +362,7 @@ class Application
         /* Exclude paths */
 
         if (!array_key_exists('excludePaths', $json)) {
-            $json['excludePaths'] = array();
+            $json['excludePaths'] = [];
         }
 
         foreach ($json['excludePaths'] as &$path) {
@@ -386,18 +375,18 @@ class Application
         }
 
         if (!array_key_exists('modules', $json)) {
-            $json['modules'] = array();
+            $json['modules'] = [];
         }
 
         if (!array_key_exists('metaOverrides', $json)) {
-            $json['metaOverrides'] = array();
+            $json['metaOverrides'] = [];
         }
 
         $this->config = new StringPathAccessor($json);
     }
 
     /**
-     *
+     * @return void
      */
     protected function initializeModules()
     {
@@ -415,16 +404,19 @@ class Application
     }
 
     /**
-     *
      * @param string $workingDirectory
-     * @param array $json
+     * @param array  $json
+     *
+     * @return void
+     * @throws HorneException
+     * @throws \InvalidArgumentException
      */
     public function run($workingDirectory, array $json)
     {
         $this->sanitizeCoreConfig($workingDirectory, $json);
         unset($json);
 
-        if (!is_null($this->config->get('initScript', null))) {
+        if ($this->config->get('initScript', null) !== null) {
             $initScriptPath = $this->config->get('sourceDir') . '/' . $this->config->get('initScript');
             require_once $initScriptPath;
         }
@@ -434,7 +426,7 @@ class Application
         $this->metas = new MetaRepository($this->config->get('sourceDir'));
 
         foreach ($this->modules as $module) {
-            /* @var $module ModuleInterface */
+            /* @var ModuleInterface $module */
             $module->hookProcessingBefore();
         }
 
@@ -448,20 +440,20 @@ class Application
         $tmp->gatherMetas($this->config->get('excludePaths'));
 
         foreach ($this->modules as $module) {
-            /* @var $module ModuleInterface */
+            /* @var ModuleInterface $module */
             $module->hookProcessingBefore2();
         }
 
         /** @todo This needs more error handling */
         foreach ($this->config->get('metaOverrides') as $id => $newData) {
-            $meta = $this->metas->getById($id);
+            $meta    = $this->metas->getById($id);
             $payload = $meta->getMetaPayload();
 
             $newPath = $this->pathHelper->normalize(
                 $this->config->get('outputDir') . $newData['path']
             );
 
-            if (0 !== strpos($newPath, $this->config->get('outputDir'))) {
+            if (strpos($newPath, $this->config->get('outputDir')) !== 0) {
                 throw new HorneException('Path ' . $newPath . ' not in $outputDir');
             }
 
@@ -486,7 +478,7 @@ class Application
 
         // Sort metas by type and id
 
-        usort($metas, function ($a, $b) {
+        usort($metas, function (MetaBag $a, MetaBag $b) {
             if ($a->getType() !== $b->getType()) {
                 return strcmp($a->getType(), $b->getType());
             }
@@ -498,12 +490,12 @@ class Application
             $type = $m->getType();
 
             switch (true) {
-                case 'asset' === $type:
+                case $type === 'asset':
                     $this->output->writeln('[copy] <info>' . $m->getSourcePath() . '</info>');
                     $this->copyWithMkdir($m->getSourcePath(), $m->getDestPath());
                     break;
-                case substr($type, 0, 1) === '_':
-                case 'layout' === $type:
+                case strpos($type, '_') === 0:
+                case $type === 'layout':
                     // nop
                     break;
                 default:
@@ -534,7 +526,7 @@ class Application
                     file_put_contents($m->getDestPath(), $renderedOutput);
 
                     if ($this->config->get('generateGzipHtml')) {
-                        $gzipFileExtensionSuffix = ($this->config->has('gzipFileExtensionSuffix'))
+                        $gzipFileExtensionSuffix = $this->config->has('gzipFileExtensionSuffix')
                                 ? $this->config->get('gzipFileExtensionSuffix')
                                 : '.gz';
 
@@ -551,22 +543,21 @@ class Application
     }
 
     /**
-     *
      * @param string $source
      * @param string $lang
+     *
      * @return string
      */
     public function syntax($source, $lang)
     {
-        $html = $this->syntaxHighlighter->highlight($source, $lang);
-
-        return $html;
+        return $this->syntaxHighlighter->highlight($source, $lang);
     }
 
     /**
      * Returns a config setting by dot-separated key
      *
      * @param string $key
+     *
      * @return mixed
      */
     public function getSetting($key)
@@ -588,20 +579,23 @@ class Application
     }
 
     /**
-     *
      * @param string $path
      * @param string $root
+     *
+     * @return void
+     * @throws HorneException
+     * @throws \InvalidArgumentException
      */
     public function source($path, $root = null)
     {
-        $mr = new MetaReader($this->pathHelper, $this->config->get('outputDir'));
+        $metaReader = new MetaReader($this->pathHelper, $this->config->get('outputDir'));
 
-        $o = array(
+        $o = [
             'path' => $path,
-            'root' => $root
-        );
+            'root' => $root,
+        ];
 
-        $metaBag = $mr->load($o);
+        $metaBag = $metaReader->load($o);
 
         $this->metas->add($metaBag);
     }

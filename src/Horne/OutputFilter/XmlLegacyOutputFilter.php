@@ -9,27 +9,30 @@ use Kaloa\Renderer\Factory;
 
 class XmlLegacyOutputFilter extends AbstractOutputFilter
 {
-    public function run($content, MetaBag $mb)
+    /**
+     * @param string  $content
+     * @param MetaBag $metaBag
+     *
+     * @return string
+     * @throws \Exception
+     */
+    public function run($content, MetaBag $metaBag)
     {
         $config = null;
 
-        if ($mb->getType() === 'article') {
-            $tmp = $mb->getMetaPayload();
-            $dt = DateTime::createFromFormat('Y-m-d H:i:s', $tmp['date_created']);
+        if ($metaBag->getType() === 'article') {
+            $tmp = $metaBag->getMetaPayload();
+            $dt  = DateTime::createFromFormat('Y-m-d H:i:s', $tmp['date_created']);
 
             $dataRoot = $this->application->getPathToRoot() . '/data/blog';
 
             $config = new Config();
-            $config->setResourceBasePath($dataRoot . '/'
-                    . $dt->format(('Y')) . '/'
-                    . $dt->format(('m')));
+            $config->setResourceBasePath($dataRoot . '/' . $dt->format('Y') . '/' . $dt->format('m'));
             $config->setSyntaxHighlighter($this->application->getSyntaxHighlighter());
         }
 
-        $mp = Factory::createRenderer($config, 'xmllegacy');
+        $xmlLegacyRenderer = Factory::createRenderer($config, 'xmllegacy');
 
-        $tmp = $mp->render($content);
-
-        return $tmp;
+        return $xmlLegacyRenderer->render($content);
     }
 }

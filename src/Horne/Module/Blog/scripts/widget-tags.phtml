@@ -30,7 +30,7 @@ $vars['amount'] = array_key_exists('amount', $vars)
             <?php $i++; ?>
             <?php if (-1 !== $vars['amount'] && $i > $vars['amount']) { break; } ?>
 
-            <?php $amountLine = $amount . ((1 === $amount) ? ' entry' : ' entries'); ?>
+            <?php $amountLine = $amount . (($amount === 1) ? ' entry' : ' entries'); ?>
 
             <li>
                 <a href="<?=$api->e($api->url('horne-blog-tag-' . $tag))?>"

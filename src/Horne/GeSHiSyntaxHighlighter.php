@@ -2,22 +2,16 @@
 
 namespace Horne;
 
-use Horne\GeSHiRepository;
 use Kaloa\Renderer\SyntaxHighlighter;
 
-/**
- *
- */
 class GeSHiSyntaxHighlighter extends SyntaxHighlighter
 {
     /**
-     *
      * @var GeSHiRepository
      */
     protected $geshiRepository;
 
     /**
-     *
      * @param GeSHiRepository $geshiRepository
      */
     public function __construct(GeSHiRepository $geshiRepository)
@@ -25,34 +19,41 @@ class GeSHiSyntaxHighlighter extends SyntaxHighlighter
         $this->geshiRepository = $geshiRepository;
     }
 
-    private function stuff($html, $language = '', array $lineHighlights = array())
+    /**
+     * @param string $html
+     * @param string $language
+     * @param array  $lineHighlights
+     *
+     * @return string
+     */
+    private function stuff($html, $language = '', array $lineHighlights = [])
     {
-        $html = preg_replace_callback(
+        $htmlTmp = preg_replace_callback(
             '/<span class="([^"]+)">(.*?)<\/span>/s',
             function ($m) use ($language) {
 
                 $x = $m[1];
 
                 switch (true) {
-                    case (1 === preg_match('/^br(?:[0-9]+)$/', $m[1])):
+                    case (preg_match('/^br(?:\d+)$/', $m[1]) === 1):
                         /* no idea */
                         break;
-                    case (1 === preg_match('/^co(?:[0-9]+|MULTI)$/', $m[1])):
+                    case (preg_match('/^co(?:\d+|MULTI)$/', $m[1]) === 1):
                         $x = 'def_comment';
                         break;
-                    case (1 === preg_match('/^kw[0-9]+$/', $m[1])):
+                    case (preg_match('/^kw\d+$/', $m[1]) === 1):
                         $x = 'def_keyword';
                         break;
-                    case (1 === preg_match('/^nu[0-9]+$/', $m[1])):
+                    case (preg_match('/^nu\d+$/', $m[1]) === 1):
                         $x = 'def_number';
                         break;
-                    case (1 === preg_match('/^re[0-9]+$/', $m[1])):
+                    case (preg_match('/^re\d+$/', $m[1]) === 1):
                         $x = 'def_identifier';
                         break;
-                    case (1 === preg_match('/^st(?:[0-9]+|_h)$/', $m[1])):
+                    case (preg_match('/^st(?:\d+|_h)$/', $m[1]) === 1):
                         $x = 'def_string';
                         break;
-                    case (1 === preg_match('/^sy(?:[0-9]+)$/', $m[1])):
+                    case (preg_match('/^sy(?:\d+)$/', $m[1]) === 1):
                         $x = 'def_operator';
                         break;
                     default:
@@ -75,33 +76,33 @@ class GeSHiSyntaxHighlighter extends SyntaxHighlighter
             $html
         );
 
-        $html = preg_replace('/<pre class="([^"]+)">/', '<pre class="geshi $1">', $html);
+        $htmlTmp = preg_replace('/<pre class="([^"]+)">/', '<pre class="geshi $1">', $htmlTmp);
 
 
-        $matches = array();
-        preg_match('/(<pre[^>]*>)(.*?)(<\/pre>)/s', $html, $matches);
+        $matches = [];
+        preg_match('/(<pre[^>]*>)(.*?)(<\/pre>)/s', $htmlTmp, $matches);
 
         list(/*skip*/, $start, $content, $end) = $matches;
 
-        $html = $start;
+        $htmlTmp = $start;
 
-        $stack = array();
+        $stack = [];
 
         $i = 0;
 
         foreach (explode("\n", $content) as $line) {
             // Add spans from stack to line
-            $line = implode('', $stack) . $line;
-            $stack = array();
+            $line  = implode('', $stack) . $line;
+            $stack = [];
 
 
-            $spans = array();
+            $spans = [];
             preg_match_all('/<span[^>]*>|<\/span>/', $line, $spans, PREG_OFFSET_CAPTURE);
 
             foreach ($spans[0] as $entry) {
-                if (0 !== strpos($entry[0], '</')) {
+                if (strpos($entry[0], '</') !== 0) {
                     // Opening tag
-                    array_push($stack, $entry[0]);
+                    $stack[] = $entry[0];
                 } else {
                     array_pop($stack);
                 }
@@ -123,14 +124,14 @@ class GeSHiSyntaxHighlighter extends SyntaxHighlighter
             if ($highlight) {
                 // No support for IDs as of now
                 #$html .= '<span class="line selection" id="l'.$i.'">' . strip_tags($line) . "</span>\n";
-                $html .= '<span class="line selection">' . strip_tags($line) . "</span>\n";
+                $htmlTmp .= '<span class="line selection">' . strip_tags($line) . "</span>\n";
             } else {
                 #$html .= '<span class="line" id="l'.$i.'">' . $line . "</span>\n";
-                $html .= '<span class="line">' . $line . "</span>\n";
+                $htmlTmp .= '<span class="line">' . $line . "</span>\n";
             }
         }
 
-        $html = rtrim($html) . $end;
+        $htmlTmp = rtrim($htmlTmp) . $end;
 
         $tmp = '<div class="source">' . "\n";
         $tmp .= '  <table>' . "\n";
@@ -141,7 +142,7 @@ class GeSHiSyntaxHighlighter extends SyntaxHighlighter
         $tmp .= '        </div>' . "\n";
         $tmp .= '      </td>' . "\n";
         $tmp .= '      <td>' . "\n";
-        $tmp .= '        ' . $html . "\n";
+        $tmp .= '        ' . $htmlTmp . "\n";
         $tmp .= '      </td>' . "\n";
         $tmp .= '    </tr>' . "\n";
         $tmp .= '  </table>' . "\n";
@@ -151,10 +152,11 @@ class GeSHiSyntaxHighlighter extends SyntaxHighlighter
     }
 
     /**
-     *
      * @param string $source
      * @param string $language
+     *
      * @return string
+     * @throws \Exception
      */
     public function highlight($source, $language)
     {
@@ -168,8 +170,6 @@ class GeSHiSyntaxHighlighter extends SyntaxHighlighter
 
         $html = $geshi->parse_code();
 
-        $html_improved = $this->stuff($html, $language);
-
-        return $html_improved;
+        return $this->stuff($html, $language);
     }
 }

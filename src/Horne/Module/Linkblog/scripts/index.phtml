@@ -15,7 +15,7 @@ $childNodesToArray = function (DOMElement $e) {
     $tmp = array();
 
     foreach ($e->childNodes as $node) {
-        /* @var $node DOMElement */
+        /* @var DOMElement $node */
         $tmp[$node->nodeName] = $node;
     }
 
@@ -93,7 +93,7 @@ foreach ($grouped as $year => $grouped2) {
                 $host = parse_url($url, PHP_URL_HOST);
 
                 // Don't show "www" subdomains
-                if ('www.' === mb_substr($host, 0, 4)) {
+                if (mb_substr($host, 0, 4) === 'www.') {
                     $host = mb_substr($host, 4);
                 }
 

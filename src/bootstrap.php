@@ -1,41 +1,18 @@
 <?php
 
-use Horne\Application;
-use Horne\GeSHiRepository;
-use Horne\GeSHiSyntaxHighlighter;
-use Horne\OutputFilter\InigoOutputFilter;
-use Horne\OutputFilter\KramdownOutputFilter;
-use Horne\OutputFilter\TableOfContentsOutputFilter;
-use Horne\OutputFilter\UppercaseOutputFilter;
-use Horne\OutputFilter\XmlLegacyOutputFilter;
-use Horne\OutputFilter\XmlOutputFilter;
+namespace Horne;
+
+use Horne\OutputFilter;
 
 $horne = new Application();
 
 $horne->setSyntaxHighlighter(new GeSHiSyntaxHighlighter(new GeSHiRepository()));
 
-$horne->setFilters('toc', array(
-    new TableOfContentsOutputFilter($horne)
-));
-
-$horne->setFilters('uppercase', array(
-    new UppercaseOutputFilter($horne)
-));
-
-$horne->setFilters('kramdown', array(
-    new KramdownOutputFilter($horne)
-));
-
-$horne->setFilters('inigo', array(
-    new InigoOutputFilter($horne)
-));
-
-$horne->setFilters('xml', array(
-    new XmlOutputFilter($horne)
-));
-
-$horne->setFilters('xmllegacy', array(
-    new XmlLegacyOutputFilter($horne)
-));
+$horne->setFilters('toc', [new OutputFilter\TableOfContentsOutputFilter($horne)]);
+$horne->setFilters('uppercase', [new OutputFilter\UppercaseOutputFilter($horne)]);
+$horne->setFilters('kramdown', [new OutputFilter\KramdownOutputFilter($horne)]);
+$horne->setFilters('inigo', [new OutputFilter\InigoOutputFilter($horne)]);
+$horne->setFilters('xml', [new OutputFilter\XmlOutputFilter($horne)]);
+$horne->setFilters('xmllegacy', [new OutputFilter\XmlLegacyOutputFilter($horne)]);
 
 return $horne;

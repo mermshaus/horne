@@ -2,31 +2,23 @@
 
 namespace Horne;
 
-use Horne\MetaBag;
-
-/**
- *
- */
 class MetaRepository
 {
     /**
-     *
-     * @var array
+     * @var MetaBag[]
      */
-    public $items = array();
+    public $items = [];
 
     /**
-     *
      * @var string
      */
     private $sourceDir;
 
-    protected $cacheGetById = array();
+    protected $cacheGetById = [];
 
-    protected $cacheGetByType = array();
+    protected $cacheGetByType = [];
 
     /**
-     *
      * @param string $sourceDir
      */
     public function __construct($sourceDir)
@@ -35,29 +27,30 @@ class MetaRepository
     }
 
     /**
-     *
      * @param MetaBag $metaBag
+     *
+     * @throws HorneException
      */
     public function add(MetaBag $metaBag)
     {
         foreach ($this->items as $item) {
-            /* @var $item MetaBag */
+            /* @var MetaBag $item */
             if ($item->getId() === $metaBag->getId()) {
                 // If both in sourceDir, throw Exception (in other words:
                 // files from sourceDir can override files added by modules)
                 if (
-                    0 === strpos($item->getSourcePath(), $this->sourceDir)
-                    && 0 === strpos($metaBag->getSourcePath(), $this->sourceDir)
+                    strpos($item->getSourcePath(), $this->sourceDir) === 0
+                    && strpos($metaBag->getSourcePath(), $this->sourceDir) === 0
                 ) {
                     throw new HorneException(sprintf(
                         'Meta with id %s does already exist. Error is in %s',
                         $metaBag->getId(),
                         $metaBag->getSourcePath()
                     ));
-                } else {
-                    $this->removeById($item->getId());
-                    break;
                 }
+
+                $this->removeById($item->getId());
+                break;
             }
         }
 
@@ -65,8 +58,7 @@ class MetaRepository
     }
 
     /**
-     *
-     * @return array
+     * @return MetaBag[]
      */
     public function getAll()
     {
@@ -74,8 +66,8 @@ class MetaRepository
     }
 
     /**
-     *
      * @param string $id
+     *
      * @return MetaBag
      * @throws HorneException
      */
@@ -83,7 +75,7 @@ class MetaRepository
     {
         if (!array_key_exists($id, $this->cacheGetById)) {
             foreach ($this->items as $item) {
-                /* @var $item MetaBag */
+                /* @var MetaBag $item */
                 $payload = $item->getMetaPayload();
                 if ($payload['id'] === $id) {
                     $this->cacheGetById[$id] = $item;
@@ -103,13 +95,16 @@ class MetaRepository
     }
 
     /**
-     *
      * @param string $type
-     * @return array
+     * @param array  $order
+     * @param int    $limitCount
+     * @param int    $limitOffset
+     *
+     * @return MetaBag[]
      */
-    public function getByType($type, array $order = array(), $limitCount = -1, $limitOffset = 0)
+    public function getByType($type, array $order = [], $limitCount = -1, $limitOffset = 0)
     {
-        $hashParts = array();
+        $hashParts   = [];
         $hashParts[] = $type;
 
         if (count($order) !== 0) {
@@ -122,7 +117,7 @@ class MetaRepository
         $hash = implode("\x00", $hashParts);
 
         if (!array_key_exists($hash, $this->cacheGetByType)) {
-            $metas = array();
+            $metas = [];
 
             foreach ($this->items as $item) {
                 $payload = $item->getMetaPayload();
@@ -139,14 +134,14 @@ class MetaRepository
                     $orderDirection = 'asc';
                 }
 
-                usort($metas, function ($a, $b) use ($orderField, $orderDirection) {
+                usort($metas, function (MetaBag $a, MetaBag $b) use ($orderField, $orderDirection) {
                     $a2 = $a->getMetaPayload();
                     $b2 = $b->getMetaPayload();
 
                     if ($orderDirection === 'desc') {
                         $tmp = $a2;
-                        $a2 = $b2;
-                        $b2 = $tmp;
+                        $a2  = $b2;
+                        $b2  = $tmp;
                     }
 
                     return strcmp($a2[$orderField], $b2[$orderField]);
@@ -162,12 +157,13 @@ class MetaRepository
     }
 
     /**
-     *
      * @param string $id
+     *
+     * @return void
      */
     private function removeById($id)
     {
-        $newItems = array();
+        $newItems = [];
 
         foreach ($this->items as $item) {
             if ($item->getId() !== $id) {

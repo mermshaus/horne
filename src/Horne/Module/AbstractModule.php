@@ -3,24 +3,18 @@
 namespace Horne\Module;
 
 use Horne\Application;
-use Horne\Module\ModuleInterface;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
 
-/**
- *
- */
 abstract class AbstractModule implements ModuleInterface
 {
     /**
-     *
      * @var Application
      */
     protected $application;
 
     /**
-     *
      * @param Application $application
      */
     public function __construct(Application $application)
@@ -28,24 +22,36 @@ abstract class AbstractModule implements ModuleInterface
         $this->application = $application;
     }
 
+    /**
+     * @param array $settings
+     *
+     * @return array
+     */
     public function hookLoadConfig(array $settings)
     {
         return $settings;
     }
 
+    /**
+     * @return void
+     */
     public function hookProcessingBefore()
     {
-
-    }
-
-    public function hookProcessingBefore2()
-    {
-
     }
 
     /**
-     *
+     * @return void
+     */
+    public function hookProcessingBefore2()
+    {
+    }
+
+    /**
      * @param string $directory
+     *
+     * @return void
+     * @throws \Horne\HorneException
+     * @throws \InvalidArgumentException
      */
     protected function sourceDir($directory)
     {
@@ -54,9 +60,9 @@ abstract class AbstractModule implements ModuleInterface
         );
 
         foreach ($iterator as $file) {
-            /* @var $file SplFileInfo */
+            /* @var SplFileInfo $file */
 
-            if (false === $file->isFile()) {
+            if ($file->isFile() === false) {
                 continue;
             }
 

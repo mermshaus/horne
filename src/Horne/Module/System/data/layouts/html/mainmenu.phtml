@@ -8,11 +8,18 @@
 ---
 EOT;
 
+/* @var \Horne\Api $api */
+
+/**
+ * @param $id
+ *
+ * @return string
+ */
 $getTitleById = function ($id) use ($api) {
-    $meta = $api->getMetaByid($id);
-    $payload = $meta->getMetaPayload();
-    $title = (isset($payload['title'])) ? $payload['title'] : 'Untitled';
-    return $title;
+    $metaBag     = $api->getMetaById($id);
+    $metaPayload = $metaBag->getMetaPayload();
+
+    return isset($metaPayload['title']) ? $metaPayload['title'] : 'Untitled';
 };
 
 $menu = array();
@@ -23,7 +30,8 @@ $pages = array();
 $skip = array('index'/*, 'horne-debug-debug'*//*, 'horne-blog-archive-index'*/);
 
 foreach ($pages_tmp as $meta) {
-    if (!in_array($meta->getId(), $skip)) {
+    /* @var \Horne\MetaBag $meta */
+    if (!in_array($meta->getId(), $skip, true)) {
         $pages[] = $meta;
     }
 }
@@ -71,7 +79,7 @@ $rec = function ($data, $depth = 0) use (&$rec, $api) {
     if ($hasChildren) {
         $classes = array();
 
-        if (1 === $depth + 1) {
+        if ($depth + 1 === 1) {
             $classes[] = 'child';
         } else {
             $classes[] = 'grandchild';

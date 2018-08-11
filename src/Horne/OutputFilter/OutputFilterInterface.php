@@ -6,5 +6,11 @@ use Horne\MetaBag;
 
 interface OutputFilterInterface
 {
-    public function run($content, MetaBag $mb);
+    /**
+     * @param string  $content
+     * @param MetaBag $metaBag
+     *
+     * @return string
+     */
+    public function run($content, MetaBag $metaBag);
 }

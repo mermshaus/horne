@@ -6,12 +6,15 @@ use DOMDocument;
 use DOMNode;
 use Horne\MetaBag;
 
-/**
- *
- */
 class TableOfContentsOutputFilter extends AbstractOutputFilter
 {
-    public function run($content, MetaBag $mb)
+    /**
+     * @param string  $content
+     * @param MetaBag $metaBag
+     *
+     * @return string
+     */
+    public function run($content, MetaBag $metaBag)
     {
         $content6 = '';
 
@@ -28,44 +31,45 @@ class TableOfContentsOutputFilter extends AbstractOutputFilter
     }
 
     /**
+     * @param DOMNode $node
      *
-     * @param DOMNode $el
      * @return string
      */
-    protected function innerHTML(DOMNode $el)
+    protected function innerHTML(DOMNode $node)
     {
         $doc = new DOMDocument('1.0', 'UTF-8');
-        $doc->appendChild($doc->importNode($el, true));
+        $doc->appendChild($doc->importNode($node, true));
         $html = trim($doc->saveHTML($doc->documentElement));
-        $tag = $el->nodeName;
+        $tag  = $node->nodeName;
         return preg_replace('@^<' . $tag . '[^>]*>|</' . $tag . '>$@', '', $html);
     }
 
     /**
-     *
      * @param string $string
      * @param string $tagname
+     *
      * @return string
      */
     protected function addIds($string, $tagname)
     {
-        $d = new DOMDocument('1.0', 'UTF-8');
-        $d->loadHTML('<meta http-equiv="content-type" content="text/html; charset=utf-8">' . $string);
+        $document = new DOMDocument('1.0', 'UTF-8');
+        $document->loadHTML('<meta http-equiv="content-type" content="text/html; charset=utf-8">' . $string);
 
-        foreach ($d->getElementsByTagName($tagname) as $item) {
+        foreach ($document->getElementsByTagName($tagname) as $item) {
+            /* @var \DOMElement $item */
             $id = $this->string_to_id($item->textContent);
             $item->setAttribute('id', $id);
             $item->setAttribute('title', '#' . $id);
         }
 
-        $bodies = $d->getElementsByTagName('body');
+        $bodies = $document->getElementsByTagName('body');
 
         return $this->innerHTML($bodies->item(0));
     }
 
     /**
-     *
      * @param string $s
+     *
      * @return string
      */
     protected function string_to_id($s)

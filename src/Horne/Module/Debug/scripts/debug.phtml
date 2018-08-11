@@ -11,9 +11,11 @@
 ---
 EOT;
 
+/* @var \Horne\Api $api */
+
 $metas = $api->getAllMetas();
 
-usort($metas, function ($a, $b) {
+usort($metas, function (\Horne\MetaBag $a, \Horne\MetaBag $b) {
     return strcmp($a->getType(), $b->getType());
 });
 

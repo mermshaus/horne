@@ -5,20 +5,16 @@ namespace Horne\Module\Blog;
 use Horne\MetaBag;
 use Horne\Module\AbstractModule;
 
-/**
- *
- */
 class Blog extends AbstractModule
 {
     /**
-     *
      * @return array
      */
     public function getAllTags()
     {
         $app = $this->application;
 
-        $tags = array();
+        $tags = [];
 
         foreach ($app->metas->getAll() as $meta) {
             $m = $meta->getMetaPayload();
@@ -38,32 +34,24 @@ class Blog extends AbstractModule
     }
 
     /**
-     *
      * @param array $settings
+     *
+     * @return array
      */
     public function hookLoadConfig(array $settings)
     {
-        $settings['useTags'] = (isset($settings['useTags']))
-                ? $settings['useTags']
-                : true;
-
-        $settings['showInfoline'] = (isset($settings['showInfoline']))
-                ? $settings['showInfoline']
-                : true;
-
-        $settings['showAuthor'] = (isset($settings['showAuthor']))
-                ? $settings['showAuthor']
-                : true;
-
-        $settings['showArticleCounter'] = (isset($settings['showArticleCounter']))
-                ? $settings['showArticleCounter']
-                : true;
+        $settings['useTags']            = isset($settings['useTags']) ? $settings['useTags'] : true;
+        $settings['showInfoline']       = isset($settings['showInfoline']) ? $settings['showInfoline'] : true;
+        $settings['showAuthor']         = isset($settings['showAuthor']) ? $settings['showAuthor'] : true;
+        $settings['showArticleCounter'] = isset($settings['showArticleCounter']) ? $settings['showArticleCounter'] : true;
 
         return $settings;
     }
 
     /**
-     *
+     * @return void
+     * @throws \Horne\HorneException
+     * @throws \InvalidArgumentException
      */
     public function hookProcessingBefore()
     {
@@ -71,7 +59,8 @@ class Blog extends AbstractModule
     }
 
     /**
-     *
+     * @return void
+     * @throws \Horne\HorneException
      */
     public function hookProcessingBefore2()
     {
@@ -90,14 +79,14 @@ class Blog extends AbstractModule
             $tags = $this->getAllTags();
 
             foreach (array_keys($tags) as $tag) {
-                $pseudoMeta = array(
+                $pseudoMeta = [
                     'id'     => 'horne-blog-tag-' . $tag,
                     'title'  => 'All entries tagged with ' . $tag,
                     'type'   => 'page-tag',
                     'layout' => 'horne-layout-page-tag',
                     'path'   => sprintf($tagsPathTemplate, $tag),
-                    'tag'    => $tag
-                );
+                    'tag'    => $tag,
+                ];
 
                 if ($tagsSlugTemplate !== null) {
                     $pseudoMeta['slug'] = sprintf($tagsSlugTemplate, $tag);

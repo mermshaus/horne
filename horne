@@ -40,7 +40,7 @@ foreach (array(
     }
 }
 
-if (false === $flag) {
+if ($flag === false) {
     die(1);
 }
 

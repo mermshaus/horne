@@ -9,14 +9,15 @@
 ---
 EOT;
 
-$title = (isset($vars['meta']['title']))
-        ? $vars['meta']['title']
-        : '';
+/* @var \Horne\Api $api */
+/* @var array $vars */
+
+$title = isset($vars['meta']['title']) ? $vars['meta']['title'] : '';
 
 ?>
 
 <?php if ($title !== '') : ?>
-<h1><?=$api->e($title)?></h1>
+    <h1><?= $api->e($title) ?></h1>
 <?php endif; ?>
 
-<?=$vars['content']?>
+<?= $vars['content'] ?>

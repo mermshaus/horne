@@ -2,42 +2,31 @@
 
 namespace Horne;
 
-use Closure;
-use Exception;
-use GeSHi;
-
-/**
- *
- */
 class GeSHiRepository
 {
     /**
-     *
-     * @var array of GeSHi
+     * @var \GeSHi[]
      */
-    protected $geshiInstances = array();
+    protected $geshiInstances = [];
 
     /**
-     *
-     * @var GeSHi
+     * @var \GeSHi
      */
-    protected $geshiFallback = null;
+    protected $geshiFallback;
 
     /**
-     *
-     * @var Closure
+     * @var \Closure
      */
     protected $geshiFactory;
 
     /**
-     *
-     * @param Closure $geshiFactory
+     * @param \Closure $geshiFactory
      */
-    public function __construct(Closure $geshiFactory = null)
+    public function __construct(\Closure $geshiFactory = null)
     {
         if ($geshiFactory === null) {
             $geshiFactory = function ($language) {
-                $geshi = new GeSHi();
+                $geshi = new \GeSHi();
                 $geshi->enable_classes();
                 $geshi->enable_keyword_links(false);
                 $geshi->set_language($language);
@@ -50,9 +39,10 @@ class GeSHiRepository
     }
 
     /**
-     *
      * @param string $language
-     * @return GeSHi
+     *
+     * @return \GeSHi
+     * @throws HorneException
      */
     protected function createNewInstance($language)
     {
@@ -60,8 +50,8 @@ class GeSHiRepository
 
         $instance = $factory($language);
 
-        if (!$instance instanceof GeSHi) {
-            throw new Exception(sprintf(
+        if (!$instance instanceof \GeSHi) {
+            throw new HorneException(sprintf(
                 'Factory did not return GeSHi instance for language %s',
                 $language
             ));
@@ -71,9 +61,10 @@ class GeSHiRepository
     }
 
     /**
-     *
      * @param string $language
-     * @return GeSHi
+     *
+     * @return \GeSHi
+     * @throws \Exception
      */
     public function obtain($language)
     {
@@ -95,24 +86,23 @@ class GeSHiRepository
     }
 
     /**
-     *
      * @param string $language
-     * @param GeSHi $geshi
+     * @param \GeSHi $geshi
      */
-    public function set($language, GeSHi $geshi)
+    public function set($language, \GeSHi $geshi)
     {
         $this->geshiInstances[$language] = $geshi;
     }
 
     /**
-     *
      * @param string $language
-     * @throws Exception
+     *
+     * @throws HorneException
      */
     public function clear($language)
     {
         if (!array_key_exists($language, $this->geshiInstances)) {
-            throw new Exception(sprintf(
+            throw new HorneException(sprintf(
                 'Instance for language %s does not exist',
                 $language
             ));
@@ -120,17 +110,17 @@ class GeSHiRepository
     }
 
     /**
-     *
+     * @return void
      */
     public function clearAll()
     {
-        $this->geshiInstances = array();
-        $this->geshiFallback = null;
+        $this->geshiInstances = [];
+        $this->geshiFallback  = null;
     }
 
     /**
-     *
      * @param string $language
+     *
      * @return bool
      */
     public function has($language)

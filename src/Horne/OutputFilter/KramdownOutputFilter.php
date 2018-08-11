@@ -3,11 +3,16 @@
 namespace Horne\OutputFilter;
 
 use Horne\MetaBag;
-use Horne\OutputFilter\AbstractOutputFilter;
 
 class KramdownOutputFilter extends AbstractOutputFilter
 {
-    public function run($content, MetaBag $mb)
+    /**
+     * @param string  $content
+     * @param MetaBag $metaBag
+     *
+     * @return string
+     */
+    public function run($content, MetaBag $metaBag)
     {
         $args = $this->application->getSetting('filters.kramdown.cmdargs');
 
