@@ -3,9 +3,6 @@
 namespace Horne\Module;
 
 use Horne\Application;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
-use SplFileInfo;
 
 abstract class AbstractModule implements ModuleInterface
 {
@@ -55,12 +52,12 @@ abstract class AbstractModule implements ModuleInterface
      */
     protected function sourceDir($directory)
     {
-        $iterator = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($directory)
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($directory)
         );
 
         foreach ($iterator as $file) {
-            /* @var SplFileInfo $file */
+            /* @var \SplFileInfo $file */
 
             if ($file->isFile() === false) {
                 continue;

@@ -1,6 +1,8 @@
 <?php
-<<<EOT
----
+
+namespace Horne;
+
+/* ---
 {
     "id"      : "horne-linkblog-feed",
     "type"    : "page-custom",
@@ -9,14 +11,18 @@
 
     "title"   : "feed"
 }
----
-EOT;
+--- */
 
-$doc = new DOMDocument('1.0', 'UTF-8');
+/**
+ * @var Api   $api
+ * @var array $vars
+ */
+
+$doc = new \DOMDocument('1.0', 'UTF-8');
 $doc->formatOutput = true;
 $doc->preserveWhiteSpace = false;
 $doc->load($api->getSetting('linkblog.dataFile'));
-$xpath = new DOMXPath($doc);
+$xpath = new \DOMXPath($doc);
 
 $channel = $xpath->evaluate('//channel[0]');
 
@@ -25,11 +31,11 @@ $itemCount = $xpath->evaluate('count(//item)');
 $i = 1;
 
 foreach ($xpath->query('//item') as $node) {
-        if ($itemCount - $i >= 20) {
-                $node->parentNode->removeChild($node);
-        }
+    if ($itemCount - $i >= 20) {
+        $node->parentNode->removeChild($node);
+    }
 
-        $i++;
+    $i++;
 }
 
 #echo $doc->saveXML();
@@ -40,18 +46,22 @@ $booklist = $xpath->query('//item');
 // This is the reason for your usort() warning.
 
 // Copies DOMNode elements in the DOMNodeList to an array.
+
+/** @var \DOMElement[] $books */
 $books = iterator_to_array($booklist);
 
 // Second, your sorting function is using the wrong API
 // $node['id'] is SimpleXML syntax for attribute access.
 // DOMElement uses $node->getAttribute('id');
-function sort_by_numeric_id_attr($a, $b)
-{
-    return (int) strtotime($b->getElementsByTagName('pubDate')->item(0)->nodeValue) - (int) strtotime($a->getElementsByTagName('pubDate')->item(0)->nodeValue);
-}
+
 
 // Now usort()
-usort($books, 'sort_by_numeric_id_attr');
+usort(
+    $books,
+    function (\DOMElement $a, \DOMElement $b) {
+        return (int) strtotime($b->getElementsByTagName('pubDate')->item(0)->nodeValue) - (int) strtotime($a->getElementsByTagName('pubDate')->item(0)->nodeValue);
+    }
+);
 
 // verify:
 /*foreach ($books as $book) {

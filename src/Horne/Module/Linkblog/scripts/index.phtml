@@ -1,6 +1,8 @@
 <?php
-<<<EOT
----
+
+namespace Horne;
+
+/* ---
 {
     "id"     : "horne-linkblog-index",
     "title"  : "Linkblog",
@@ -8,24 +10,33 @@
     "layout" : "horne-layout-page",
     "path"   : "/linkblog/index.html"
 }
----
-EOT;
+--- */
 
-$childNodesToArray = function (DOMElement $e) {
+/**
+ * @var Api   $api
+ * @var array $vars
+ */
+
+/**
+ * @param \DOMElement $e
+ *
+ * @return array
+ */
+$childNodesToArray = function (\DOMElement $e) {
     $tmp = array();
 
     foreach ($e->childNodes as $node) {
-        /* @var DOMElement $node */
+        /* @var \DOMElement $node */
         $tmp[$node->nodeName] = $node;
     }
 
     return $tmp;
 };
 
-$doc = new DOMDocument('1.0', 'UTF-8');
+$doc = new \DOMDocument('1.0', 'UTF-8');
 $doc->load($api->getSetting('linkblog.dataFile'));
 
-$xpath = new DOMXPath($doc);
+$xpath = new \DOMXPath($doc);
 
 $items = array();
 

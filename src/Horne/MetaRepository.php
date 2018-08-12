@@ -7,16 +7,12 @@ class MetaRepository
     /**
      * @var MetaBag[]
      */
-    public $items = [];
+    private $metaBags = [];
 
     /**
      * @var string
      */
     private $sourceDir;
-
-    protected $cacheGetById = [];
-
-    protected $cacheGetByType = [];
 
     /**
      * @param string $sourceDir
@@ -27,34 +23,44 @@ class MetaRepository
     }
 
     /**
-     * @param MetaBag $metaBag
+     * Add a MetaBag to the repository
+     *
+     * When trying to add a MetaBag with an existing id:
+     *
+     * - Throw Exception when both MetaBags are loaded from sourceDir.
+     * - Otherwise replace the existing MetaBag.
+     *
+     * Note: The second rule implies that MetaBags from modules may override MetaBags from sourceDir. It is yet to be
+     * decided whether this is useful behaviour.
+     *
+     * @param MetaBag $newMetaBag
      *
      * @throws HorneException
      */
-    public function add(MetaBag $metaBag)
+    public function add(MetaBag $newMetaBag)
     {
-        foreach ($this->items as $item) {
-            /* @var MetaBag $item */
-            if ($item->getId() === $metaBag->getId()) {
-                // If both in sourceDir, throw Exception (in other words:
-                // files from sourceDir can override files added by modules)
+        foreach ($this->metaBags as $metaBag) {
+            if ($metaBag->getId() === $newMetaBag->getId()) {
                 if (
-                    strpos($item->getSourcePath(), $this->sourceDir) === 0
-                    && strpos($metaBag->getSourcePath(), $this->sourceDir) === 0
+                    strpos($metaBag->getSourcePath(), $this->sourceDir) === 0
+                    && strpos($newMetaBag->getSourcePath(), $this->sourceDir) === 0
                 ) {
                     throw new HorneException(sprintf(
-                        'Meta with id %s does already exist. Error is in %s',
-                        $metaBag->getId(),
+                        'Cannot load MetaBag with id "%s" from file "%s".'
+                        . ' A MetaBag with this id has already been processed from file "%s".'
+                        . ' You can only override MetaBags from modules',
+                        $newMetaBag->getId(),
+                        $newMetaBag->getSourcePath(),
                         $metaBag->getSourcePath()
                     ));
                 }
 
-                $this->removeById($item->getId());
+                $this->removeById($metaBag->getId());
                 break;
             }
         }
 
-        $this->items[] = $metaBag;
+        $this->metaBags[] = $newMetaBag;
     }
 
     /**
@@ -62,7 +68,7 @@ class MetaRepository
      */
     public function getAll()
     {
-        return $this->items;
+        return $this->metaBags;
     }
 
     /**
@@ -73,25 +79,13 @@ class MetaRepository
      */
     public function getById($id)
     {
-        if (!array_key_exists($id, $this->cacheGetById)) {
-            foreach ($this->items as $item) {
-                /* @var MetaBag $item */
-                $payload = $item->getMetaPayload();
-                if ($payload['id'] === $id) {
-                    $this->cacheGetById[$id] = $item;
-                    break;
-                }
+        foreach ($this->metaBags as $metaBag) {
+            if ($metaBag->getId() === $id) {
+                return $metaBag;
             }
         }
 
-        if (!array_key_exists($id, $this->cacheGetById)) {
-            throw new HorneException(sprintf(
-                'MetaBag with id %s doesn\'t exist',
-                $id
-            ));
-        }
-
-        return $this->cacheGetById[$id];
+        throw new HorneException(sprintf('MetaBag with id "%s" does not exist', $id));
     }
 
     /**
@@ -104,56 +98,38 @@ class MetaRepository
      */
     public function getByType($type, array $order = [], $limitCount = -1, $limitOffset = 0)
     {
-        $hashParts   = [];
-        $hashParts[] = $type;
+        $metaBagsWithType = array_values(
+            array_filter(
+                $this->metaBags,
+                function (MetaBag $metaBag) use ($type) {
+                    return $metaBag->getType() === $type;
+                }
+            )
+        );
 
         if (count($order) !== 0) {
-            $hashParts[] = key($order) . ',' . current($order);
-        }
+            $orderField     = key($order);
+            $orderDirection = strtolower($order[$orderField]);
 
-        $hashParts[] = $limitCount;
-        $hashParts[] = $limitOffset;
-
-        $hash = implode("\x00", $hashParts);
-
-        if (!array_key_exists($hash, $this->cacheGetByType)) {
-            $metas = [];
-
-            foreach ($this->items as $item) {
-                $payload = $item->getMetaPayload();
-                if ($payload['type'] === $type) {
-                    $metas[] = $item;
-                }
+            if ($orderDirection !== 'desc') {
+                $orderDirection = 'asc';
             }
 
-            if (count($order) !== 0) {
-                $orderField     = key($order);
-                $orderDirection = $order[$orderField];
+            usort($metaBagsWithType, function (MetaBag $a, MetaBag $b) use ($orderField, $orderDirection) {
+                $metaPayloadA = $a->getMetaPayload();
+                $metaPayloadB = $b->getMetaPayload();
 
-                if ($orderDirection !== 'desc') {
-                    $orderDirection = 'asc';
+                if ($orderDirection === 'desc') {
+                    return strcmp($metaPayloadB[$orderField], $metaPayloadA[$orderField]);
                 }
 
-                usort($metas, function (MetaBag $a, MetaBag $b) use ($orderField, $orderDirection) {
-                    $a2 = $a->getMetaPayload();
-                    $b2 = $b->getMetaPayload();
-
-                    if ($orderDirection === 'desc') {
-                        $tmp = $a2;
-                        $a2  = $b2;
-                        $b2  = $tmp;
-                    }
-
-                    return strcmp($a2[$orderField], $b2[$orderField]);
-                });
-            }
-
-            $x = ($limitCount !== -1) ? $limitCount : null;
-
-            $this->cacheGetByType[$hash] = array_slice($metas, $limitOffset, $x);
+                return strcmp($metaPayloadA[$orderField], $metaPayloadB[$orderField]);
+            });
         }
 
-        return $this->cacheGetByType[$hash];
+        $x = ($limitCount !== -1) ? $limitCount : null;
+
+        return array_slice($metaBagsWithType, $limitOffset, $x);
     }
 
     /**
@@ -165,12 +141,12 @@ class MetaRepository
     {
         $newItems = [];
 
-        foreach ($this->items as $item) {
-            if ($item->getId() !== $id) {
-                $newItems[] = $item;
+        foreach ($this->metaBags as $metaBag) {
+            if ($metaBag->getId() !== $id) {
+                $newItems[] = $metaBag;
             }
         }
 
-        $this->items = $newItems;
+        $this->metaBags = $newItems;
     }
 }

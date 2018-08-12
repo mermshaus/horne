@@ -1,22 +1,26 @@
 <?php
-<<<EOT
----
+
+namespace Horne;
+
+/* ---
 {
     "id"     : "horne-layout-article",
     "type"   : "layout",
     "layout" : "horne-layout-default"
 }
----
-EOT;
+--- */
 
-namespace Horne;
+/**
+ * @var Api   $api
+ * @var array $vars
+ */
 
 $m = $vars['meta'];
 
 $next = null;
 $prev = null;
 
-$metas = $api->getMetasByType('article', array('date_created' => 'DESC'));
+$metas = $api->getMetasByType('article', ['date_created' => 'asc']);
 
 $indexOfMyself = 0;
 
@@ -96,19 +100,12 @@ if ($i < count($metas) - 1) {
 <p class="horne-blog-infoline">
 Written
 
-<?php if (
-    $api->getSetting('blog.showAuthor')
-    && isset($m['author'])
-) : ?>
+<?php if (isset($m['author']) && $api->getSetting('blog.showAuthor')) : ?>
     by <?=$api->e($m['author']);?>
 <?php endif; ?>
     on <?=$api->e($api->datef($m['date_created']))?>.
 
-    <?php if (
-        $api->getSetting('blog.useTags')
-        && isset($m['tags'])
-        && count($m['tags']) > 0
-    ) : ?>
+    <?php if (isset($m['tags']) && count($m['tags']) > 0 && $api->getSetting('blog.useTags')) : ?>
         Tags:
         <?php $sep = ''; ?>
         <?php foreach ($m['tags'] as $tag) : ?>

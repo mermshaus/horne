@@ -1,18 +1,20 @@
 <?php
-<<<EOT
----
+/* ---
 {
     "id": "horne-blog-widget-tags",
     "type": "_script"
 }
----
-EOT;
+--- */
+
+/**
+ * @var \Horne\Api              $api
+ * @var \Horne\Module\Blog\Blog $blog
+ * @var array                   $vars
+ */
 
 $blog = $api->getModule('blog');
 
-$vars['amount'] = array_key_exists('amount', $vars)
-        ? $vars['amount']
-        : 10;
+$vars['amount'] = isset($vars['amount']) ? $vars['amount'] : 10;
 ?>
 
 <?php if ($api->getSetting('blog.useTags')) : ?>
@@ -27,8 +29,17 @@ $vars['amount'] = array_key_exists('amount', $vars)
         <ul>
         <?php $i = 0; ?>
         <?php foreach ($blog->getAllTags() as $tag => $amount) : ?>
-            <?php $i++; ?>
-            <?php if (-1 !== $vars['amount'] && $i > $vars['amount']) { break; } ?>
+            <?php
+            if (strpos($tag, 'dc:') === 0) {
+                continue;
+            }
+
+            $i++;
+
+            if (-1 !== $vars['amount'] && $i > $vars['amount']) {
+                break;
+            }
+            ?>
 
             <?php $amountLine = $amount . (($amount === 1) ? ' entry' : ' entries'); ?>
 

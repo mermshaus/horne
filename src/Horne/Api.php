@@ -2,15 +2,12 @@
 
 namespace Horne;
 
-use DateTime;
-use DateTimeZone;
-
 class Api
 {
     /**
      * @var Application
      */
-    protected $application;
+    private $application;
 
     /**
      * @param Application $application
@@ -34,7 +31,7 @@ class Api
      * @param int    $limitCount
      * @param int    $limitOffset
      *
-     * @return array
+     * @return MetaBag[]
      */
     public function getMetasByType($type, array $order = [], $limitCount = -1, $limitOffset = 0)
     {
@@ -60,7 +57,7 @@ class Api
      */
     public function datef($date)
     {
-        $dt = DateTime::createFromFormat('Y-m-d H:i:s', $date, new DateTimeZone('UTC'));
+        $dt = \DateTime::createFromFormat('Y-m-d H:i:s', $date, new \DateTimeZone('UTC'));
 
         return $dt->format('j M Y');
     }

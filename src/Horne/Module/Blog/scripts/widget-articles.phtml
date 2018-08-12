@@ -1,25 +1,27 @@
 <?php
-<<<EOT
----
+
+namespace Horne;
+
+/* ---
 {
     "id": "horne-blog-widget-articles",
     "type": "_script"
 }
----
-EOT;
+--- */
 
-$blog = $api->getModule('blog');
+/**
+ * @var Api   $api
+ * @var array $vars
+ */
 
-$vars['amount'] = array_key_exists('amount', $vars)
-        ? $vars['amount']
-        : 10;
+$vars['amount'] = isset($vars['amount']) ? $vars['amount'] : 10;
 ?>
 
 <div class="horne-blog-widget-articles cf">
 
 <h2>Recent entries</h2>
 
-<?php $articles = $api->getMetasByType('article', array('date_created' => 'desc'), $vars['amount']); ?>
+<?php $articles = $api->getMetasByType('article', ['date_created' => 'desc'], $vars['amount']); ?>
 
 <?php if (count($articles) === 0) : ?>
 
@@ -27,7 +29,7 @@ $vars['amount'] = array_key_exists('amount', $vars)
 
 <?php else : ?>
 
-    <?=$api->render('horne-blog-sub-article-list', array('articles' => $articles))?>
+    <?=$api->render('horne-blog-sub-article-list', ['articles' => $articles])?>
 
 <?php endif; ?>
 

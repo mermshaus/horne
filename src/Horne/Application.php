@@ -27,37 +27,37 @@ class Application
     /**
      * @var string
      */
-    protected $pathToRoot = '.';
+    private $pathToRoot = '.';
 
     /**
      * @var PathHelper
      */
-    protected $pathHelper;
+    private $pathHelper;
 
     /**
      * @var array
      */
-    protected $filters;
+    private $filters;
 
     /**
-     * @var array
+     * @var ModuleInterface[]
      */
-    protected $modules = [];
+    private $modules;
 
     /**
      * @var SyntaxHighlighter
      */
-    protected $syntaxHighlighter;
+    private $syntaxHighlighter;
 
     /**
      * @var OutputInterface
      */
-    protected $output;
+    private $output;
 
     /**
      * @var array
      */
-    protected $cacheGetMetasByTag = [];
+    private $cacheGetMetasByTag = [];
 
     public function __construct()
     {
@@ -65,6 +65,7 @@ class Application
         $this->filters           = [];
         $this->syntaxHighlighter = new SyntaxHighlighter();
         $this->output            = new NullOutput();
+        $this->modules           = [];
     }
 
     /**
@@ -162,7 +163,7 @@ class Application
      * @param  array  $vars     Content for the template
      * @return string           Rendered output
      */
-    protected function renderTpl($tplFile, array $vars = [])
+    private function renderTpl($tplFile, array $vars = [])
     {
         ob_start();
 
@@ -233,7 +234,7 @@ class Application
      * @return string
      * @throws HorneException
      */
-    protected function buildOneContentFile(MetaBag $metaBag)
+    private function buildOneContentFile(MetaBag $metaBag)
     {
         $content = '';
 
@@ -323,7 +324,7 @@ class Application
      *
      * @return void
      */
-    protected function copyWithMkdir($source, $dest)
+    private function copyWithMkdir($source, $dest)
     {
         if (!is_dir(dirname($dest))) {
             mkdir(dirname($dest), 0755, true);
@@ -354,7 +355,7 @@ class Application
      *
      * @throws \InvalidArgumentException
      */
-    protected function sanitizeCoreConfig($workingDirectory, array &$json)
+    private function sanitizeCoreConfig($workingDirectory, array &$json)
     {
         $json['sourceDir'] = $this->dingsify($workingDirectory, $json['sourceDir']);
         $json['outputDir'] = $this->dingsify($workingDirectory, $json['outputDir']);
@@ -388,7 +389,7 @@ class Application
     /**
      * @return void
      */
-    protected function initializeModules()
+    private function initializeModules()
     {
         foreach (array_keys($this->config->get('modules')) as $key) {
             $fqcn = '\\Horne\\Module\\' . ucfirst($key) . '\\' . ucfirst($key);
@@ -421,64 +422,32 @@ class Application
             require_once $initScriptPath;
         }
 
-        $this->initializeModules();
-
         $this->metas = new MetaRepository($this->config->get('sourceDir'));
 
-        foreach ($this->modules as $module) {
-            /* @var ModuleInterface $module */
-            $module->hookProcessingBefore();
-        }
+        $this->initializeModules();
 
-        $tmp = new MetaCollector(
+        $this->runModuleHookProcessingBefore();
+
+        $metaCollector = new MetaCollector(
             $this->pathHelper,
             $this->metas,
             $this->config->get('sourceDir'),
             $this->config->get('outputDir')
         );
 
-        $tmp->gatherMetas($this->config->get('excludePaths'));
+        $metaCollector->gatherMetas($this->config->get('excludePaths'));
 
-        foreach ($this->modules as $module) {
-            /* @var ModuleInterface $module */
-            $module->hookProcessingBefore2();
-        }
+        $this->runModuleHookProcessingBefore2();
 
-        /** @todo This needs more error handling */
-        foreach ($this->config->get('metaOverrides') as $id => $newData) {
-            $meta    = $this->metas->getById($id);
-            $payload = $meta->getMetaPayload();
-
-            $newPath = $this->pathHelper->normalize(
-                $this->config->get('outputDir') . $newData['path']
-            );
-
-            if (strpos($newPath, $this->config->get('outputDir')) !== 0) {
-                throw new HorneException('Path ' . $newPath . ' not in $outputDir');
-            }
-
-            $meta->setDestPath($newPath);
-
-            $payload['path'] = $newData['path'];
-            $payload['slug'] = $newData['slug'];
-
-            if (
-                array_key_exists('title', $newData)
-                && array_key_exists('title', $payload)
-            ) {
-                $payload['title'] = trim($newData['title']);
-            }
-
-            $meta->setMetaPayload($payload);
-        }
+        $this->applyMetaBagOverrides();
 
         // Processing starts here
 
-        $metas = $this->metas->getAll();
+        $metaBags = $this->metas->getAll();
 
-        // Sort metas by type and id
+        // Sort MetaBags by type and id
 
-        usort($metas, function (MetaBag $a, MetaBag $b) {
+        usort($metaBags, function (MetaBag $a, MetaBag $b) {
             if ($a->getType() !== $b->getType()) {
                 return strcmp($a->getType(), $b->getType());
             }
@@ -486,57 +455,8 @@ class Application
             return strcmp($a->getId(), $b->getId());
         });
 
-        foreach ($metas as $m) {
-            $type = $m->getType();
-
-            switch (true) {
-                case $type === 'asset':
-                    $this->output->writeln('[copy] <info>' . $m->getSourcePath() . '</info>');
-                    $this->copyWithMkdir($m->getSourcePath(), $m->getDestPath());
-                    break;
-                case strpos($type, '_') === 0:
-                case $type === 'layout':
-                    // nop
-                    break;
-                default:
-                    // Adjust path to root
-                    $this->pathToRoot = '.';
-
-                    $payload = $m->getMetaPayload();
-                    $key = 'path';
-                    if (isset($payload['slug'])) {
-                        $key = 'slug';
-                    }
-                    $tmp = ltrim($payload[$key], '/');
-                    $amount = substr_count($tmp, '/');
-                    if ($amount > 0) {
-                        $this->pathToRoot = rtrim(str_repeat('../', $amount), '/');
-                    }
-
-                    $tmp2 = substr($m->getDestPath(), strlen($this->config->get('outputDir')) + 1);
-
-                    $this->output->writeln('[compile] <info>' . $m->getMetaPayload()['id'] . '</info> -> <info>' . $tmp2 . '</info>');
-
-                    $renderedOutput = $this->buildOneContentFile($m);
-
-                    if (!is_dir(dirname($m->getDestPath()))) {
-                        mkdir(dirname($m->getDestPath()), 0755, true);
-                    }
-
-                    file_put_contents($m->getDestPath(), $renderedOutput);
-
-                    if ($this->config->get('generateGzipHtml')) {
-                        $gzipFileExtensionSuffix = $this->config->has('gzipFileExtensionSuffix')
-                                ? $this->config->get('gzipFileExtensionSuffix')
-                                : '.gz';
-
-                        $gzipPath = $m->getDestPath() . $gzipFileExtensionSuffix;
-
-                        file_put_contents($gzipPath, gzencode($renderedOutput, 9));
-                        touch($gzipPath, filemtime($m->getDestPath()));
-                    }
-                    break;
-            }
+        foreach ($metaBags as $metaBag) {
+            $this->processMetaBag($metaBag);
         }
 
         $this->pathToRoot = '.';
@@ -598,5 +518,121 @@ class Application
         $metaBag = $metaReader->load($o);
 
         $this->metas->add($metaBag);
+    }
+
+    /**
+     * @return void
+     * @throws HorneException
+     * @throws \InvalidArgumentException
+     */
+    private function applyMetaBagOverrides()
+    {
+        /** @todo This needs more error handling */
+        foreach ($this->config->get('metaOverrides') as $id => $newData) {
+            $metaBag     = $this->metas->getById($id);
+            $metaPayload = $metaBag->getMetaPayload();
+
+            $newPath = $this->pathHelper->normalize(
+                $this->config->get('outputDir') . $newData['path']
+            );
+
+            if (strpos($newPath, $this->config->get('outputDir')) !== 0) {
+                throw new HorneException('Path ' . $newPath . ' not in $outputDir');
+            }
+
+            $metaBag->setDestPath($newPath);
+
+            $metaPayload['path'] = $newData['path'];
+            $metaPayload['slug'] = $newData['slug'];
+
+            if (
+                array_key_exists('title', $newData)
+                && array_key_exists('title', $metaPayload)
+            ) {
+                $metaPayload['title'] = trim($newData['title']);
+            }
+
+            $metaBag->setMetaPayload($metaPayload);
+        }
+    }
+
+    /**
+     * @return void
+     */
+    private function runModuleHookProcessingBefore()
+    {
+        foreach ($this->modules as $module) {
+            $module->hookProcessingBefore();
+        }
+    }
+
+    /**
+     * @return void
+     */
+    private function runModuleHookProcessingBefore2()
+    {
+        foreach ($this->modules as $module) {
+            $module->hookProcessingBefore2();
+        }
+    }
+
+    /**
+     * @param MetaBag $metaBag
+     *
+     * @return void
+     * @throws HorneException
+     */
+    private function processMetaBag(MetaBag $metaBag)
+    {
+        $type = $metaBag->getType();
+
+        switch (true) {
+            case $type === 'asset':
+                $this->output->writeln('[copy] <info>' . $metaBag->getSourcePath() . '</info>');
+                $this->copyWithMkdir($metaBag->getSourcePath(), $metaBag->getDestPath());
+                break;
+            case strpos($type, '_') === 0:
+            case $type === 'layout':
+                // nop
+                break;
+            default:
+                // Adjust path to root
+                $this->pathToRoot = '.';
+
+                $payload = $metaBag->getMetaPayload();
+                $key = 'path';
+                if (isset($payload['slug'])) {
+                    $key = 'slug';
+                }
+                $tmp = ltrim($payload[$key], '/');
+                $amount = substr_count($tmp, '/');
+                if ($amount > 0) {
+                    $this->pathToRoot = rtrim(str_repeat('../', $amount), '/');
+                }
+
+                $tmp2 = substr($metaBag->getDestPath(), strlen($this->config->get('outputDir')) + 1);
+
+                $this->output->writeln('[compile] <info>' . $metaBag->getMetaPayload()['id'] . '</info> -> <info>' . $tmp2 . '</info>');
+
+                $renderedOutput = $this->buildOneContentFile($metaBag);
+
+                if (!is_dir(dirname($metaBag->getDestPath()))) {
+                    mkdir(dirname($metaBag->getDestPath()), 0755, true);
+                }
+
+                file_put_contents($metaBag->getDestPath(), $renderedOutput);
+
+                if ($this->config->get('generateGzipHtml')) {
+                    $gzipFileExtensionSuffix = $this->config->has('gzipFileExtensionSuffix')
+                        ? $this->config->get('gzipFileExtensionSuffix')
+                        : '.gz';
+
+                    $gzipPath = $metaBag->getDestPath() . $gzipFileExtensionSuffix;
+
+                    file_put_contents($gzipPath, gzencode($renderedOutput, 9));
+                    touch($gzipPath, filemtime($metaBag->getDestPath()));
+                }
+                break;
+        }
     }
 }

@@ -4,9 +4,20 @@ namespace Horne;
 
 class MetaBag
 {
-    protected $sourcePath;
-    protected $destPath;
-    protected $metaPayload;
+    /**
+     * @var string
+     */
+    private $sourcePath;
+
+    /**
+     * @var string
+     */
+    private $destPath;
+
+    /**
+     * @var array
+     */
+    private $metaPayload;
 
     /**
      * @param string $sourcePath

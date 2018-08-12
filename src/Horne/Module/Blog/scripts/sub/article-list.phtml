@@ -1,14 +1,20 @@
 <?php
-<<<EOT
----
+
+namespace Horne;
+
+/* ---
 {
     "id": "horne-blog-sub-article-list",
     "type": "_script"
 }
----
-EOT;
+--- */
 
-usort($vars['articles'], function ($a, $b) {
+/**
+ * @var Api   $api
+ * @var array $vars
+ */
+
+usort($vars['articles'], function (MetaBag $a, MetaBag $b) {
     $tmp1 = $a->getMetaPayload();
     $tmp2 = $b->getMetaPayload();
 
@@ -21,9 +27,9 @@ usort($vars['articles'], function ($a, $b) {
 ?>
 
 <ul class="horne-blog-article-list">
-<?php foreach ($vars['articles'] as $articleBag) : $article = $articleBag->getMetaPayload(); ?>
+<?php foreach ($vars['articles'] as $articleBag) : /** @var MetaBag $articleBag */ $article = $articleBag->getMetaPayload(); ?>
     <li>
-        <?php  $dt = DateTime::createFromFormat('Y-m-d H:i:s', $article['date_created'], new DateTimeZone('UTC')); ?>
+        <?php  $dt = \DateTime::createFromFormat('Y-m-d H:i:s', $article['date_created'], new \DateTimeZone('UTC')); ?>
         <time datetime="<?=$api->e($dt->format('Y-m-d'))?>"><?=$api->e($dt->format('j M, Y'))?></time>
 
         <a href="<?=$api->url($article['id'])?>"><?=$api->e($article['title'])?></a>
