@@ -20,8 +20,8 @@
         "horne"
     ],
     "autoload": {
-        "psr-0": {
-            "Horne": "src/"
+        "psr-4": {
+            "Horne\\": "src/"
         }
     }
 }
