@@ -14,7 +14,8 @@
         "symfony/console": "~2.3"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-master"
+        "roave/security-advisories": "dev-master",
+        "phpunit/phpunit": "^4"
     },
     "bin": [
         "horne"
