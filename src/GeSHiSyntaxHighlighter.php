@@ -26,7 +26,7 @@ class GeSHiSyntaxHighlighter extends SyntaxHighlighter
      *
      * @return string
      */
-    private function stuff($html, $language = '', array $lineHighlights = [])
+    private function enhanceHtmlOutput($html, $language = '', array $lineHighlights = [])
     {
         $htmlTmp = preg_replace_callback(
             '/<span class="([^"]+)">(.*?)<\/span>/s',
@@ -170,6 +170,6 @@ class GeSHiSyntaxHighlighter extends SyntaxHighlighter
 
         $html = $geshi->parse_code();
 
-        return $this->stuff($html, $language);
+        return $this->enhanceHtmlOutput($html, $language);
     }
 }

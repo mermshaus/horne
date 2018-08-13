@@ -17,7 +17,7 @@ class Linkblog extends AbstractModule
         $app = $this->application;
 
         $settings['dataFile']       = isset($settings['dataFile']) ? $settings['dataFile'] : 'linkblog.rss';
-        $settings['dataFile']       = $app->dingsify($app->getSetting('sourceDir'), $settings['dataFile']);
+        $settings['dataFile']       = $app->prependPathIfNotAbsolute($app->getSetting('sourceDir'), $settings['dataFile']);
         $settings['entriesPerPage'] = isset($settings['entriesPerPage']) ? $settings['entriesPerPage'] : 40;
 
         return $settings;

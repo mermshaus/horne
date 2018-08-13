@@ -334,16 +334,16 @@ class Application
     }
 
     /**
-     * @param string $workingDirectory
+     * @param string $pathToPrepend
      * @param string $path
      *
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function dingsify($workingDirectory, $path)
+    public function prependPathIfNotAbsolute($pathToPrepend, $path)
     {
         if (strpos($path, '/') !== 0) {
-            $path = $workingDirectory . '/' . $path;
+            $path = $pathToPrepend . '/' . $path;
         }
 
         return $this->pathHelper->normalize($path);
@@ -357,8 +357,8 @@ class Application
      */
     private function sanitizeCoreConfig($workingDirectory, array &$json)
     {
-        $json['sourceDir'] = $this->dingsify($workingDirectory, $json['sourceDir']);
-        $json['outputDir'] = $this->dingsify($workingDirectory, $json['outputDir']);
+        $json['sourceDir'] = $this->prependPathIfNotAbsolute($workingDirectory, $json['sourceDir']);
+        $json['outputDir'] = $this->prependPathIfNotAbsolute($workingDirectory, $json['outputDir']);
 
         /* Exclude paths */
 
@@ -367,7 +367,7 @@ class Application
         }
 
         foreach ($json['excludePaths'] as &$path) {
-            $path = $this->dingsify($json['sourceDir'], ltrim($path, '/'));
+            $path = $this->prependPathIfNotAbsolute($json['sourceDir'], ltrim($path, '/'));
         }
         unset($path);
 
