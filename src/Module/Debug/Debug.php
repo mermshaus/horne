@@ -7,11 +7,10 @@ use Horne\Module\AbstractModule;
 class Debug extends AbstractModule
 {
     /**
-     * @return void
      * @throws \Horne\HorneException
      * @throws \InvalidArgumentException
      */
-    public function hookProcessingBefore()
+    public function hookProcessingBefore(): void
     {
         $this->sourceDir(__DIR__ . '/scripts');
     }

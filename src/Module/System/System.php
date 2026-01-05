@@ -6,12 +6,7 @@ use Horne\Module\AbstractModule;
 
 class System extends AbstractModule
 {
-    /**
-     * @param array $settings
-     *
-     * @return array
-     */
-    public function hookLoadConfig(array $settings)
+    public function hookLoadConfig(array $settings): array
     {
         $settings['siteName']   = array_key_exists('siteName', $settings) ? $settings['siteName'] : null;
         $settings['siteSlogan'] = array_key_exists('siteSlogan', $settings) ? $settings['siteSlogan'] : null;
@@ -20,11 +15,10 @@ class System extends AbstractModule
     }
 
     /**
-     * @return void
      * @throws \Horne\HorneException
      * @throws \InvalidArgumentException
      */
-    public function hookProcessingBefore()
+    public function hookProcessingBefore(): void
     {
         $this->sourceDir(__DIR__ . '/data');
     }

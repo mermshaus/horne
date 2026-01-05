@@ -33,12 +33,7 @@ class Blog extends AbstractModule
         return $tags;
     }
 
-    /**
-     * @param array $settings
-     *
-     * @return array
-     */
-    public function hookLoadConfig(array $settings)
+    public function hookLoadConfig(array $settings): array
     {
         $settings['useTags']            = isset($settings['useTags']) ? $settings['useTags'] : true;
         $settings['showInfoline']       = isset($settings['showInfoline']) ? $settings['showInfoline'] : true;
@@ -49,20 +44,18 @@ class Blog extends AbstractModule
     }
 
     /**
-     * @return void
      * @throws \Horne\HorneException
      * @throws \InvalidArgumentException
      */
-    public function hookProcessingBefore()
+    public function hookProcessingBefore(): void
     {
         $this->sourceDir(__DIR__ . '/scripts');
     }
 
     /**
-     * @return void
      * @throws \Horne\HorneException
      */
-    public function hookProcessingBefore2()
+    public function hookProcessingBefore2(): void
     {
         $app = $this->application;
 

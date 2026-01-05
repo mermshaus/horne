@@ -24,42 +24,48 @@ if ($m['id'] === 'index') {
     $bodyClass = ' class="index"';
 }
 
-?><!DOCTYPE html>
-
+?><!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
     <title><?=$api->e($title)?></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href='<?=$api->getPathToRoot()?>/assets/screen.css' rel='stylesheet' type='text/css'>
+    <!--<link href='<?=$api->getPathToRoot()?>/assets/screen.css' rel='stylesheet' type='text/css'>-->
     <script src="<?=$api->getPathToRoot()?>/assets/jquery-1.10.2.min.js"></script>
     <script>
-/*<![CDATA[*/
-$(function () {
-    $(document).keydown(function (event) {
-        switch (event.which) {
-            case 37:
-                var $tmp = $('#horne-system-navigation-previous');
-                if ($tmp.length > 0) {
-                    window.location = $tmp.attr('href');
+        /*<![CDATA[*/
+        $(function () {
+            $(document).keydown(function (event) {
+                switch (event.which) {
+                    case 37:
+                        var $tmp = $('#horne-system-navigation-previous');
+                        if ($tmp.length > 0) {
+                            window.location = $tmp.attr('href');
+                        }
+                        break;
+                    case 39:
+                        var $tmp = $('#horne-system-navigation-next');
+                        if ($tmp.length > 0) {
+                            window.location = $tmp.attr('href');
+                        }
+                        break;
                 }
-                break;
-            case 39:
-                var $tmp = $('#horne-system-navigation-next');
-                if ($tmp.length > 0) {
-                    window.location = $tmp.attr('href');
-                }
-                break;
-        }
-    });
-});
-/*]]>*/
+            });
+        });
+        /*]]>*/
     </script>
     <?=$api->render('horne-system-html-head')?>
 </head>
 
+
 <body<?=$bodyClass?>>
+
+<div class="container">
 
     <div class="horne-system-header">
     <div class="horne-system-header-inner cf">
@@ -88,6 +94,8 @@ $(function () {
 <?php endif; ?>
 
     <?=$api->render('horne-system-html-foot')?>
+
+</div>
 </body>
 
 </html>

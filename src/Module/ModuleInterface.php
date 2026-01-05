@@ -9,15 +9,9 @@ interface ModuleInterface
      *
      * @return array
      */
-    public function hookLoadConfig(array $settings);
+    public function hookLoadConfig(array $settings): array;
 
-    /**
-     * @return void
-     */
-    public function hookProcessingBefore();
+    public function hookProcessingBefore(): void;
 
-    /**
-     * @return void
-     */
-    public function hookProcessingBefore2();
+    public function hookProcessingBefore2(): void;
 }

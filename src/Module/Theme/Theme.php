@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Horne\Module\Theme;
 
 use Horne\HorneException;
@@ -7,13 +9,7 @@ use Horne\Module\AbstractModule;
 
 class Theme extends AbstractModule
 {
-    /**
-     * @param array $settings
-     *
-     * @return array
-     * @throws HorneException
-     */
-    public function hookLoadConfig(array $settings)
+    public function hookLoadConfig(array $settings): array
     {
         if (!array_key_exists('name', $settings)) {
             throw new HorneException('Setting theme.name must be set');
@@ -23,11 +19,10 @@ class Theme extends AbstractModule
     }
 
     /**
-     * @return void
      * @throws HorneException
      * @throws \InvalidArgumentException
      */
-    public function hookProcessingBefore()
+    public function hookProcessingBefore(): void
     {
         $theme = $this->application->getSetting('theme.name');
 

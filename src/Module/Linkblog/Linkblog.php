@@ -7,12 +7,9 @@ use Horne\Module\AbstractModule;
 class Linkblog extends AbstractModule
 {
     /**
-     * @param array $settings
-     *
-     * @return array
      * @throws \InvalidArgumentException
      */
-    public function hookLoadConfig(array $settings)
+    public function hookLoadConfig(array $settings): array
     {
         $app = $this->application;
 
@@ -28,7 +25,7 @@ class Linkblog extends AbstractModule
      * @throws \Horne\HorneException
      * @throws \InvalidArgumentException
      */
-    public function hookProcessingBefore()
+    public function hookProcessingBefore(): void
     {
         $this->sourceDir(__DIR__ . '/scripts');
     }

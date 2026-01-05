@@ -6,18 +6,12 @@ use Horne\MetaBag;
 
 class KramdownOutputFilter extends AbstractOutputFilter
 {
-    /**
-     * @param string  $content
-     * @param MetaBag $metaBag
-     *
-     * @return string
-     */
-    public function run($content, MetaBag $metaBag)
+    public function run(string $content, MetaBag $metaBag): string
     {
         $args = $this->application->getSetting('filters.kramdown.cmdargs');
 
         if ($args === null) {
-            $args = '--coderay-css :class --coderay-line-numbers nil';
+            #$args = '--coderay-css :class --coderay-line-numbers nil';
         }
 
         $file = __DIR__ . '/bla';

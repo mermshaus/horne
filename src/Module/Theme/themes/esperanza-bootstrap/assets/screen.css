@@ -1,0 +1,441 @@
+/**
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    contenteditable attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that are clearfixed.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}
+
+/**
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.cf {
+    *zoom: 1;
+}
+
+
+.videoWrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    padding-top: 25px;
+    height: 0;
+}
+.videoWrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+
+.horne-slogan {
+    text-align: center;
+    font-style: italic;
+}
+
+.horne-blog-infoline {
+    font-size: 70%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Georgia, serif;
+    font-size: 20px;
+    color: #333;
+    background: #f6f6f6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-weight: normal;
+}
+
+h1 { font-size: 40px; }
+h2 { font-size: 35px; }
+h3 { font-size: 30px; }
+h4 { font-size: 24px; }
+h5 { font-size: 22px; }
+h6 { font-size: 20px; }
+
+img {
+    margin: 0 auto;
+    display: block;
+}
+
+a {
+    color: #08c;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.date {
+    text-align: right;
+    font-style: italic;
+}
+
+p, li, dd, dt {
+    line-height: 150%;
+}
+
+dd {
+    margin-bottom: 1em;
+}
+
+blockquote {
+    margin: 1em 3em;
+    font-style: italic;
+}
+
+pre {
+    line-height: 100%;
+    font-family: Ubuntu Mono, Inconsolata, monospace;
+    margin: 0;
+    padding: 1em 0;
+    white-space: pre-wrap;
+}
+
+pre, code {
+    font-size: 16px;
+}
+
+code {
+    background: #ddd;
+}
+
+pre code {
+    background: inherit;
+}
+
+sub {
+    font-size: 70%;
+}
+
+table {
+    border-collapse: collapse;
+    /*border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;*/
+    font-size: 16px;
+}
+
+td, th {
+    padding: 0.2em 0.4em;
+    /*border: 1px solid #ccc;*/
+}
+
+.home {
+    text-align: center;
+}
+
+.footer {
+    margin-top: 3em;
+    font-size: 15px;
+}
+
+.footer p {
+    text-align: center;
+}
+
+
+.horne-system-header {
+    margin-bottom: 50px;
+    /*background: #fdfdfd;*/
+    /*-webkit-box-shadow: 0px 0px 10px 0px rgba(170,170,170,1);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(170,170,170,1);
+    box-shadow: 0px 0px 10px 0px rgba(170,170,170,1);*/
+    border-bottom: 1px solid #ccc;
+}
+
+.horne-system-header-inner {
+    max-width: 44em;
+    margin: 0 auto;
+    padding: 0 1em;
+}
+
+.horne-system-header h1 {
+    /*display: none;*/
+    margin: 0;
+    float: left;
+}
+
+.horne-system-header a {
+    color: #333;
+}
+
+.horne-system-header a:hover {
+    /*text-decoration: none;*/
+}
+
+.horne-system-navigation {
+    padding: 0 1em;
+    margin: 0 auto;
+}
+
+.horne-system-navigation ul {
+    margin: 0;
+    padding: 0;
+    /*text-align: center;*/
+}
+
+.horne-system-navigation li {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.horne-system-navigation li a {
+    display: block;
+    margin: 0;
+    padding: 10px;
+}
+
+.horne-system-navigation-disabled {
+    color: #ddd;
+}
+
+.horne-system-content {
+    max-width: 44em;
+    margin: 0 auto;
+    padding: 0 1em 3em 1em;
+}
+
+.horne-system-content h1 {
+    font-weight: bold;
+    font-style: normal;
+    font-size: 50px;
+}
+
+.horne-system-content img {
+    max-width: 100%;
+    /*border-radius: 15px;*/
+}
+
+
+
+.horne-blog-archive-index li {
+    list-style: none;
+}
+
+.horne-blog-article-nav {
+    float: right;
+}
+
+.horne-blog-article-nav a {
+    text-decoration: none;
+    color: #333;
+}
+
+
+
+/* Source code boxes */
+
+div.source {
+    width: 100%;
+    overflow-x: auto;
+    background: plum; /* should never be visible */
+    margin: 1em 0;
+}
+
+div.source pre {
+    white-space: pre;
+}
+
+div.source pre span.line {
+    display: inline-block;
+    width: 100%;
+}
+
+div.source table {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+div.source td,
+div.source th {
+    padding: 0;
+    margin: 0;
+}
+div.source td {
+    vertical-align: top;
+}
+
+div.source pre.line-numbers {
+    padding-left: 1.5em;
+    padding-right: 0.5em;
+}
+
+div.source td.sidebar {
+    text-align: right;
+    width: 3em;
+}
+
+/* GeSHi port of the Zenburn scheme for gedit */
+
+.geshi { color: #dcdccc; background: #3f3f3f; }
+.geshi .def_boolean { color: #dca3a3; }
+.geshi .def_comment { color: #7f9f7f; }
+.geshi .def_constant { color: #dca3a3; font-weight: bold; }
+.geshi .cursor { color: #000d18; background: #8faf9f; font-weight: bold; }
+.geshi .diff_added-line { color: #709080; background: #313c36; font-weight: bold; }
+.geshi .diff_changed-line { background: #333333; }
+.geshi .diff_removed-line { color: #333333; background: #464646; }
+.geshi .def_function { color: #efef8f; }
+.geshi .def_identifier { color: #efdcbc; }
+.geshi .def_keyword { color: #f0dfaf; font-weight: bold; }
+.geshi .line-numbers { color: #7f8f8f; background: #464646; }
+.geshi .def_number { color: #8cd0d3; }
+.geshi .def_preprocessor { color: #ffcfaf; font-weight: bold; }
+.geshi .search-match { color: #ffffe0; background: #385f38; }
+.geshi .def_specials { color: #cfbfaf; }
+.geshi .def_statement { color: #e3ceab; background: #3f3f3f; }
+.geshi .def_string { color: #cc9393; }
+.geshi .def_type { color: #dfdfbf; font-weight: bold; }
+.geshi .def_error { color: #e37170; background: #332323; }
+.geshi .selection { background: #ef7950; }
+.geshi .selection-unfocused { background: #ef7950; }
+
+
+
+/*******************************************************************************
+ * Main menu
+ ******************************************************************************/
+
+/* Targeting both first and second level menus */
+#nav ul,
+ul#nav {
+    padding: 0;
+    margin: 0;
+}
+ul#nav {
+    padding-left: 10px;
+    float: left;
+    font-size: 90%;
+}
+#nav li {
+    float: left;
+    position: relative;
+    list-style: none;
+    margin: 0;
+}
+#nav li a {
+    /*background: #d6cfbd;*/
+    /*border: 3px solid #4f4026;*/
+    /*color: #333;*/
+    display: block;
+    padding: 5px 8px;
+}
+#nav li a:hover {
+}
+
+/* Targeting the first level menu */
+#nav {
+    /*display: block;
+    height: 35px;
+    padding: 10px 0;
+    width: 500px;
+    z-index: 100;
+    position: absolute;*/
+}
+#nav > li > a {
+    /*border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    -webkit-border-top-left-radius: 10px;
+    -webkit-border-top-right-radius: 10px;*/
+}
+#nav > li {
+    line-height: 40px;
+}
+
+/* Targeting the second level menu */
+#nav li ul {
+    background: #fdfdfd;
+    border: 3px solid #aaa;
+    display: none;
+    width: 200px;
+    position: absolute;
+}
+#nav li ul li {
+    width: 100%
+}
+#nav li ul li a {
+}
+#nav li ul li a:hover {
+}
+
+/* Third level menu */
+#nav li ul li ul{
+    right: -200px; top: 0;
+}
+
+/* A class of current will be added via jQuery */
+#nav li.current > a {
+    background: #f7f7f7;
+}
+/* CSS fallback */
+#nav li:hover > ul.child {
+    display: block;
+}
+#nav li:hover > ul.grandchild  {
+    display: block;
+}
+
+
+
+.horne-blog-widget-tags ul {
+    margin: 0;
+    padding: 0;
+}
+
+.horne-blog-widget-tags li {
+    float: left;
+    list-style: none;
+    font-size: 90%;
+    margin: 0 0.5em 0.5em 0;
+    border-radius: 0.5em;
+    border: 0.1em solid #999;
+    padding: 0 0.2em;
+}
+
+.horne-blog-article-list {
+    margin: 0;
+    padding: 0;
+    margin-left: 8em;
+}
+
+.horne-blog-article-list li {
+    list-style: none;
+    margin-bottom: 1em;
+}
+
+.horne-blog-article-list li time {
+    text-align: right;
+    float: left;
+    display: block;
+    width: 7em;
+    margin-left: -8em;
+}

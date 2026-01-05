@@ -6,13 +6,7 @@ use Horne\MetaBag;
 
 class UppercaseOutputFilter extends AbstractOutputFilter
 {
-    /**
-     * @param string  $content
-     * @param MetaBag $metaBag
-     *
-     * @return string
-     */
-    public function run($content, MetaBag $metaBag)
+    public function run(string $content, MetaBag $metaBag): string
     {
         return mb_strtoupper($content, 'UTF-8');
     }

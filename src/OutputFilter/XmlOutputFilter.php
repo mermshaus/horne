@@ -7,16 +7,9 @@ use Kaloa\Renderer\Factory;
 
 class XmlOutputFilter extends AbstractOutputFilter
 {
-    /**
-     * @param string  $content
-     * @param MetaBag $metaBag
-     *
-     * @return string
-     * @throws \Exception
-     */
-    public function run($content, MetaBag $metaBag)
+    public function run(string $content, MetaBag $metaBag): string
     {
-        $xmlRenderer = Factory::createRenderer(null, 'xml');
+        $xmlRenderer = Factory::createRenderer('xml', null);
 
         return $xmlRenderer->render($content);
     }

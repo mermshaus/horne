@@ -9,14 +9,7 @@ use Kaloa\Renderer\Factory;
 
 class XmlLegacyOutputFilter extends AbstractOutputFilter
 {
-    /**
-     * @param string  $content
-     * @param MetaBag $metaBag
-     *
-     * @return string
-     * @throws \Exception
-     */
-    public function run($content, MetaBag $metaBag)
+    public function run(string $content, MetaBag $metaBag): string
     {
         $config = null;
 
@@ -26,12 +19,13 @@ class XmlLegacyOutputFilter extends AbstractOutputFilter
 
             $dataRoot = $this->application->getPathToRoot() . '/data/blog';
 
-            $config = new Config();
-            $config->setResourceBasePath($dataRoot . '/' . $dt->format('Y') . '/' . $dt->format('m'));
-            $config->setSyntaxHighlighter($this->application->getSyntaxHighlighter());
+            $config = new Config(
+                $dataRoot . '/' . $dt->format('Y') . '/' . $dt->format('m'),
+                $this->application->getSyntaxHighlighter()
+            );
         }
 
-        $xmlLegacyRenderer = Factory::createRenderer($config, 'xmllegacy');
+        $xmlLegacyRenderer = Factory::createRenderer('xmllegacy', $config);
 
         return $xmlLegacyRenderer->render($content);
     }

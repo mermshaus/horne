@@ -108,7 +108,7 @@ $console
     ->setCode(function (InputInterface $input, OutputInterface $output) {
         $modules = array();
 
-        foreach (glob(__DIR__ . '/src/Horne/Module/*') as $entry) {
+        foreach (glob(__DIR__ . '/src/Module/*') as $entry) {
             if (is_dir($entry)) {
                 $modules[] = strtolower(basename($entry));
             }

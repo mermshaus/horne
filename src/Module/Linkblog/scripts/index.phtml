@@ -90,6 +90,8 @@ foreach ($items as $tmp) {
     $grouped[$y][$m][$d][] = $tmp;
 }
 
+$rel = $api->getSetting('linkblog.nofollow') ? ' rel="nofollow"' : '';
+
 foreach ($grouped as $year => $grouped2) {
     foreach ($grouped2 as $month => $grouped3) {
         foreach ($grouped3 as $day => $entries) {
@@ -118,7 +120,7 @@ foreach ($grouped as $year => $grouped2) {
                 }
 
                 echo '<li>' . $api->e($data)
-                    . ' <a href="' . $api->e($url) . '">' . $api->e($host) . '</a>'
+                    . ' <a href="' . $api->e($url) . '"' . $rel . '>' . $api->e($host) . '</a>'
                     . '</li>';
             }
 

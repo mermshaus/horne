@@ -1,12 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Horne;
 
 use Horne\OutputFilter;
 
 $horne = new Application();
-
-$horne->setSyntaxHighlighter(new GeSHiSyntaxHighlighter(new GeSHiRepository()));
 
 $horne->setFilters('toc', [new OutputFilter\TableOfContentsOutputFilter($horne)]);
 $horne->setFilters('uppercase', [new OutputFilter\UppercaseOutputFilter($horne)]);

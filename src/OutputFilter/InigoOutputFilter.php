@@ -8,19 +8,11 @@ use Kaloa\Renderer\Factory;
 
 class InigoOutputFilter extends AbstractOutputFilter
 {
-    /**
-     * @param string  $content
-     * @param MetaBag $metaBag
-     *
-     * @return string
-     * @throws \Exception
-     */
-    public function run($content, MetaBag $metaBag)
+    public function run(string $content, MetaBag $metaBag): string
     {
-        $config = new Config();
-        $config->setSyntaxHighlighter($this->application->getSyntaxHighlighter());
+        $config = new Config('.', $this->application->getSyntaxHighlighter());
 
-        $inigoRenderer = Factory::createRenderer($config, 'inigo');
+        $inigoRenderer = Factory::createRenderer('inigo', $config);
 
         return $inigoRenderer->render($content);
     }

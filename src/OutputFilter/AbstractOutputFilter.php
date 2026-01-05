@@ -1,21 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Horne\OutputFilter;
 
 use Horne\Application;
 
 abstract class AbstractOutputFilter implements OutputFilterInterface
 {
-    /**
-     * @var Application
-     */
-    protected $application;
-
-    /**
-     * @param Application $application
-     */
-    public function __construct(Application $application)
+    public function __construct(protected Application $application)
     {
-        $this->application = $application;
     }
 }

@@ -8,13 +8,7 @@ use Horne\MetaBag;
 
 class TableOfContentsOutputFilter extends AbstractOutputFilter
 {
-    /**
-     * @param string  $content
-     * @param MetaBag $metaBag
-     *
-     * @return string
-     */
-    public function run($content, MetaBag $metaBag)
+    public function run(string $content, MetaBag $metaBag): string
     {
         $content6 = '';
 
