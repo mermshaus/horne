@@ -6,3 +6,4 @@
 /demos/blog/output/
 
 /composer.lock
+/.phpunit.result.cache

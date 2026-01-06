@@ -1,26 +1,27 @@
 <?php
 
-class MetaRepositoryTest extends PHPUnit_Framework_TestCase
+declare(strict_types=1);
+
+namespace Horne\Tests;
+
+use Horne\MetaBag;
+use Horne\MetaRepository;
+use PHPUnit\Framework\TestCase;
+
+class MetaRepositoryTest extends TestCase
 {
-    /**
-     * @throws PHPUnit_Framework_Exception
-     */
     public function testInstantiate()
     {
-        $metaRepository = new \Horne\MetaRepository('');
+        $metaRepository = new MetaRepository('');
 
-        static::assertInstanceOf('Horne\\MetaRepository', $metaRepository);
+        static::assertInstanceOf(MetaRepository::class, $metaRepository);
     }
 
-    /**
-     * @throws PHPUnit_Framework_Exception
-     * @throws \Horne\HorneException
-     */
     public function testAddMetaBag()
     {
-        $metaBag = new \Horne\MetaBag('', '', []);
+        $metaBag = new MetaBag('', '', []);
 
-        $metaRepository = new \Horne\MetaRepository('');
+        $metaRepository = new MetaRepository('');
 
         $metaRepository->add($metaBag);
 
